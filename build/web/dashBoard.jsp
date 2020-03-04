@@ -110,9 +110,9 @@
                                     <a href="#" class="btn-box big span4"><i class=" icon-random"></i><b>65%</b>
                                         <p class="text-muted">
                                             Growth</p>
-                                    </a><a href="#" class="btn-box big span4"><i class="icon-user"></i><b>15</b>
+                                    </a><a href="#" class="btn-box big span4"><i class="icon-user"></i><b id="test"></b>
                                         <p class="text-muted">
-                                            New Users</p>
+                                            Users</p>
                                     </a><a href="#" class="btn-box big span4"><i class="icon-money"></i><b>15,152</b>
                                         <p class="text-muted">
                                             Profit</p>
@@ -1259,18 +1259,19 @@
                     type: 'GET',
                     dataType: 'json',
                     contentType: "application/json",
-                    beforeSend: function (xhr) {
-                        xhr.setRequestHeader('Authorization', 'BEARER ' + localStorage.getItem("TOKEN"));
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json',
+                        'Authorization': "Bearer " + localStorage.getItem("TOKEN")
                     },
-
                     success: function (result) {
+                        console.log("xxxx");
                         console.log(localStorage.getItem("TOKEN"));
-                        alert(result.valueOf(username))
+                        $('#test').text(result.length)
                     },
                     error: function () {
-                        console.log(localStorage.getItem("TOKEN"));
                         alert("Saxxxxx")
-                    },
+                    }
                 });
             });
 

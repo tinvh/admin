@@ -98,13 +98,13 @@
                         username: $('#inputEmail').val(), password: $('#inputPassword').val()
                     }),
                     success: function (result) {
-                        console.log("aaa");
                         alert(result.token);
                         localStorage.setItem("TOKEN", result.token);
+                        localStorage.setItem("USERID",$('#inputEmail').val());
                         window.location.href = '../Web/dashBoard.jsp';
                     },
                     error: function () {
-                        alert("Sai")
+                        alert("Invalid username or password")
                     }
                 });
             }

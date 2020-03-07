@@ -94,48 +94,16 @@
                         </div>
                         <!--/.sidebar-->
                     </div>
+                    
                     <div class="span9">
                         <div class="span9">
+                            <a class="btn btn-large btn-danger" href="createKnowledge.jsp">Create new knowledge</a>
                             <div class="content">
                                 <div class="module">
                                     <div class="module-head">
-                                        <h3>
-                                            ADMIN</h3>
                                     </div>
                                     <div class="module-body table">
-                                        <div id="table-admin"></div> <!--/.Display table-->
-                                    </div>
-                                    <!--/.module-->
-                                </div>
-                                <!--/.content-->
-                            </div>
-                            <!--/.span9-->
-                        </div>
-                        <div class="span9">
-                            <div class="content">
-                                <div class="module">
-                                    <div class="module-head">
-                                        <h3>
-                                            CUSTOMER</h3>
-                                    </div>
-                                    <div class="module-body table">
-                                        <div id="table-cus"></div> <!--/.Display table-->
-                                    </div>
-                                    <!--/.module-->
-                                </div>
-                                <!--/.content-->
-                            </div>
-                            <!--/.span9-->
-                        </div>
-                        <div class="span9">
-                            <div class="content">
-                                <div class="module">
-                                    <div class="module-head">
-                                        <h3>
-                                            TSL</h3>
-                                    </div>
-                                    <div class="module-body table">
-                                        <div id="table-tsl"></div> <!--/.Display table-->
+                                        <div id="table-knowledge"></div> <!--/.Display table-->
                                     </div>
                                     <!--/.module-->
                                 </div>
@@ -183,7 +151,7 @@
                     });
                     event.preventDefault();
                     $.ajax({
-                        url: "https://translate-app-api.herokuapp.com/account",
+                        url: "https://translate-app-api.herokuapp.com/knowledge",
                         type: 'GET',
                         dataType: 'json',
                         contentType: "application/json",
@@ -193,106 +161,18 @@
                             'Authorization': "Bearer " + localStorage.getItem("TOKEN")
                         },
                         success: function (result) {
-                            var displayResources = $("#table-admin");
+                            var displayResources = $("#table-knowledge");
                             displayResources.text("Loading...");
-                            var output = "<table><tr><th>Username</th><th>FirstName</th><th>LastName</th><th>Email</th><th>Gender</th></tr><tbody>";
+                            var output = "<table><tr><th>ID</th><th>Area of knowledge</th></tr><tbody>";
                             var i = 0;
                             for (i; i < result.length; i++) {
-                                var tmp = result[i].role;
-                                if (tmp === "AD") {
-                                    output +=
-                                            "<tr onclick='test(" + result[i].username + ")'><td>" +
-                                            result[i].username +
-                                            "</td><td>" +
-                                            result[i].firstName +
-                                            "</td><td>" +
-                                            result[i].lastName +
-                                            "</td><td>" +
-                                            result[i].email +
-                                            "</td><td>" +
-                                            result[i].gender +
-                                            "</td></tr>"
-                                }
-                            }
-                            output += "</tbody></table>";
-                            displayResources.html(output);
-                        },
-                        error: function () {
-                            alert("Something wrong")
-                        }
-                    });
-                    event.preventDefault();
-                    $.ajax({
-                        url: "https://translate-app-api.herokuapp.com/account",
-                        type: 'GET',
-                        dataType: 'json',
-                        contentType: "application/json",
-                        headers: {
-                            'Accept': 'application/json',
-                            'Content-Type': 'application/json',
-                            'Authorization': "Bearer " + localStorage.getItem("TOKEN")
-                        },
-                        success: function (result) {
-                            var displayResources = $("#table-cus");
-                            displayResources.text("Loading...");
-                            var output = "<table><tr><th>Username</th><th>FirstName</th><th>LastName</th><th>Email</th><th>Gender</th></tr><tbody>";
-                            var i = 0;
-                            for (i; i < result.length; i++) {
-                                var tmp = result[i].role;
-                                if (tmp === "CUS") {
                                     output +=
                                             "<tr><td>" +
-                                            result[i].username +
+                                            result[i].id +
                                             "</td><td>" +
-                                            result[i].firstName +
-                                            "</td><td>" +
-                                            result[i].lastName +
-                                            "</td><td>" +
-                                            result[i].email +
-                                            "</td><td>" +
-                                            result[i].gender +
-                                            "</td></tr>"
-                                }
-                            }
-                            output += "</tbody></table>";
-                            displayResources.html(output);
-                        },
-                        error: function () {
-                            alert("Something wrong")
-                        }
-                    });
-                    event.preventDefault();
-                    $.ajax({
-                        url: "https://translate-app-api.herokuapp.com/account",
-                        type: 'GET',
-                        dataType: 'json',
-                        contentType: "application/json",
-                        headers: {
-                            'Accept': 'application/json',
-                            'Content-Type': 'application/json',
-                            'Authorization': "Bearer " + localStorage.getItem("TOKEN")
-                        },
-                        success: function (result) {
-                            var displayResources = $("#table-tsl");
-                            displayResources.text("Loading...");
-                            var output = "<table><tr><th>Username</th><th>FirstName</th><th>LastName</th><th>Email</th><th>Gender</th></tr><tbody>";
-                            var i = 0;
-                            for (i; i < result.length; i++) {
-                                var tmp = result[i].role;
-                                if (tmp === "TSL") {
-                                    output +=
-                                            "<tr><td>" +
-                                            result[i].username +
-                                            "</td><td>" +
-                                            result[i].firstName +
-                                            "</td><td>" +
-                                            result[i].lastName +
-                                            "</td><td>" +
-                                            result[i].email +
-                                            "</td><td>" +
-                                            result[i].gender +
-                                            "</td></tr>"
-                                }
+                                            result[i].areaOfKnowledge +
+                                            "</td><td>"
+                                
                             }
                             output += "</tbody></table>";
                             displayResources.html(output);
@@ -302,11 +182,6 @@
                         }
                     });
                 });
-                function test() {
-                    var id = obj.id;
-                    alert(id);
-//                    window.location.href = '../Web/accountDetail.jsp';
-                }
 
             </script>
     </body>

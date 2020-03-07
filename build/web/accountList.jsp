@@ -74,7 +74,7 @@
 
                             <ul class="widget widget-menu unstyled">
                                 <li><a href="userList.jsp"><i class="menu-icon icon-user"></i>Account </a></li>
-                                <li><a href="ui-typography.html"><i class="menu-icon icon-book"></i>AreaOfKnowledge </a></li>
+                                <li><a href="knowledge.jsp"><i class="menu-icon icon-book"></i>AreaOfKnowledge </a></li>
                                 <li><a href="table.html"><i class="menu-icon icon-suitcase"></i>Language </a></li>
                                 <li><a href="charts.html"><i class="menu-icon icon-upload-alt"></i>Post </a></li>
                             </ul>
@@ -302,7 +302,7 @@
                         }
                     });
                 });
-                function test(username) {
+                function test() {
                     var id = obj.id;
                     alert(id);
 //                    window.location.href = '../Web/accountDetail.jsp';

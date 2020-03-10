@@ -94,94 +94,100 @@
                         </div>
                         <!--/.sidebar-->
                     </div>
-                    
-                    <div class="span9">
-                        <div class="span9">
-                            <a class="btn btn-large btn-danger" href="createKnowledge.jsp">Create new knowledge</a>
-                            <div class="content">
-                                <div class="module">
-                                    <div class="module-head">
-                                    </div>
-                                    <div class="module-body table">
-                                        <div id="table-knowledge"></div> <!--/.Display table-->
-                                    </div>
-                                    <!--/.module-->
-                                </div>
-                                <!--/.content-->
-                            </div>
-                            <!--/.span9-->
-                        </div>
-                    </div>
                     <!--/.span3-->
+                    <div class="span9">
+                        <div class="content">
+                            <!--/#btn-controls-->
+
+                            <div class="module">
+                                <div class="module-head">
+                                    <h3>
+                                        All post</h3>
+                                </div>
+                                <div class="module-body table">
+                                    <div id="display-resources"></div>
+                                </div>
+                                <!--/.module-->
+                            </div>
+                            <!--/.content-->
+                        </div>
+                        <!--/.span9-->
+                    </div>
                 </div>
-                <!--/.container-->
             </div>
-            <!--/.wrapper-->
-            <div class="footer">
-                <div class="container">
-                    <b class="copyright">&copy; 2014 Edmin - EGrappler.com </b>All rights reserved.
-                </div>
+            <!--/.container-->
+        </div>
+        <!--/.wrapper-->
+        <div class="footer">
+            <div class="container">
+                <b class="copyright">&copy; 2014 Edmin - EGrappler.com </b>All rights reserved.
             </div>
-            <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
-            <script>
-                $(window).on("load", function () {
-                    console.log("window loaded");
+        </div>
+
+        <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
+        <script>
+            $(window).on("load", function () {
+                console.log("window loaded");
+            });
+
+            $(document).ready(function () {
+                event.preventDefault(); // get total account
+                $.ajax({
+                    url: "https://translate-app-api.herokuapp.com/account",
+                    type: 'GET',
+                    dataType: 'json',
+                    contentType: "application/json",
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json',
+                        'Authorization': "Bearer " + localStorage.getItem("TOKEN")
+                    },
+                    success: function (result) {
+                        $('#UserID').text(localStorage.getItem("USERID"));
+                    },
+                    error: function () {
+                        alert("Something wrong")
+                    }
                 });
-
-                $(document).ready(function () {
-                    event.preventDefault(); // get total account
-                    $.ajax({
-                        url: "https://translate-app-api.herokuapp.com/account",
-                        type: 'GET',
-                        dataType: 'json',
-                        contentType: "application/json",
-                        headers: {
-                            'Accept': 'application/json',
-                            'Content-Type': 'application/json',
-                            'Authorization': "Bearer " + localStorage.getItem("TOKEN")
-                        },
-                        success: function (result) {
-                            $('#TotalUser').text(result.length)
-                            $('#UserID').text(localStorage.getItem("USERID"));
-
-                        },
-                        error: function () {
-                            alert("Something wrong")
+                event.preventDefault(); // get top 5 newest post
+                $.ajax({
+                    url: "https://translate-app-api.herokuapp.com/post",
+                    type: 'GET',
+                    dataType: 'json',
+                    contentType: "application/json",
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json',
+                        'Authorization': "Bearer " + localStorage.getItem("TOKEN")
+                    },
+                    success: function (result) {
+                        var displayResources = $("#display-resources");
+                        displayResources.text("Loading...");
+                        var output = "<table><tr><th>Username</th><th>LanguageFrom</th><th>LanguageTo</th><th>Status</th><th>Price</th></tr><tbody>";
+                        var i = 0;
+                        for (i; i < result.length; i++) {
+                            output +=
+                                    "<tr><td>" +
+                                    result[i].username +
+                                    "</td><td>" +
+                                    result[i].languageFrom +
+                                    "</td><td>" +
+                                    result[i].languageTo +
+                                    "</td><td>" +
+                                    result[i].status +
+                                    "</td><td>" +
+                                    result[i].priceFrom + " - " + result[i].priceTo +
+                                    "</td></tr>"
                         }
-                    });
-                    event.preventDefault();
-                    $.ajax({
-                        url: "https://translate-app-api.herokuapp.com/knowledge",
-                        type: 'GET',
-                        dataType: 'json',
-                        contentType: "application/json",
-                        headers: {
-                            'Accept': 'application/json',
-                            'Content-Type': 'application/json',
-                            'Authorization': "Bearer " + localStorage.getItem("TOKEN")
-                        },
-                        success: function (result) {
-                            var displayResources = $("#table-knowledge");
-                            displayResources.text("Loading...");
-                            var output = "<table><tr><th>ID</th><th>Area of knowledge</th></tr><tbody>";
-                            var i = 0;
-                            for (i; i < result.length; i++) {
-                                    output +=
-                                            "<tr><td>" +
-                                            result[i].id +
-                                            "</td><td>" +
-                                            result[i].areaOfKnowledge +
-                                            "</td><td>"
-                                
-                            }
-                            output += "</tbody></table>";
-                            displayResources.html(output);
-                        },
-                        error: function () {
-                            alert("Something wrong")
-                        }
-                    });
+                        output += "</tbody></table>";
+                        displayResources.html(output);
+                    },
+                    error: function () {
+                        alert("Something wrong")
+                    }
                 });
+            });
 
-            </script>
+
+        </script>
     </body>

@@ -63,7 +63,7 @@
                                     </a></li>
                                 <li><a href="activity.html"><i class="menu-icon icon-bullhorn"></i>News Feed </a>
                                 </li>
-                                
+
                                 <li><a href="message.html"><i class="menu-icon icon-inbox"></i>Inbox <b class="label green pull-right">
                                             11</b> </a></li>
                                 <li><a href="task.html"><i class="menu-icon icon-tasks"></i>Tasks <b class="label orange pull-right">
@@ -75,25 +75,26 @@
                             <ul class="widget widget-menu unstyled">
                                 <li><a href="accountList.jsp"><i class="menu-icon icon-user"></i>Account </a></li>
                                 <li><a href="knowledge.jsp"><i class="menu-icon icon-book"></i>AreaOfKnowledge </a></li>
-                                <li><a href="table.html"><i class="menu-icon icon-suitcase"></i>Language </a></li>
-                                <li><a href="charts.html"><i class="menu-icon icon-upload-alt"></i>Post </a></li>
+                                <li><a href="language.jsp"><i class="menu-icon icon-suitcase"></i>Language </a></li>
+                                <li><a href="post.jsp"><i class="menu-icon icon-upload-alt"></i>Post </a></li>
                             </ul>
                             <!--/.widget-nav-->
                             <ul class="widget widget-menu unstyled">
-                            <li><a class="collapsed" data-toggle="collapse" href="#togglePages"><i class="menu-icon icon-cog">
-                            </i><i class="icon-chevron-down pull-right"></i><i class="icon-chevron-up pull-right">
-                            </i>More Pages </a>
-                                <ul id="togglePages" class="collapse unstyled">
-                                    <li><a href="other-login.html"><i class="icon-inbox"></i>Login </a></li>
-                                    <li><a href="other-user-profile.html"><i class="icon-inbox"></i>Profile </a></li>
-                                    <li><a href="other-user-listing.html"><i class="icon-inbox"></i>All Users </a></li>
-                                </ul>
-                            </li>
-                            <li><a href="#"><i class="menu-icon icon-signout"></i>Logout </a></li>
-                        </ul>
+                                <li><a class="collapsed" data-toggle="collapse" href="#togglePages"><i class="menu-icon icon-cog">
+                                        </i><i class="icon-chevron-down pull-right"></i><i class="icon-chevron-up pull-right">
+                                        </i>More Pages </a>
+                                    <ul id="togglePages" class="collapse unstyled">
+                                        <li><a href="other-login.html"><i class="icon-inbox"></i>Login </a></li>
+                                        <li><a href="other-user-profile.html"><i class="icon-inbox"></i>Profile </a></li>
+                                        <li><a href="other-user-listing.html"><i class="icon-inbox"></i>All Users </a></li>
+                                    </ul>
+                                </li>
+                                <li><a href="#"><i class="menu-icon icon-signout"></i>Logout </a></li>
+                            </ul>
                         </div>
                         <!--/.sidebar-->
                     </div>
+
                     <!--/.span3-->
                     <div class="span9">
                         <div class="content">
@@ -130,96 +131,97 @@
                 </div>
                 <!--/.container-->
             </div>
-            <!--/.wrapper-->
-            <div class="footer">
-                <div class="container">
-                    <b class="copyright">&copy; 2014 Edmin - EGrappler.com </b>All rights reserved.
-                </div>
+        </div>
+        <!--/.wrapper-->
+        <div class="footer">
+            <div class="container">
+                <b class="copyright">&copy; 2014 Edmin - EGrappler.com </b>All rights reserved.
             </div>
+        </div>
 
-            <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
-            <script>
-                $(window).on("load", function () {
-                    console.log("window loaded");
+        <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
+        <script>
+            $(window).on("load", function () {
+                console.log("window loaded");
+            });
+
+            $(document).ready(function () {
+                event.preventDefault(); // get total account
+                $.ajax({
+                    url: "https://translate-app-api.herokuapp.com/account",
+                    type: 'GET',
+                    dataType: 'json',
+                    contentType: "application/json",
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json',
+                        'Authorization': "Bearer " + localStorage.getItem("TOKEN")
+                    },
+                    success: function (result) {
+                        $('#TotalUser').text(result.length)
+                        $('#UserID').text(localStorage.getItem("USERID"));
+                    },
+                    error: function () {
+                        alert("Something wrong")
+                    }
                 });
-
-                $(document).ready(function () {
-                    event.preventDefault(); // get total account
-                    $.ajax({
-                        url: "https://translate-app-api.herokuapp.com/account",
-                        type: 'GET',
-                        dataType: 'json',
-                        contentType: "application/json",
-                        headers: {
-                            'Accept': 'application/json',
-                            'Content-Type': 'application/json',
-                            'Authorization': "Bearer " + localStorage.getItem("TOKEN")
-                        },
-                        success: function (result) {
-                            $('#TotalUser').text(result.length)
-                            $('#UserID').text(localStorage.getItem("USERID"));
-                        },
-                        error: function () {
-                            alert("Something wrong")
-                        }
-                    });
-                    event.preventDefault();// get total transaction
-                    $.ajax({
-                        url: "https://translate-app-api.herokuapp.com/transaction",
-                        type: 'GET',
-                        dataType: 'json',
-                        contentType: "application/json",
-                        headers: {
-                            'Accept': 'application/json',
-                            'Content-Type': 'application/json',
-                            'Authorization': "Bearer " + localStorage.getItem("TOKEN")
-                        },
-                        success: function (result) {
-                            $('#TotalTransaction').text(result.length)
-                        },
-                        error: function () {
-                            alert("Something wrong")
-                        }
-                    });
-                    event.preventDefault(); // get top 5 newest post
-                    $.ajax({
-                        url: "https://translate-app-api.herokuapp.com/post",
-                        type: 'GET',
-                        dataType: 'json',
-                        contentType: "application/json",
-                        headers: {
-                            'Accept': 'application/json',
-                            'Content-Type': 'application/json',
-                            'Authorization': "Bearer " + localStorage.getItem("TOKEN")
-                        },
-                        success: function (result) {
-                            var displayResources = $("#display-resources");
-                            displayResources.text("Loading...");
-                            var output = "<table><tr><th>Username</th><th>LanguageFrom</th><th>LanguageTo</th><th>Status</th><th>Price</th></tr><tbody>";
-                            var i = 0;
-                            for (i = result.length; i-- > (result.length - 5);) {
-                                output +=
-                                        "<tr><td>" +
-                                        result[i].username +
-                                        "</td><td>" +
-                                        result[i].languageFrom +
-                                        "</td><td>" +
-                                        result[i].languageTo +
-                                        "</td><td>" +
-                                        result[i].status +
-                                        "</td><td>" +
-                                        result[i].priceFrom + " - " + result[i].priceTo +
-                                        "</td></tr>"
-                            }
-                            output += "</tbody></table>";
-                            displayResources.html(output);
-                        },
-                        error: function () {
-                            alert("Something wrong")
-                        }
-                    });
+                event.preventDefault();// get total transaction
+                $.ajax({
+                    url: "https://translate-app-api.herokuapp.com/transaction",
+                    type: 'GET',
+                    dataType: 'json',
+                    contentType: "application/json",
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json',
+                        'Authorization': "Bearer " + localStorage.getItem("TOKEN")
+                    },
+                    success: function (result) {
+                        $('#TotalTransaction').text(result.length)
+                    },
+                    error: function () {
+                        alert("Something wrong")
+                    }
                 });
+                event.preventDefault(); // get top 5 newest post
+                $.ajax({
+                    url: "https://translate-app-api.herokuapp.com/post",
+                    type: 'GET',
+                    dataType: 'json',
+                    contentType: "application/json",
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json',
+                        'Authorization': "Bearer " + localStorage.getItem("TOKEN")
+                    },
+                    success: function (result) {
+                        var displayResources = $("#display-resources");
+                        displayResources.text("Loading...");
+                        var output = "<table><tr><th>Username</th><th>LanguageFrom</th><th>LanguageTo</th><th>Status</th><th>Price</th></tr><tbody>";
+                        var i = 0;
+                        for (i = result.length; i-- > (result.length - 5); ) {
+                            output +=
+                                    "<tr><td>" +
+                                    result[i].username +
+                                    "</td><td>" +
+                                    result[i].languageFrom +
+                                    "</td><td>" +
+                                    result[i].languageTo +
+                                    "</td><td>" +
+                                    result[i].status +
+                                    "</td><td>" +
+                                    result[i].priceFrom + " - " + result[i].priceTo +
+                                    "</td></tr>"
+                        }
+                        output += "</tbody></table>";
+                        displayResources.html(output);
+                    },
+                    error: function () {
+                        alert("Something wrong")
+                    }
+                });
+            });
 
 
-            </script>
+        </script>
     </body>

@@ -73,10 +73,10 @@
 
 
                             <ul class="widget widget-menu unstyled">
-                                <li><a href="userList.jsp"><i class="menu-icon icon-user"></i>Account </a></li>
+                                <li><a href="accountList.jsp"><i class="menu-icon icon-user"></i>Account </a></li>
                                 <li><a href="knowledge.jsp"><i class="menu-icon icon-book"></i>AreaOfKnowledge </a></li>
-                                <li><a href="table.html"><i class="menu-icon icon-suitcase"></i>Language </a></li>
-                                <li><a href="charts.html"><i class="menu-icon icon-upload-alt"></i>Post </a></li>
+                                <li><a href="language.jsp"><i class="menu-icon icon-suitcase"></i>Language </a></li>
+                                <li><a href="post.jsp"><i class="menu-icon icon-upload-alt"></i>Post </a></li>
                             </ul>
                             <!--/.widget-nav-->
                             <ul class="widget widget-menu unstyled">
@@ -148,165 +148,208 @@
                 </div>
                 <!--/.container-->
             </div>
-            <!--/.wrapper-->
-            <div class="footer">
-                <div class="container">
-                    <b class="copyright">&copy; 2014 Edmin - EGrappler.com </b>All rights reserved.
-                </div>
+        </div>
+        <!--/.wrapper-->
+        <div class="footer">
+            <div class="container">
+                <b class="copyright">&copy; 2014 Edmin - EGrappler.com </b>All rights reserved.
             </div>
-            <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
-            <script>
-                $(window).on("load", function () {
-                    console.log("window loaded");
-                });
+        </div>
+        <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
+        <script>
+            $(window).on("load", function () {
+                console.log("window loaded");
+            });
 
-                $(document).ready(function () {
-                    event.preventDefault(); // get total account
-                    $.ajax({
-                        url: "https://translate-app-api.herokuapp.com/account",
-                        type: 'GET',
-                        dataType: 'json',
-                        contentType: "application/json",
-                        headers: {
-                            'Accept': 'application/json',
-                            'Content-Type': 'application/json',
-                            'Authorization': "Bearer " + localStorage.getItem("TOKEN")
-                        },
-                        success: function (result) {
-                            $('#TotalUser').text(result.length)
-                            $('#UserID').text(localStorage.getItem("USERID"));
-
-                        },
-                        error: function () {
-                            alert("Something wrong")
-                        }
-                    });
-                    event.preventDefault();
-                    $.ajax({
-                        url: "https://translate-app-api.herokuapp.com/account",
-                        type: 'GET',
-                        dataType: 'json',
-                        contentType: "application/json",
-                        headers: {
-                            'Accept': 'application/json',
-                            'Content-Type': 'application/json',
-                            'Authorization': "Bearer " + localStorage.getItem("TOKEN")
-                        },
-                        success: function (result) {
-                            var displayResources = $("#table-admin");
-                            displayResources.text("Loading...");
-                            var output = "<table><tr><th>Username</th><th>FirstName</th><th>LastName</th><th>Email</th><th>Gender</th></tr><tbody>";
-                            var i = 0;
-                            for (i; i < result.length; i++) {
-                                var tmp = result[i].role;
-                                if (tmp === "AD") {
-                                    output +=
-                                            "<tr onclick='test(" + result[i].username + ")'><td>" +
-                                            result[i].username +
-                                            "</td><td>" +
-                                            result[i].firstName +
-                                            "</td><td>" +
-                                            result[i].lastName +
-                                            "</td><td>" +
-                                            result[i].email +
-                                            "</td><td>" +
-                                            result[i].gender +
-                                            "</td></tr>"
-                                }
+            $(document).ready(function () {
+                $('#UserID').text(localStorage.getItem("USERID"));
+                event.preventDefault(); //Table AD
+                $.ajax({
+                    url: "https://translate-app-api.herokuapp.com/account",
+                    type: 'GET',
+                    dataType: 'json',
+                    contentType: "application/json",
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json',
+                        'Authorization': "Bearer " + localStorage.getItem("TOKEN")
+                    },
+                    success: function (result) {
+                        var displayResources = $("#table-admin");
+                        displayResources.text("Loading...");
+                        var output = "<table><tr><th>Username</th><th>FirstName</th><th>LastName</th><th>Email</th><th>Gender</th></tr><tbody>";
+                        var i = 0;
+                        for (i; i < result.length; i++) {
+                            var tmp = result[i].role;
+                            if (tmp === "AD") {
+                                output +=
+                                        "<tr><td onclick='ad_table(this)' id='usernameDetailID_cuoi_"+i+"'>" +
+                                        result[i].username +
+                                        "</td><td>" +
+                                        result[i].firstName +
+                                        "</td><td>" +
+                                        result[i].lastName +
+                                        "</td><td>" +
+                                        result[i].email +
+                                        "</td><td>" +
+                                        result[i].gender +
+                                        "</td></tr>"
                             }
-                            output += "</tbody></table>";
-                            displayResources.html(output);
-                        },
-                        error: function () {
-                            alert("Something wrong")
                         }
-                    });
-                    event.preventDefault();
-                    $.ajax({
-                        url: "https://translate-app-api.herokuapp.com/account",
-                        type: 'GET',
-                        dataType: 'json',
-                        contentType: "application/json",
-                        headers: {
-                            'Accept': 'application/json',
-                            'Content-Type': 'application/json',
-                            'Authorization': "Bearer " + localStorage.getItem("TOKEN")
-                        },
-                        success: function (result) {
-                            var displayResources = $("#table-cus");
-                            displayResources.text("Loading...");
-                            var output = "<table><tr><th>Username</th><th>FirstName</th><th>LastName</th><th>Email</th><th>Gender</th></tr><tbody>";
-                            var i = 0;
-                            for (i; i < result.length; i++) {
-                                var tmp = result[i].role;
-                                if (tmp === "CUS") {
-                                    output +=
-                                            "<tr><td>" +
-                                            result[i].username +
-                                            "</td><td>" +
-                                            result[i].firstName +
-                                            "</td><td>" +
-                                            result[i].lastName +
-                                            "</td><td>" +
-                                            result[i].email +
-                                            "</td><td>" +
-                                            result[i].gender +
-                                            "</td></tr>"
-                                }
-                            }
-                            output += "</tbody></table>";
-                            displayResources.html(output);
-                        },
-                        error: function () {
-                            alert("Something wrong")
-                        }
-                    });
-                    event.preventDefault();
-                    $.ajax({
-                        url: "https://translate-app-api.herokuapp.com/account",
-                        type: 'GET',
-                        dataType: 'json',
-                        contentType: "application/json",
-                        headers: {
-                            'Accept': 'application/json',
-                            'Content-Type': 'application/json',
-                            'Authorization': "Bearer " + localStorage.getItem("TOKEN")
-                        },
-                        success: function (result) {
-                            var displayResources = $("#table-tsl");
-                            displayResources.text("Loading...");
-                            var output = "<table><tr><th>Username</th><th>FirstName</th><th>LastName</th><th>Email</th><th>Gender</th></tr><tbody>";
-                            var i = 0;
-                            for (i; i < result.length; i++) {
-                                var tmp = result[i].role;
-                                if (tmp === "TSL") {
-                                    output +=
-                                            "<tr><td>" +
-                                            result[i].username +
-                                            "</td><td>" +
-                                            result[i].firstName +
-                                            "</td><td>" +
-                                            result[i].lastName +
-                                            "</td><td>" +
-                                            result[i].email +
-                                            "</td><td>" +
-                                            result[i].gender +
-                                            "</td></tr>"
-                                }
-                            }
-                            output += "</tbody></table>";
-                            displayResources.html(output);
-                        },
-                        error: function () {
-                            alert("Something wrong")
-                        }
-                    });
+                        output += "</tbody></table>";
+                        displayResources.html(output);
+                    },
+                    error: function () {
+                        alert("Something wrong")
+                    }
                 });
-                function test() {
-                    var id = obj.id;
-                    alert(id);
-//                    window.location.href = '../Web/accountDetail.jsp';
+                event.preventDefault(); // Table CUS
+                $.ajax({
+                    url: "https://translate-app-api.herokuapp.com/account",
+                    type: 'GET',
+                    dataType: 'json',
+                    contentType: "application/json",
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json',
+                        'Authorization': "Bearer " + localStorage.getItem("TOKEN")
+                    },
+                    success: function (result) {
+                        var displayResources = $("#table-cus");
+                        displayResources.text("Loading...");
+                        var output = "<table><tr><th>Username</th><th>FirstName</th><th>LastName</th><th>Email</th><th>Gender</th></tr><tbody>";
+                        var i = 0;
+                        for (i; i < result.length; i++) {
+                            var tmp = result[i].role;
+                            if (tmp === "CUS") {
+                                output +=
+                                        "<tr><td onclick='cus_table(this)' id='usernameDetailID_cuoi_"+i+"'>" +
+                                        result[i].username +
+                                        "</td><td>" +
+                                        result[i].firstName +
+                                        "</td><td>" +
+                                        result[i].lastName +
+                                        "</td><td>" +
+                                        result[i].email +
+                                        "</td><td>" +
+                                        result[i].gender +
+                                        "</td></tr>"
+                            }
+                        }
+                        output += "</tbody></table>";
+                        displayResources.html(output);
+                    },
+                    error: function () {
+                        alert("Something wrong")
+                    }
+                });
+                event.preventDefault(); // Table TSL
+                $.ajax({
+                    url: "https://translate-app-api.herokuapp.com/account",
+                    type: 'GET',
+                    dataType: 'json',
+                    contentType: "application/json",
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json',
+                        'Authorization': "Bearer " + localStorage.getItem("TOKEN")
+                    },
+                    success: function (result) {
+                        var displayResources = $("#table-tsl");
+                        displayResources.text("Loading...");
+                        var output = "<table><tr><th>Username</th><th>FirstName</th><th>LastName</th><th>Email</th><th>Gender</th></tr><tbody>";
+                        var i = 0;
+                        for (i; i < result.length; i++) {
+                            var tmp = result[i].role;
+                            if (tmp === "TSL") {
+                                output +=
+                                        "<tr><td onclick='tsl_table(this)' id='usernameDetailID_cuoi_"+i+"'>" +
+                                        result[i].username +
+                                        "</td><td>" +
+                                        result[i].firstName +
+                                        "</td><td>" +
+                                        result[i].lastName +
+                                        "</td><td>" +
+                                        result[i].email +
+                                        "</td><td>" +
+                                        result[i].gender +
+                                        "</td></tr>"
+                            }
+                        }
+                        output += "</tbody></table>";
+                        displayResources.html(output);
+                    },
+                    error: function () {
+                        alert("Something wrong")
+                    }
+                });
+            });
+        </script>
+        <script>
+            function tsl_table(b) {
+                var a = "#"+$(b).attr('id').toString();
+                    console.log(a);
+                    if (localStorage.getItem("USERNAMEDETAILID") === null) {
+                    localStorage.setItem("USERNAMEDETAILID", $(a).text());
+                    console.log("1");
+                } else {
+                    localStorage.removeItem("USERNAMEDETAILID");
+                    localStorage.setItem("USERNAMEDETAILID", $(a).text());
+                    console.log("2");
                 }
+                window.location.href = '../Web/accountDetail.jsp';
+                // alert($('#usernameDetailID').text()); //ch? này nó l?y giá tr? ??u tiên c?a hàng nè a
+                //window.location.href = '../Web/accountDetail.jsp';
+            }
+            function ad_table(b) {
+                var a = "#"+$(b).attr('id').toString();
+                    console.log(a);
+                    if (localStorage.getItem("USERNAMEDETAILID") === null) {
+                    localStorage.setItem("USERNAMEDETAILID", $(a).text());
+                    console.log("1");
+                } else {
+                    localStorage.removeItem("USERNAMEDETAILID");
+                    localStorage.setItem("USERNAMEDETAILID", $(a).text());
+                    console.log("2");
+                }
+                window.location.href = '../Web/accountDetail.jsp';
+                // alert($('#usernameDetailID').text()); //ch? này nó l?y giá tr? ??u tiên c?a hàng nè a
+                //window.location.href = '../Web/accountDetail.jsp';
+            }
+            function cus_table(b) {
+                var a = "#"+$(b).attr('id').toString();
+                    console.log(a);
+                    if (localStorage.getItem("USERNAMEDETAILID") === null) {
+                    localStorage.setItem("USERNAMEDETAILID", $(a).text());
+                    console.log("1");
+                } else {
+                    localStorage.removeItem("USERNAMEDETAILID");
+                    localStorage.setItem("USERNAMEDETAILID", $(a).text());
+                    console.log("2");
+                }
+                window.location.href = '../Web/accountDetail.jsp';
+                // alert($('#usernameDetailID').text()); //ch? này nó l?y giá tr? ??u tiên c?a hàng nè a
+                //window.location.href = '../Web/accountDetail.jsp';
+            }
+//            $(document).ready(function (){
+//                $('tr.a').click(function (){
+//                    var a = $(this).attr('id');
+//                    console.log("a", a);
+//                })
+//            })
 
-            </script>
+//               $(document).on('click','tr.a td',function(e){
+//                    var a = "#"+$(this).attr('id').toString();
+//                    console.log(a);
+//                    if (localStorage.getItem("USERNAMEDETAILID") === null) {
+//                    localStorage.setItem("USERNAMEDETAILID", $(a).text());
+//                    console.log("1");
+//                } else {
+//                    localStorage.removeItem("USERNAMEDETAILID");
+//                    localStorage.setItem("USERNAMEDETAILID", $(a).text());
+//                    console.log("2");
+//                }
+//               })
+            
+        </script>
     </body>

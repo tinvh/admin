@@ -97,7 +97,7 @@
                     
                     <div class="span9">
                         <div class="span9">
-                            <a class="btn btn-large btn-danger" href="createKnowledge.jsp">Create new knowledge</a>
+                            <a class="btn btn-large btn-danger" href="createLanguage.jsp">Create new Language</a>
                             <div class="content">
                                 <div class="module">
                                     <div class="module-head">
@@ -151,7 +151,7 @@
                     });
                     event.preventDefault();
                     $.ajax({
-                        url: "https://translate-app-api.herokuapp.com/knowledge",
+                        url: "https://translate-app-api.herokuapp.com/languages",
                         type: 'GET',
                         dataType: 'json',
                         contentType: "application/json",
@@ -163,14 +163,14 @@
                         success: function (result) {
                             var displayResources = $("#table-knowledge");
                             displayResources.text("Loading...");
-                            var output = "<table><tr><th>ID</th><th>Area of knowledge</th></tr><tbody>";
+                            var output = "<table><tr><th>ID</th><th>Language</th></tr><tbody>";
                             var i = 0;
                             for (i; i < result.length; i++) {
                                     output +=
                                             "<tr><td>" +
                                             result[i].id +
                                             "</td><td>" +
-                                            result[i].areaOfKnowledge +
+                                            result[i].language +
                                             "</td><td>"
                                 
                             }

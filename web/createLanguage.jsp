@@ -76,7 +76,7 @@
                                 <li><a href="accountList.jsp"><i class="menu-icon icon-user"></i>Account </a></li>
                                 <li><a href="knowledge.jsp"><i class="menu-icon icon-book"></i>AreaOfKnowledge </a></li>
                                 <li><a href="language.jsp"><i class="menu-icon icon-suitcase"></i>Language </a></li>
-                                <li><a href="post.jsp"><i class="menu-icon icon-upload-alt"></i>Post </a></li>
+                                <li><a href="charts.html"><i class="menu-icon icon-upload-alt"></i>Post </a></li>
                             </ul>
                             <!--/.widget-nav-->
                             <ul class="widget widget-menu unstyled">
@@ -94,20 +94,19 @@
                         </div>
                         <!--/.sidebar-->
                     </div>
-                    
+
                     <div class="span9">
                         <div class="span9">
-                            <a class="btn btn-large btn-danger" href="createKnowledge.jsp">Create new knowledge</a>
-                            <div class="content">
-                                <div class="module">
-                                    <div class="module-head">
-                                    </div>
-                                    <div class="module-body table">
-                                        <div id="table-knowledge"></div> <!--/.Display table-->
-                                    </div>
-                                    <!--/.module-->
+                            <div class="control-group">
+                                <h1 class="control-label" for="basicinput">Language</h1>
+                                <div class="controls">
+                                    <input type="text" id="inputLanguageName" class="span8">
                                 </div>
-                                <!--/.content-->
+                                <h1 class="control-label" for="basicinput">Keyword</h1>
+                                <div class="controls">
+                                    <input type="text" id="inputLanguageKeyword" class="span8">
+                                </div>
+                                <a class="btn btn-small btn-info" onclick="create()">Create</a>
                             </div>
                             <!--/.span9-->
                         </div>
@@ -124,35 +123,39 @@
             </div>
             <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
             <script>
-                $(window).on("load", function () {
-                    console.log("window loaded");
-                });
+                                    $(window).on("load", function () {
+                                        console.log("window loaded");
+                                    });
 
-                $(document).ready(function () {
-                    event.preventDefault(); // get total account
-                    $.ajax({
-                        url: "https://translate-app-api.herokuapp.com/account",
-                        type: 'GET',
-                        dataType: 'json',
-                        contentType: "application/json",
-                        headers: {
-                            'Accept': 'application/json',
-                            'Content-Type': 'application/json',
-                            'Authorization': "Bearer " + localStorage.getItem("TOKEN")
-                        },
-                        success: function (result) {
-                            $('#TotalUser').text(result.length)
-                            $('#UserID').text(localStorage.getItem("USERID"));
+                                    $(document).ready(function () {
+                                        event.preventDefault(); // get total account
+                                        $.ajax({
+                                            url: "https://translate-app-api.herokuapp.com/account",
+                                            type: 'GET',
+                                            dataType: 'json',
+                                            contentType: "application/json",
+                                            headers: {
+                                                'Accept': 'application/json',
+                                                'Content-Type': 'application/json',
+                                                'Authorization': "Bearer " + localStorage.getItem("TOKEN")
+                                            },
+                                            success: function (result) {
+                                                $('#TotalUser').text(result.length)
+                                                $('#UserID').text(localStorage.getItem("USERID"));
 
-                        },
-                        error: function () {
-                            alert("Something wrong")
-                        }
-                    });
+                                            },
+                                            error: function () {
+                                                alert("Something wrong")
+                                            }
+                                        });
+                                    });
+            </script>
+            <script>
+                function create() {
                     event.preventDefault();
                     $.ajax({
-                        url: "https://translate-app-api.herokuapp.com/knowledge",
-                        type: 'GET',
+                        url: "https://translate-app-api.herokuapp.com/languages",
+                        type: 'POST',
                         dataType: 'json',
                         contentType: "application/json",
                         headers: {
@@ -160,28 +163,17 @@
                             'Content-Type': 'application/json',
                             'Authorization': "Bearer " + localStorage.getItem("TOKEN")
                         },
-                        success: function (result) {
-                            var displayResources = $("#table-knowledge");
-                            displayResources.text("Loading...");
-                            var output = "<table><tr><th>ID</th><th>Area of knowledge</th></tr><tbody>";
-                            var i = 0;
-                            for (i; i < result.length; i++) {
-                                    output +=
-                                            "<tr><td>" +
-                                            result[i].id +
-                                            "</td><td>" +
-                                            result[i].areaOfKnowledge +
-                                            "</td><td>"
-                                
-                            }
-                            output += "</tbody></table>";
-                            displayResources.html(output);
+                        data: JSON.stringify({
+                            language: $('#inputLanguageName').val(), id: $('#inputLanguageKeyword').val()
+                        }),
+                        success: function () {
+                            console.log("Create");
+                            window.location.href = '../Web/language.jsp';
                         },
                         error: function () {
-                            alert("Something wrong")
+                            alert("Something wrong...")
                         }
                     });
-                });
-
+                }
             </script>
     </body>

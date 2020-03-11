@@ -131,25 +131,8 @@
             });
 
             $(document).ready(function () {
-                event.preventDefault(); // get total account
-                $.ajax({
-                    url: "https://translate-app-api.herokuapp.com/account",
-                    type: 'GET',
-                    dataType: 'json',
-                    contentType: "application/json",
-                    headers: {
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json',
-                        'Authorization': "Bearer " + localStorage.getItem("TOKEN")
-                    },
-                    success: function (result) {
-                        $('#UserID').text(localStorage.getItem("USERID"));
-                    },
-                    error: function () {
-                        alert("Something wrong")
-                    }
-                });
-                event.preventDefault(); // get top 5 newest post
+                event.preventDefault();
+                $('#UserID').text(localStorage.getItem("USERID"));
                 $.ajax({
                     url: "https://translate-app-api.herokuapp.com/post",
                     type: 'GET',
@@ -163,11 +146,13 @@
                     success: function (result) {
                         var displayResources = $("#display-resources");
                         displayResources.text("Loading...");
-                        var output = "<table><tr><th>Username</th><th>LanguageFrom</th><th>LanguageTo</th><th>Status</th><th>Price</th></tr><tbody>";
+                        var output = "<table><tr><th>ID.</th><th>Username</th><th>LanguageFrom</th><th>LanguageTo</th><th>Status</th><th>Price</th></tr><tbody>";
                         var i = 0;
-                        for (i; i < result.length; i++) {
+                        for (i = result.length; i-- > 0; ) {
                             output +=
-                                    "<tr><td>" +
+                                    "<tr onclick='post_table(this)' id='postID_"+i+"'><td>" +
+                                    result[i].postId +
+                                    "</td><td>" +
                                     result[i].username +
                                     "</td><td>" +
                                     result[i].languageFrom +
@@ -187,7 +172,20 @@
                     }
                 });
             });
-
-
+        </script>
+        <script>
+            function post_table(b) {
+                    var a = "#"+$(b).attr('id').toString();
+//                  var a = $(b.target).closest('tr').find(".id").html()
+                    // console.log($(a).closest('rd'));
+//                    console.log($(a).find("td:eq(0)").text());
+                    if (localStorage.getItem("POSTDETAILID") === null) {
+                    localStorage.setItem("POSTDETAILID", $(a).find("td:eq(0)").text());
+                } else {
+                    localStorage.removeItem("POSTDETAILID");
+                    localStorage.setItem("POSTDETAILID", $(a).find("td:eq(0)").text());
+                }
+                window.location.href = '../Web/postDetail.jsp';
+            }
         </script>
     </body>

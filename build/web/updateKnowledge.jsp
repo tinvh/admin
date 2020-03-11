@@ -99,7 +99,7 @@
 
                             <div class="module">
                                 <div class="module-head">
-                                    <h3>Account Detail</h3>
+                                    <h3>Update Knowledge information</h3>
                                 </div>
                                 <div class="module-body">
 
@@ -107,84 +107,25 @@
 
                                     <form class="form-horizontal row-fluid">
                                         <div class="control-group">
-                                            <label class="control-label" for="basicinput">Username</label>
+                                            <label class="control-label" for="basicinput">Knowledge describe</label>
                                             <div class="controls">
-                                                <input type="text" id="userNameID" class="span8" disabled  >
+                                                <input type="text" id="areaOfKnowledge" class="span8">
                                                 <span class="help-inline"></span>
                                             </div>
                                         </div>
                                         <div class="control-group">
-                                            <label class="control-label" for="basicinput">FirstName</label>
                                             <div class="controls">
-                                                <input type="text" id="firstName" class="span8">
-                                                <span class="help-inline"></span>
-                                            </div>
-                                            <b id="firstName"></b>
-                                        </div>
-                                        <div class="control-group">
-                                            <label class="control-label" for="basicinput">LastName</label>
-                                            <div class="controls">
-                                                <input type="text" id="lastName" class="span8">
-                                                <span class="help-inline"></span>
-                                            </div>
-                                        </div>
-                                        <div class="control-group">
-                                            <label class="control-label" for="basicinput">Email</label>
-                                            <div class="controls">
-                                                <input type="text" id="email" class="span8">
-                                                <span class="help-inline"></span>
-                                            </div>
-                                        </div>
-                                        <div class="control-group">
-                                            <label class="control-label">Gender</label>
-                                            <div class="controls">
-                                                <label class="radio inline">
-                                                    <input type="radio" name="optionsGender" value="male" checked=""/>
-                                                    male
-                                                </label> 
-                                                <label class="radio inline">
-                                                    <input type="radio" name="optionsGender" value="female"/>
-                                                    female
-                                                </label>
-                                            </div>
-                                        </div>
-                                        <div class="control-group">
-                                            <label class="control-label">Role</label>
-                                            <div class="controls">
-                                                <label class="radio inline">
-                                                    <input type="radio" name="optionsRole" value="AD" checked=""/>
-                                                    AD
-                                                </label> 
-                                                <label class="radio inline">
-                                                    <input type="radio" name="optionsRole" value="CUS"/>
-                                                    CUS
-                                                </label> 
-                                                <label class="radio inline">
-                                                    <input type="radio" name="optionsRole" svalue="TSL"/>
-                                                    TSL
-                                                </label>
-                                            </div>
-                                        </div>
-                                        <div class="control-group">
-                                            <label class="control-label">WARNING</label>
-                                            <div class="controls">
-                                                <label class="checkbox inline">
-                                                    <input type="checkbox" value="" name="checkWarning"/>
-                                                    checked
-                                                </label>
+                                                <button type="submit" class="btn" onclick="Update()">Update knowledge detail</button>
                                             </div>
                                         </div>
                                         <div class="control-group">
                                             <div class="controls">
-                                                <button type="submit" class="btn">Update account detail</button>
+                                                <a class="btn btn-large btn-danger" onclick="Delete()">Delete this knowledge</a>
                                             </div>
                                         </div>
                                     </form>
                                 </div>
                             </div>
-
-
-
                         </div><!--/.content-->
                     </div><!--/.span9-->
                     <!--/.span3-->
@@ -206,46 +147,65 @@
 
             $(document).ready(function () {
                 $('#UserID').text(localStorage.getItem("USERID"));
-                var userNameDetailID = localStorage.getItem("USERNAMEDETAILID");
-                event.preventDefault(); //Table AD
-                $.ajax({
-                    url: "https://translate-app-api.herokuapp.com/account/" + userNameDetailID,
-                    type: 'GET',
-                    dataType: 'json',
-                    contentType: "application/json",
-                    headers: {
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json',
-                        'Authorization': "Bearer " + localStorage.getItem("TOKEN")
-                    },
-                    success: function (result) {
-                        $('#userNameID').attr('placeholder', result.username);
-                        $('#firstName').attr('value', result.firstName);
-                        $('#lastName').attr('value', result.lastName);
-                        $('#email').attr('value', result.email);
-                        var gender = result.gender;
-                        if (gender === "female") {
-                            $('input:radio[name="optionsGender"]').filter('[value="female"]').attr('checked', true);
-                        }
-                        var role = result.role;
-                        if (role === "CUS") {
-                            $('input:radio[name="optionsRole"]').filter('[value="CUS"]').attr('checked', true);
-                        } else
-                        if (role === "TSL") {
-                            $('input:radio[name="optionsRole"]').filter('[value="TSL"]').attr('checked', true);
-                        }
-                        var warning = result.warning;
-                        if (warning === true) {
-                            $('input:checkbox[name="checkWarning"]').filter('[value=""]').attr('checked', true);
-                        }
-                    },
-                    error: function () {
-                        alert("Something wrong")
-                    }
-                });
+                $('#id').attr('value', localStorage.getItem("KNOWLEDGEID"))
+                $('#areaOfKnowledge').attr('value', localStorage.getItem("KNOWLEDGENAME"))
             });
-        </script>
-        <script>
 
+            function Delete() {
+                if (confirm('Delete this knowledge?')) {
+                    event.preventDefault();
+                    var knowledgeID = localStorage.getItem("KNOWLEDGEID");
+                    $.ajax({
+                        url: "https://translate-app-api.herokuapp.com/knowledge/" + knowledgeID,
+                        type: 'DELETE',
+                        dataType: 'json',
+                        contentType: "application/json",
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json',
+                            'Authorization': "Bearer " + localStorage.getItem("TOKEN")
+                        },
+                        data: JSON.stringify({
+                            id: $('#id').val()
+                        }),
+                        success: function () {
+                            window.location.href = '../Web/knowledge.jsp';
+                        },
+                        error: function () {
+                            alert("Something wrong")
+                        }
+                    });
+                } else {
+                    // Do nothing!
+                }
+            }
+            function Update() {
+                if (confirm('Update this knowledge?')) {
+                    event.preventDefault();
+                    var knowledgeID = localStorage.getItem("KNOWLEDGEID");
+                    $.ajax({
+                        url: "https://translate-app-api.herokuapp.com/knowledge/" + knowledgeID,
+                        type: 'PUT',
+                        dataType: 'json',
+                        contentType: "application/json",
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json',
+                            'Authorization': "Bearer " + localStorage.getItem("TOKEN")
+                        },
+                        data: JSON.stringify({
+                            id: $('#id').val(), areaOfKnowledge: $('#areaOfKnowledge').val()
+                        }),
+                        success: function () {
+                            window.location.href = '../Web/knowledge.jsp';
+                        },
+                        error: function () {
+                            alert("Something wrong")
+                        }
+                    });
+                } else {
+                    // Do nothing!
+                }
+            }
         </script>
     </body>

@@ -99,7 +99,7 @@
 
                             <div class="module">
                                 <div class="module-head">
-                                    <h3>Account Detail</h3>
+                                    <h3>Update Language information</h3>
                                 </div>
                                 <div class="module-body">
 
@@ -107,84 +107,33 @@
 
                                     <form class="form-horizontal row-fluid">
                                         <div class="control-group">
-                                            <label class="control-label" for="basicinput">Username</label>
+                                            <label class="control-label" for="basicinput">ID</label>
                                             <div class="controls">
-                                                <input type="text" id="userNameID" class="span8" disabled  >
-                                                <span class="help-inline"></span>
-                                            </div>
-                                        </div>
-                                        <div class="control-group">
-                                            <label class="control-label" for="basicinput">FirstName</label>
-                                            <div class="controls">
-                                                <input type="text" id="firstName" class="span8">
+                                                <input type="text" id="id" class="span8">
                                                 <span class="help-inline"></span>
                                             </div>
                                             <b id="firstName"></b>
                                         </div>
                                         <div class="control-group">
-                                            <label class="control-label" for="basicinput">LastName</label>
+                                            <label class="control-label" for="basicinput">Language</label>
                                             <div class="controls">
-                                                <input type="text" id="lastName" class="span8">
+                                                <input type="text" id="language" class="span8">
                                                 <span class="help-inline"></span>
                                             </div>
                                         </div>
                                         <div class="control-group">
-                                            <label class="control-label" for="basicinput">Email</label>
                                             <div class="controls">
-                                                <input type="text" id="email" class="span8">
-                                                <span class="help-inline"></span>
-                                            </div>
-                                        </div>
-                                        <div class="control-group">
-                                            <label class="control-label">Gender</label>
-                                            <div class="controls">
-                                                <label class="radio inline">
-                                                    <input type="radio" name="optionsGender" value="male" checked=""/>
-                                                    male
-                                                </label> 
-                                                <label class="radio inline">
-                                                    <input type="radio" name="optionsGender" value="female"/>
-                                                    female
-                                                </label>
-                                            </div>
-                                        </div>
-                                        <div class="control-group">
-                                            <label class="control-label">Role</label>
-                                            <div class="controls">
-                                                <label class="radio inline">
-                                                    <input type="radio" name="optionsRole" value="AD" checked=""/>
-                                                    AD
-                                                </label> 
-                                                <label class="radio inline">
-                                                    <input type="radio" name="optionsRole" value="CUS"/>
-                                                    CUS
-                                                </label> 
-                                                <label class="radio inline">
-                                                    <input type="radio" name="optionsRole" svalue="TSL"/>
-                                                    TSL
-                                                </label>
-                                            </div>
-                                        </div>
-                                        <div class="control-group">
-                                            <label class="control-label">WARNING</label>
-                                            <div class="controls">
-                                                <label class="checkbox inline">
-                                                    <input type="checkbox" value="" name="checkWarning"/>
-                                                    checked
-                                                </label>
+                                                <button type="submit" class="btn" onclick="Update()">Update language detail</button>
                                             </div>
                                         </div>
                                         <div class="control-group">
                                             <div class="controls">
-                                                <button type="submit" class="btn">Update account detail</button>
+                                                <a class="btn btn-large btn-danger" onclick="Delete()">Delete this language</a>
                                             </div>
                                         </div>
                                     </form>
                                 </div>
                             </div>
-
-
-
                         </div><!--/.content-->
                     </div><!--/.span9-->
                     <!--/.span3-->
@@ -200,52 +149,69 @@
         </div>
         <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
         <script>
-            $(window).on("load", function () {
-                console.log("window loaded");
-            });
+                                                    $(window).on("load", function () {
+                                                        console.log("window loaded");
+                                                    });
 
-            $(document).ready(function () {
-                $('#UserID').text(localStorage.getItem("USERID"));
-                var userNameDetailID = localStorage.getItem("USERNAMEDETAILID");
-                event.preventDefault(); //Table AD
-                $.ajax({
-                    url: "https://translate-app-api.herokuapp.com/account/" + userNameDetailID,
-                    type: 'GET',
-                    dataType: 'json',
-                    contentType: "application/json",
-                    headers: {
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json',
-                        'Authorization': "Bearer " + localStorage.getItem("TOKEN")
-                    },
-                    success: function (result) {
-                        $('#userNameID').attr('placeholder', result.username);
-                        $('#firstName').attr('value', result.firstName);
-                        $('#lastName').attr('value', result.lastName);
-                        $('#email').attr('value', result.email);
-                        var gender = result.gender;
-                        if (gender === "female") {
-                            $('input:radio[name="optionsGender"]').filter('[value="female"]').attr('checked', true);
-                        }
-                        var role = result.role;
-                        if (role === "CUS") {
-                            $('input:radio[name="optionsRole"]').filter('[value="CUS"]').attr('checked', true);
-                        } else
-                        if (role === "TSL") {
-                            $('input:radio[name="optionsRole"]').filter('[value="TSL"]').attr('checked', true);
-                        }
-                        var warning = result.warning;
-                        if (warning === true) {
-                            $('input:checkbox[name="checkWarning"]').filter('[value=""]').attr('checked', true);
-                        }
-                    },
-                    error: function () {
-                        alert("Something wrong")
-                    }
-                });
-            });
-        </script>
-        <script>
+                                                    $(document).ready(function () {
+                                                        $('#UserID').text(localStorage.getItem("USERID"));
+                                                        $('#id').attr('value', localStorage.getItem("LANGUAGEID"))
+                                                        $('#language').attr('value', localStorage.getItem("LANGUAGENAME"))
+//                                                        event.preventDefault();
+//                                                        $.ajax({
+//                                                            url: "https://translate-app-api.herokuapp.com/languages/" + languageID,
+//                                                            type: 'GET',
+//                                                            dataType: 'json',
+//                                                            contentType: "application/json",
+//                                                            headers: {
+//                                                                'Accept': 'application/json',
+//                                                                'Content-Type': 'application/json',
+//                                                                'Authorization': "Bearer " + localStorage.getItem("TOKEN")
+//                                                            },
+//                                                            success: function (result) {
+//                                                                $('#id').attr('value', result.id);
+//                                                                $('#language').attr('value', result.language);
+//                                                            },
+//                                                            error: function () {
+//                                                                alert("Something wrong")
+//                                                            }
+//                                                        });
+                                                    });
 
+                                                    function Delete() {
+                                                        if (confirm('Delete this language?')) {
+
+                                                        } else {
+                                                            // Do nothing!
+                                                        }
+                                                    }
+                                                    function Update() {
+                                                        if (confirm('Update this language?')) {
+                                                            event.preventDefault();
+                                                            var languageID = localStorage.getItem("LANGUAGEID");
+                                                            $.ajax({
+                                                                url: "https://translate-app-api.herokuapp.com/languages/" + languageID,
+                                                                type: 'PUT',
+                                                                dataType: 'json',
+                                                                contentType: "application/json",
+                                                                headers: {
+                                                                    'Accept': 'application/json',
+                                                                    'Content-Type': 'application/json',
+                                                                    'Authorization': "Bearer " + localStorage.getItem("TOKEN")
+                                                                },
+                                                                data: JSON.stringify({
+                                                                    id: $('#id').val(), language: $('#language').val()
+                                                                }),
+                                                                success: function () {
+                                                                    window.location.href = '../Web/language.jsp';
+                                                                },
+                                                                error: function () {
+                                                                    alert("Something wrong")
+                                                                }
+                                                            });
+                                                        } else {
+                                                            // Do nothing!
+                                                        }
+                                                    }
         </script>
     </body>

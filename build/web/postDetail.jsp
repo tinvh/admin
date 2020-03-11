@@ -99,7 +99,7 @@
 
                             <div class="module">
                                 <div class="module-head">
-                                    <h3>Account Detail</h3>
+                                    <h3>Post Detail</h3>
                                 </div>
                                 <div class="module-body">
 
@@ -114,69 +114,80 @@
                                             </div>
                                         </div>
                                         <div class="control-group">
-                                            <label class="control-label" for="basicinput">FirstName</label>
+                                            <label class="control-label" for="basicinput">Title</label>
                                             <div class="controls">
-                                                <input type="text" id="firstName" class="span8">
-                                                <span class="help-inline"></span>
-                                            </div>
-                                            <b id="firstName"></b>
-                                        </div>
-                                        <div class="control-group">
-                                            <label class="control-label" for="basicinput">LastName</label>
-                                            <div class="controls">
-                                                <input type="text" id="lastName" class="span8">
+                                                <input type="text" id="title" class="span8" disabled  >
                                                 <span class="help-inline"></span>
                                             </div>
                                         </div>
                                         <div class="control-group">
-                                            <label class="control-label" for="basicinput">Email</label>
+                                            <label class="control-label" for="basicinput">Language From</label>
                                             <div class="controls">
-                                                <input type="text" id="email" class="span8">
+                                                <input type="text" id="languageFrom" class="span8" disabled  >
                                                 <span class="help-inline"></span>
                                             </div>
                                         </div>
                                         <div class="control-group">
-                                            <label class="control-label">Gender</label>
+                                            <label class="control-label" for="basicinput">Language To</label>
                                             <div class="controls">
-                                                <label class="radio inline">
-                                                    <input type="radio" name="optionsGender" value="male" checked=""/>
-                                                    male
-                                                </label> 
-                                                <label class="radio inline">
-                                                    <input type="radio" name="optionsGender" value="female"/>
-                                                    female
-                                                </label>
+                                                <input type="text" id="languageTo" class="span8" disabled  >
+                                                <span class="help-inline"></span>
                                             </div>
                                         </div>
                                         <div class="control-group">
-                                            <label class="control-label">Role</label>
+                                            <label class="control-label" for="basicinput">Area Of Knowledge</label>
                                             <div class="controls">
-                                                <label class="radio inline">
-                                                    <input type="radio" name="optionsRole" value="AD" checked=""/>
-                                                    AD
-                                                </label> 
-                                                <label class="radio inline">
-                                                    <input type="radio" name="optionsRole" value="CUS"/>
-                                                    CUS
-                                                </label> 
-                                                <label class="radio inline">
-                                                    <input type="radio" name="optionsRole" svalue="TSL"/>
-                                                    TSL
-                                                </label>
+                                                <input type="text" id="areaOfKnowledge" class="span8" disabled  >
+                                                <span class="help-inline"></span>
                                             </div>
                                         </div>
                                         <div class="control-group">
-                                            <label class="control-label">WARNING</label>
+                                            <label class="control-label" for="basicinput">Dead Line</label>
                                             <div class="controls">
-                                                <label class="checkbox inline">
-                                                    <input type="checkbox" value="" name="checkWarning"/>
-                                                    checked
-                                                </label>
+                                                <input type="text" id="deadline" class="span8" disabled  >
+                                                <span class="help-inline"></span>
                                             </div>
                                         </div>
                                         <div class="control-group">
+                                            <label class="control-label" for="basicinput">Price From</label>
                                             <div class="controls">
-                                                <button type="submit" class="btn">Update account detail</button>
+                                                <input type="text" id="priceFrom" class="span8" disabled  >
+                                                <span class="help-inline"></span>
+                                            </div>
+                                        </div>
+                                        <div class="control-group">
+                                            <label class="control-label" for="basicinput">Price Tom</label>
+                                            <div class="controls">
+                                                <input type="text" id="priceTo" class="span8" disabled  >
+                                                <span class="help-inline"></span>
+                                            </div>
+                                        </div>
+                                        <div class="control-group">
+                                            <label class="control-label" for="basicinput">Description</label>
+                                            <div class="controls">
+                                                <input type="text" id="description" class="span8" disabled  >
+                                                <span class="help-inline"></span>
+                                            </div>
+                                        </div>
+                                        <div class="control-group">
+                                            <label class="control-label" for="basicinput">Status</label>
+                                            <div class="controls">
+                                                <input type="text" id="status" class="span8" disabled  >
+                                                <span class="help-inline"></span>
+                                            </div>
+                                        </div>
+                                        <div class="control-group">
+                                            <label class="control-label" for="basicinput">Create At</label>
+                                            <div class="controls">
+                                                <input type="text" id="createAt" class="span8" disabled  >
+                                                <span class="help-inline"></span>
+                                            </div>
+                                        </div>
+                                        <div class="control-group">
+                                            <label class="control-label" for="basicinput">Location</label>
+                                            <div class="controls">
+                                                <input type="text" id="location" class="span8" disabled  >
+                                                <span class="help-inline"></span>
                                             </div>
                                         </div>
                                     </form>
@@ -206,10 +217,10 @@
 
             $(document).ready(function () {
                 $('#UserID').text(localStorage.getItem("USERID"));
-                var userNameDetailID = localStorage.getItem("USERNAMEDETAILID");
+                var postDetailID = localStorage.getItem("POSTDETAILID");
                 event.preventDefault(); //Table AD
                 $.ajax({
-                    url: "https://translate-app-api.herokuapp.com/account/" + userNameDetailID,
+                    url: "https://translate-app-api.herokuapp.com/post/id/" + postDetailID,
                     type: 'GET',
                     dataType: 'json',
                     contentType: "application/json",
@@ -219,25 +230,19 @@
                         'Authorization': "Bearer " + localStorage.getItem("TOKEN")
                     },
                     success: function (result) {
+//                        $('#userNameID').text = result.username;
                         $('#userNameID').attr('placeholder', result.username);
-                        $('#firstName').attr('value', result.firstName);
-                        $('#lastName').attr('value', result.lastName);
-                        $('#email').attr('value', result.email);
-                        var gender = result.gender;
-                        if (gender === "female") {
-                            $('input:radio[name="optionsGender"]').filter('[value="female"]').attr('checked', true);
-                        }
-                        var role = result.role;
-                        if (role === "CUS") {
-                            $('input:radio[name="optionsRole"]').filter('[value="CUS"]').attr('checked', true);
-                        } else
-                        if (role === "TSL") {
-                            $('input:radio[name="optionsRole"]').filter('[value="TSL"]').attr('checked', true);
-                        }
-                        var warning = result.warning;
-                        if (warning === true) {
-                            $('input:checkbox[name="checkWarning"]').filter('[value=""]').attr('checked', true);
-                        }
+                        $('#title').attr('placeholder', result.title);
+                        $('#languageFrom').attr('placeholder', result.languageFrom);
+                        $('#languageTo').attr('placeholder', result.languageTo);
+                        $('#areaOfKnowledge').attr('placeholder', result.areaOfKnowledge);
+                        $('#deadline').attr('placeholder', result.deadline);
+                        $('#priceFrom').attr('placeholder', result.priceFrom);
+                        $('#priceTo').attr('placeholder', result.priceTo);
+                        $('#description').attr('placeholder', result.description);
+                        $('#status').attr('placeholder', result.status);
+                        $('#createAt').attr('placeholder', result.createAt);
+                        $('#location').attr('placeholder', result.location);
                     },
                     error: function () {
                         alert("Something wrong")
@@ -246,6 +251,6 @@
             });
         </script>
         <script>
-
+            
         </script>
     </body>

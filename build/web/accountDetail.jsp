@@ -109,27 +109,29 @@
                                         <div class="control-group">
                                             <label class="control-label" for="basicinput">Username</label>
                                             <div class="controls">
-                                                <input type="text" id="basicinput" placeholder="You can't type something here..." class="span8" disabled>
+                                                <input type="text" id="userNameID" class="span8" disabled  >
+                                                <span class="help-inline"></span>
                                             </div>
                                         </div>
                                         <div class="control-group">
                                             <label class="control-label" for="basicinput">FirstName</label>
                                             <div class="controls">
-                                                <input type="text" id="basicinput" placeholder="Type something here..." class="span8">
+                                                <input type="text" id="firstName" class="span8">
                                                 <span class="help-inline"></span>
                                             </div>
+                                            <b id="firstName"></b>
                                         </div>
                                         <div class="control-group">
                                             <label class="control-label" for="basicinput">LastName</label>
                                             <div class="controls">
-                                                <input type="text" id="basicinput" placeholder="Type something here..." class="span8">
+                                                <input type="text" id="lastName" class="span8">
                                                 <span class="help-inline"></span>
                                             </div>
                                         </div>
                                         <div class="control-group">
                                             <label class="control-label" for="basicinput">Email</label>
                                             <div class="controls">
-                                                <input type="text" id="basicinput" placeholder="Type something here..." class="span8">
+                                                <input type="text" id="email" class="span8">
                                                 <span class="help-inline"></span>
                                             </div>
                                         </div>
@@ -137,11 +139,11 @@
                                             <label class="control-label">Gender</label>
                                             <div class="controls">
                                                 <label class="radio inline">
-                                                    <input type="radio" name="optionsGender" id="optionsRadios1" value="male" checked="">
+                                                    <input type="radio" name="optionsGender" value="male" checked=""/>
                                                     male
                                                 </label> 
                                                 <label class="radio inline">
-                                                    <input type="radio" name="optionsGender" id="optionsRadios2" value="female">
+                                                    <input type="radio" name="optionsGender" value="female"/>
                                                     female
                                                 </label>
                                             </div>
@@ -150,15 +152,15 @@
                                             <label class="control-label">Role</label>
                                             <div class="controls">
                                                 <label class="radio inline">
-                                                    <input type="radio" name="optionsRole" id="optionsRadios1" value="AD" checked="">
+                                                    <input type="radio" name="optionsRole" value="AD" checked=""/>
                                                     AD
                                                 </label> 
                                                 <label class="radio inline">
-                                                    <input type="radio" name="optionsRole" id="optionsRadios2" value="CUS">
+                                                    <input type="radio" name="optionsRole" value="CUS"/>
                                                     CUS
                                                 </label> 
                                                 <label class="radio inline">
-                                                    <input type="radio" name="optionsRole" id="optionsRadios3" value="TSL">
+                                                    <input type="radio" name="optionsRole" svalue="TSL"/>
                                                     TSL
                                                 </label>
                                             </div>
@@ -167,7 +169,7 @@
                                             <label class="control-label">WARNING</label>
                                             <div class="controls">
                                                 <label class="checkbox inline">
-                                                    <input type="checkbox" value="">
+                                                    <input type="checkbox" value="" name="checkWarning"/>
                                                     checked
                                                 </label>
                                             </div>
@@ -204,11 +206,10 @@
 
             $(document).ready(function () {
                 $('#UserID').text(localStorage.getItem("USERID"));
-                $('#Test').text(localStorage.getItem("USERNAMEDETAILID"));
-                $('#usernameDetailID').text(localStorage.getItem("USERNAMEDETAILID"));
+                var userNameDetailID = localStorage.getItem("USERNAMEDETAILID");
                 event.preventDefault(); //Table AD
                 $.ajax({
-                    url: "https://translate-app-api.herokuapp.com/account/" + $('#usernameDetailID').text(),
+                    url: "https://translate-app-api.herokuapp.com/account/" + userNameDetailID,
                     type: 'GET',
                     dataType: 'json',
                     contentType: "application/json",
@@ -218,14 +219,33 @@
                         'Authorization': "Bearer " + localStorage.getItem("TOKEN")
                     },
                     success: function (result) {
-                        console.log($('#usernameDetailID').text());
-                        console.log($('#UserID').text());
-                        console.log($('#Test').text());
+                        $('#userNameID').attr('placeholder', result.username);
+                        $('#firstName').attr('value', result.firstName);
+                        $('#lastName').attr('value', result.lastName);
+                        $('#email').attr('value', result.email);
+                        var gender = result.gender;
+                        if (gender === "female") {
+                            $('input:radio[name="optionsGender"]').filter('[value="female"]').attr('checked', true);
+                        }
+                        var role = result.role;
+                        if (role === "CUS") {
+                            $('input:radio[name="optionsRole"]').filter('[value="CUS"]').attr('checked', true);
+                        } else
+                        if (role === "TSL") {
+                            $('input:radio[name="optionsRole"]').filter('[value="TSL"]').attr('checked', true);
+                        }
+                        var warning = result.warning;
+                        if (warning === true) {
+                            $('input:checkbox[name="checkWarning"]').filter('[value=""]').attr('checked', true);
+                        }
                     },
                     error: function () {
                         alert("Something wrong")
                     }
                 });
             });
+        </script>
+        <script>
+
         </script>
     </body>

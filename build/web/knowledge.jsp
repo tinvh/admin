@@ -94,7 +94,7 @@
                         </div>
                         <!--/.sidebar-->
                     </div>
-                    
+
                     <div class="span9">
                         <div class="span9">
                             <a class="btn btn-large btn-danger" href="createKnowledge.jsp">Create new knowledge</a>
@@ -129,26 +129,7 @@
                 });
 
                 $(document).ready(function () {
-                    event.preventDefault(); // get total account
-                    $.ajax({
-                        url: "https://translate-app-api.herokuapp.com/account",
-                        type: 'GET',
-                        dataType: 'json',
-                        contentType: "application/json",
-                        headers: {
-                            'Accept': 'application/json',
-                            'Content-Type': 'application/json',
-                            'Authorization': "Bearer " + localStorage.getItem("TOKEN")
-                        },
-                        success: function (result) {
-                            $('#TotalUser').text(result.length)
-                            $('#UserID').text(localStorage.getItem("USERID"));
-
-                        },
-                        error: function () {
-                            alert("Something wrong")
-                        }
-                    });
+                    $('#UserID').text(localStorage.getItem("USERID"));
                     event.preventDefault();
                     $.ajax({
                         url: "https://translate-app-api.herokuapp.com/knowledge",
@@ -166,13 +147,13 @@
                             var output = "<table><tr><th>ID</th><th>Area of knowledge</th></tr><tbody>";
                             var i = 0;
                             for (i; i < result.length; i++) {
-                                    output +=
-                                            "<tr><td>" +
-                                            result[i].id +
-                                            "</td><td>" +
-                                            result[i].areaOfKnowledge +
-                                            "</td><td>"
-                                
+                                output +=
+                                        "<tr onclick='knowledge_table(this)' id='knowledgeID" + i + "'><td>" +
+                                        result[i].id +
+                                        "</td><td>" +
+                                        result[i].areaOfKnowledge +
+                                        "</td><td>"
+
                             }
                             output += "</tbody></table>";
                             displayResources.html(output);
@@ -183,5 +164,23 @@
                     });
                 });
 
+            </script>
+            <script>
+                function knowledge_table(b) {
+                    var a = "#" + $(b).attr('id').toString();
+                    if (localStorage.getItem("KNOWLEDGEID") === null) {
+                        localStorage.setItem("KNOWLEDGEID", $(a).find("td:eq(0)").text());
+                    } else {
+                        localStorage.removeItem("KNOWLEDGEID");
+                        localStorage.setItem("KNOWLEDGEID", $(a).find("td:eq(0)").text());
+                    }
+                    if (localStorage.getItem("KNOWLEDGENAME") === null) {
+                        localStorage.setItem("KNOWLEDGENAME", $(a).find("td:eq(1)").text());
+                    } else {
+                        localStorage.removeItem("KNOWLEDGENAME");
+                        localStorage.setItem("KNOWLEDGENAME", $(a).find("td:eq(1)").text());
+                    }
+                    window.location.href = '../Web/updateKnowledge.jsp';
+                }
             </script>
     </body>

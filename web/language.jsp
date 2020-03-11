@@ -94,7 +94,7 @@
                         </div>
                         <!--/.sidebar-->
                     </div>
-                    
+
                     <div class="span9">
                         <div class="span9">
                             <a class="btn btn-large btn-danger" href="createLanguage.jsp">Create new Language</a>
@@ -129,26 +129,7 @@
                 });
 
                 $(document).ready(function () {
-                    event.preventDefault(); // get total account
-                    $.ajax({
-                        url: "https://translate-app-api.herokuapp.com/account",
-                        type: 'GET',
-                        dataType: 'json',
-                        contentType: "application/json",
-                        headers: {
-                            'Accept': 'application/json',
-                            'Content-Type': 'application/json',
-                            'Authorization': "Bearer " + localStorage.getItem("TOKEN")
-                        },
-                        success: function (result) {
-                            $('#TotalUser').text(result.length)
-                            $('#UserID').text(localStorage.getItem("USERID"));
-
-                        },
-                        error: function () {
-                            alert("Something wrong")
-                        }
-                    });
+                    $('#UserID').text(localStorage.getItem("USERID"));
                     event.preventDefault();
                     $.ajax({
                         url: "https://translate-app-api.herokuapp.com/languages",
@@ -166,13 +147,13 @@
                             var output = "<table><tr><th>ID</th><th>Language</th></tr><tbody>";
                             var i = 0;
                             for (i; i < result.length; i++) {
-                                    output +=
-                                            "<tr><td>" +
-                                            result[i].id +
-                                            "</td><td>" +
-                                            result[i].language +
-                                            "</td><td>"
-                                
+                                output +=
+                                        "<tr onclick='language_table(this)' id='langueID" + i + "'><td>" +
+                                        result[i].id +
+                                        "</td><td>" +
+                                        result[i].language +
+                                        "</td><td>"
+
                             }
                             output += "</tbody></table>";
                             displayResources.html(output);
@@ -183,5 +164,23 @@
                     });
                 });
 
+            </script>
+            <script>
+                function language_table(b) {
+                    var a = "#" + $(b).attr('id').toString();
+                    if (localStorage.getItem("LANGUAGEID") === null) {
+                        localStorage.setItem("LANGUAGEID", $(a).find("td:eq(0)").text());
+                    } else {
+                        localStorage.removeItem("LANGUAGEID");
+                        localStorage.setItem("LANGUAGEID", $(a).find("td:eq(0)").text());
+                    }
+                    if (localStorage.getItem("LANGUAGENAME") === null) {
+                        localStorage.setItem("LANGUAGENAME", $(a).find("td:eq(1)").text());
+                    } else {
+                        localStorage.removeItem("LANGUAGENAME");
+                        localStorage.setItem("LANGUAGENAME", $(a).find("td:eq(1)").text());
+                    }
+                    window.location.href = '../Web/updateLanguage.jsp';
+                }
             </script>
     </body>

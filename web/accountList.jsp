@@ -183,7 +183,7 @@
                             var tmp = result[i].role;
                             if (tmp === "AD") {
                                 output +=
-                                        "<tr><td onclick='ad_table(this)' id='usernameDetailID_cuoi_"+i+"'>" +
+                                        "<tr onclick='ad_table(this)' id='usernameDetailID_cuoi_"+i+"'><td>" +
                                         result[i].username +
                                         "</td><td>" +
                                         result[i].firstName +
@@ -223,7 +223,7 @@
                             var tmp = result[i].role;
                             if (tmp === "CUS") {
                                 output +=
-                                        "<tr><td onclick='cus_table(this)' id='usernameDetailID_cuoi_"+i+"'>" +
+                                        "<tr onclick='cus_table(this)' id='usernameDetailID_cuoi_"+i+"'><td>" +
                                         result[i].username +
                                         "</td><td>" +
                                         result[i].firstName +
@@ -263,7 +263,7 @@
                             var tmp = result[i].role;
                             if (tmp === "TSL") {
                                 output +=
-                                        "<tr><td onclick='tsl_table(this)' id='usernameDetailID_cuoi_"+i+"'>" +
+                                        "<tr onclick='tsl_table(this)' id='usernameDetailID_cuoi_"+i+"'><td>" +
                                         result[i].username +
                                         "</td><td>" +
                                         result[i].firstName +
@@ -288,14 +288,11 @@
         <script>
             function tsl_table(b) {
                 var a = "#"+$(b).attr('id').toString();
-                    console.log(a);
                     if (localStorage.getItem("USERNAMEDETAILID") === null) {
-                    localStorage.setItem("USERNAMEDETAILID", $(a).text());
-                    console.log("1");
+                    localStorage.setItem("USERNAMEDETAILID", $(a).find("td:eq(0)").text());
                 } else {
                     localStorage.removeItem("USERNAMEDETAILID");
-                    localStorage.setItem("USERNAMEDETAILID", $(a).text());
-                    console.log("2");
+                    localStorage.setItem("USERNAMEDETAILID", $(a).find("td:eq(0)").text());
                 }
                 window.location.href = '../Web/accountDetail.jsp';
                 // alert($('#usernameDetailID').text()); //ch? này nó l?y giá tr? ??u tiên c?a hàng nè a
@@ -303,14 +300,11 @@
             }
             function ad_table(b) {
                 var a = "#"+$(b).attr('id').toString();
-                    console.log(a);
                     if (localStorage.getItem("USERNAMEDETAILID") === null) {
-                    localStorage.setItem("USERNAMEDETAILID", $(a).text());
-                    console.log("1");
+                    localStorage.setItem("USERNAMEDETAILID", $(a).find("td:eq(0)").text());
                 } else {
                     localStorage.removeItem("USERNAMEDETAILID");
-                    localStorage.setItem("USERNAMEDETAILID", $(a).text());
-                    console.log("2");
+                    localStorage.setItem("USERNAMEDETAILID", $(a).find("td:eq(0)").text());
                 }
                 window.location.href = '../Web/accountDetail.jsp';
                 // alert($('#usernameDetailID').text()); //ch? này nó l?y giá tr? ??u tiên c?a hàng nè a
@@ -320,12 +314,10 @@
                 var a = "#"+$(b).attr('id').toString();
                     console.log(a);
                     if (localStorage.getItem("USERNAMEDETAILID") === null) {
-                    localStorage.setItem("USERNAMEDETAILID", $(a).text());
-                    console.log("1");
+                    localStorage.setItem("USERNAMEDETAILID", $(a).find("td:eq(0)").text());
                 } else {
                     localStorage.removeItem("USERNAMEDETAILID");
-                    localStorage.setItem("USERNAMEDETAILID", $(a).text());
-                    console.log("2");
+                    localStorage.setItem("USERNAMEDETAILID", $(a).find("td:eq(0)").text());
                 }
                 window.location.href = '../Web/accountDetail.jsp';
                 // alert($('#usernameDetailID').text()); //ch? này nó l?y giá tr? ??u tiên c?a hàng nè a

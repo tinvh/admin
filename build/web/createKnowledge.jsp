@@ -26,7 +26,7 @@
             <div class="navbar-inner">
                 <div class="container">
                     <a class="btn btn-navbar" data-toggle="collapse" data-target=".navbar-inverse-collapse">
-                        <i class="icon-reorder shaded"></i></a><a class="brand" href="dashBoard.jsp">Edmin </a>
+                        <i class="icon-reorder shaded"></i></a><a class="brand" href="dashBoard.jsp">Admin </a>
                     <div class="nav-collapse collapse navbar-inverse-collapse">
                         <%--
                         <ul class="nav nav-icons">

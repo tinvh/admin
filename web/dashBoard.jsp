@@ -96,7 +96,7 @@
                                 </div>
                             </div>
                             <!--/#btn-controls-->
-
+                            <%--
                             <div class="module">
                                 <div class="module-head">
                                     <h3>
@@ -107,6 +107,7 @@
                                 </div>
                                 <!--/.module-->
                             </div>
+                            --%>
                             <!--/.content-->
                         </div>
                         <!--/.span9-->
@@ -166,43 +167,43 @@
                         alert("Something wrong")
                     }
                 });
-                event.preventDefault(); // get top 5 newest post
-                $.ajax({
-                    url: "https://translate-app-api.herokuapp.com/post",
-                    type: 'GET',
-                    dataType: 'json',
-                    contentType: "application/json",
-                    headers: {
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json',
-                        'Authorization': "Bearer " + localStorage.getItem("TOKEN")
-                    },
-                    success: function (result) {
-                        var displayResources = $("#display-resources");
-                        displayResources.text("Loading...");
-                        var output = "<table><tr><th>Username</th><th>LanguageFrom</th><th>LanguageTo</th><th>Status</th><th>Price</th></tr><tbody>";
-                        var i = 0;
-                        for (i = result.length; i-- > (result.length - 5); ) {
-                            output +=
-                                    "<tr><td>" +
-                                    result[i].username +
-                                    "</td><td>" +
-                                    result[i].languageFrom +
-                                    "</td><td>" +
-                                    result[i].languageTo +
-                                    "</td><td>" +
-                                    result[i].status +
-                                    "</td><td>" +
-                                    result[i].priceFrom + " - " + result[i].priceTo +
-                                    "</td></tr>"
-                        }
-                        output += "</tbody></table>";
-                        displayResources.html(output);
-                    },
-                    error: function () {
-                        alert("Something wrong")
-                    }
-                });
+//                event.preventDefault(); // get top 5 newest post
+//                $.ajax({
+//                    url: "https://translate-app-api.herokuapp.com/post",
+//                    type: 'GET',
+//                    dataType: 'json',
+//                    contentType: "application/json",
+//                    headers: {
+//                        'Accept': 'application/json',
+//                        'Content-Type': 'application/json',
+//                        'Authorization': "Bearer " + localStorage.getItem("TOKEN")
+//                    },
+//                    success: function (result) {
+//                        var displayResources = $("#display-resources");
+//                        displayResources.text("Loading...");
+//                        var output = "<table><tr><th>Username</th><th>LanguageFrom</th><th>LanguageTo</th><th>Status</th><th>Price</th></tr><tbody>";
+//                        var i = 0;
+//                        for (i = result.length; i-- > (result.length - 5); ) {
+//                            output +=
+//                                    "<tr><td>" +
+//                                    result[i].username +
+//                                    "</td><td>" +
+//                                    result[i].languageFrom +
+//                                    "</td><td>" +
+//                                    result[i].languageTo +
+//                                    "</td><td>" +
+//                                    result[i].status +
+//                                    "</td><td>" +
+//                                    result[i].priceFrom + " - " + result[i].priceTo +
+//                                    "</td></tr>"
+//                        }
+//                        output += "</tbody></table>";
+//                        displayResources.html(output);
+//                    },
+//                    error: function () {
+//                        alert("Something wrong")
+//                    }
+//                });
             });
 
 

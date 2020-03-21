@@ -28,19 +28,6 @@
                     <a class="btn btn-navbar" data-toggle="collapse" data-target=".navbar-inverse-collapse">
                         <i class="icon-reorder shaded"></i></a><a class="brand" href="dashBoard.jsp">Admin </a>
                     <div class="nav-collapse collapse navbar-inverse-collapse">
-                        <%--
-                        <ul class="nav nav-icons">
-                            <li class="active"><a href="#"><i class="icon-envelope"></i></a></li>
-                            <li><a href="#"><i class="icon-eye-open"></i></a></li>
-                            <li><a href="#"><i class="icon-bar-chart"></i></a></li>
-                        </ul>
-                        <form class="navbar-search pull-left input-append" action="#">
-                            <input type="text" class="span3">
-                            <button class="btn" type="button">
-                                <i class="icon-search"></i>
-                            </button>
-                        </form>
-                        --%>
                         <ul class="nav pull-right">
 
                             <li class="nav-user"><a href="#"><b id="UserID"></b>
@@ -81,7 +68,6 @@
 
                     <div class="span9">
                         <div class="span9">
-                            <a class="btn btn-large btn-danger" href="createKnowledge.jsp">Create new knowledge</a>
                             <div class="content">
                                 <div class="module">
                                     <div class="module-head">
@@ -116,7 +102,7 @@
                     $('#UserID').text(localStorage.getItem("USERID"));
                     event.preventDefault();
                     $.ajax({
-                        url: "https://translate-app-api.herokuapp.com/knowledge",
+                        url: "https://translate-app-api.herokuapp.com/rate",
                         type: 'GET',
                         dataType: 'json',
                         contentType: "application/json",
@@ -128,14 +114,18 @@
                         success: function (result) {
                             var displayResources = $("#table-knowledge");
                             displayResources.text("Loading...");
-                            var output = "<table><tr><th>ID</th><th>Area of knowledge</th></tr><tbody>";
+                            var output = "<table><tr><th>ID</th><th>Cus.</th><th>Tsl.</th><th>Total Point</th></tr><tbody>";
                             var i = 0;
-                            for (i; i < result.length; i++) {
+                            for (i = result.length; i-- > 0; ) {
                                 output +=
-                                        "<tr onclick='knowledge_table(this)' id='knowledgeID" + i + "'><td>" +
+                                        "<tr onclick='rate_table(this)' id='rateID" + i + "'><td>" +
                                         result[i].id +
                                         "</td><td>" +
-                                        result[i].areaOfKnowledge +
+                                        result[i].customer +
+                                        "</td><td>" +
+                                        result[i].translator +
+                                        "</td><td>" +
+                                        result[i].total +
                                         "</td><td>"
 
                             }
@@ -150,21 +140,21 @@
 
             </script>
             <script>
-                function knowledge_table(b) {
+                function rate_table(b) {
                     var a = "#" + $(b).attr('id').toString();
-                    if (localStorage.getItem("KNOWLEDGEID") === null) {
-                        localStorage.setItem("KNOWLEDGEID", $(a).find("td:eq(0)").text());
+                    if (localStorage.getItem("RATEID") === null) {
+                        localStorage.setItem("RATEID", $(a).find("td:eq(0)").text());
                     } else {
-                        localStorage.removeItem("KNOWLEDGEID");
-                        localStorage.setItem("KNOWLEDGEID", $(a).find("td:eq(0)").text());
+                        localStorage.removeItem("RATEID");
+                        localStorage.setItem("RATEID", $(a).find("td:eq(0)").text());
                     }
-                    if (localStorage.getItem("KNOWLEDGENAME") === null) {
-                        localStorage.setItem("KNOWLEDGENAME", $(a).find("td:eq(1)").text());
+                    if (localStorage.getItem("RATEID") === null) {
+                        localStorage.setItem("RATEID", $(a).find("td:eq(0)").text());
                     } else {
-                        localStorage.removeItem("KNOWLEDGENAME");
-                        localStorage.setItem("KNOWLEDGENAME", $(a).find("td:eq(1)").text());
+                        localStorage.removeItem("RATEID");
+                        localStorage.setItem("RATEID", $(a).find("td:eq(0)").text());
                     }
-                    window.location.href = '../Web/updateKnowledge.jsp';
+                    window.location.href = '../Web/rateDetail.jsp';
                 }
             </script>
     </body>

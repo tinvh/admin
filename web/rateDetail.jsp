@@ -28,19 +28,6 @@
                     <a class="btn btn-navbar" data-toggle="collapse" data-target=".navbar-inverse-collapse">
                         <i class="icon-reorder shaded"></i></a><a class="brand" href="dashBoard.jsp">Admin </a>
                     <div class="nav-collapse collapse navbar-inverse-collapse">
-                        <%--
-                        <ul class="nav nav-icons">
-                            <li class="active"><a href="#"><i class="icon-envelope"></i></a></li>
-                            <li><a href="#"><i class="icon-eye-open"></i></a></li>
-                            <li><a href="#"><i class="icon-bar-chart"></i></a></li>
-                        </ul>
-                        <form class="navbar-search pull-left input-append" action="#">
-                            <input type="text" class="span3">
-                            <button class="btn" type="button">
-                                <i class="icon-search"></i>
-                            </button>
-                        </form>
-                        --%>
                         <ul class="nav pull-right">
 
                             <li class="nav-user"><a href="#"><b id="UserID"></b>
@@ -83,7 +70,7 @@
 
                             <div class="module">
                                 <div class="module-head">
-                                    <h3>Post Detail</h3>
+                                    <h3>Rate Detail</h3>
                                 </div>
                                 <div class="module-body">
 
@@ -91,30 +78,37 @@
 
                                     <form class="form-horizontal row-fluid">
                                         <div class="control-group">
-                                            <label class="control-label" for="basicinput">Username</label>
+                                            <label class="control-label" for="basicinput">Customer</label>
                                             <div class="controls">
-                                                <input type="text" id="userNameID" class="span8" disabled  >
+                                                <input type="text" id="customer" class="span8" disabled  >
                                                 <span class="help-inline"></span>
                                             </div>
                                         </div>
                                         <div class="control-group">
-                                            <label class="control-label" for="basicinput">Title</label>
+                                            <label class="control-label" for="basicinput">Translator</label>
                                             <div class="controls">
-                                                <input type="text" id="title" class="span8" disabled  >
+                                                <input type="text" id="translator" class="span8" disabled  >
                                                 <span class="help-inline"></span>
                                             </div>
                                         </div>
                                         <div class="control-group">
-                                            <label class="control-label" for="basicinput">Language From</label>
+                                            <label class="control-label" for="basicinput">Comment</label>
                                             <div class="controls">
-                                                <input type="text" id="languageFrom" class="span8" disabled  >
+                                                <input type="text" id="comment" class="span8" disabled  >
                                                 <span class="help-inline"></span>
                                             </div>
                                         </div>
                                         <div class="control-group">
-                                            <label class="control-label" for="basicinput">Language To</label>
+                                            <label class="control-label" for="basicinput">On time</label>
                                             <div class="controls">
-                                                <input type="text" id="languageTo" class="span8" disabled  >
+                                                <input type="text" id="ontime" class="span8" disabled  >
+                                                <span class="help-inline"></span>
+                                            </div>
+                                        </div>
+                                        <div class="control-group">
+                                            <label class="control-label" for="basicinput">Language</label>
+                                            <div class="controls">
+                                                <input type="text" id="language" class="span8" disabled  >
                                                 <span class="help-inline"></span>
                                             </div>
                                         </div>
@@ -126,52 +120,22 @@
                                             </div>
                                         </div>
                                         <div class="control-group">
-                                            <label class="control-label" for="basicinput">Dead Line</label>
+                                            <label class="control-label" for="basicinput">Experience</label>
                                             <div class="controls">
-                                                <input type="text" id="deadline" class="span8" disabled  >
+                                                <input type="text" id="experience" class="span8" disabled  >
                                                 <span class="help-inline"></span>
                                             </div>
                                         </div>
                                         <div class="control-group">
-                                            <label class="control-label" for="basicinput">Price From</label>
+                                            <label class="control-label" for="basicinput">Total point</label>
                                             <div class="controls">
-                                                <input type="text" id="priceFrom" class="span8" disabled  >
+                                                <input type="text" id="total" class="span8" disabled  >
                                                 <span class="help-inline"></span>
                                             </div>
                                         </div>
                                         <div class="control-group">
-                                            <label class="control-label" for="basicinput">Price Tom</label>
                                             <div class="controls">
-                                                <input type="text" id="priceTo" class="span8" disabled  >
-                                                <span class="help-inline"></span>
-                                            </div>
-                                        </div>
-                                        <div class="control-group">
-                                            <label class="control-label" for="basicinput">Description</label>
-                                            <div class="controls">
-                                                <input type="text" id="description" class="span8" disabled  >
-                                                <span class="help-inline"></span>
-                                            </div>
-                                        </div>
-                                        <div class="control-group">
-                                            <label class="control-label" for="basicinput">Status</label>
-                                            <div class="controls">
-                                                <input type="text" id="status" class="span8" disabled  >
-                                                <span class="help-inline"></span>
-                                            </div>
-                                        </div>
-                                        <div class="control-group">
-                                            <label class="control-label" for="basicinput">Create At</label>
-                                            <div class="controls">
-                                                <input type="text" id="createAt" class="span8" disabled  >
-                                                <span class="help-inline"></span>
-                                            </div>
-                                        </div>
-                                        <div class="control-group">
-                                            <label class="control-label" for="basicinput">Location</label>
-                                            <div class="controls">
-                                                <input type="text" id="location" class="span8" disabled  >
-                                                <span class="help-inline"></span>
+                                                <a class="btn btn-large btn-danger" onclick="Delete()">Delete this rate</a>
                                             </div>
                                         </div>
                                     </form>
@@ -201,10 +165,10 @@
 
             $(document).ready(function () {
                 $('#UserID').text(localStorage.getItem("USERID"));
-                var postDetailID = localStorage.getItem("POSTDETAILID");
+                var rateID = localStorage.getItem("RATEID");
                 event.preventDefault(); //Table AD
                 $.ajax({
-                    url: "https://translate-app-api.herokuapp.com/post/id/" + postDetailID,
+                    url: "https://translate-app-api.herokuapp.com/rate/" + rateID,
                     type: 'GET',
                     dataType: 'json',
                     contentType: "application/json",
@@ -214,19 +178,14 @@
                         'Authorization': "Bearer " + localStorage.getItem("TOKEN")
                     },
                     success: function (result) {
-//                        $('#userNameID').text = result.username;
-                        $('#userNameID').attr('placeholder', result.username);
-                        $('#title').attr('placeholder', result.title);
-                        $('#languageFrom').attr('placeholder', result.languageFrom);
-                        $('#languageTo').attr('placeholder', result.languageTo);
+                        $('#customer').attr('placeholder', result.customer);
+                        $('#translator').attr('placeholder', result.translator);
+                        $('#comment').attr('placeholder', result.comment);
+                        $('#ontime').attr('placeholder', result.ontime);
+                        $('#language').attr('placeholder', result.language);
                         $('#areaOfKnowledge').attr('placeholder', result.areaOfKnowledge);
-                        $('#deadline').attr('placeholder', result.deadline);
-                        $('#priceFrom').attr('placeholder', result.priceFrom);
-                        $('#priceTo').attr('placeholder', result.priceTo);
-                        $('#description').attr('placeholder', result.description);
-                        $('#status').attr('placeholder', result.status);
-                        $('#createAt').attr('placeholder', result.createAt);
-                        $('#location').attr('placeholder', result.location);
+                        $('#experience').attr('placeholder', result.experience);
+                        $('#total').attr('placeholder', result.total);
                     },
                     error: function () {
                         alert("Something wrong")
@@ -235,6 +194,33 @@
             });
         </script>
         <script>
-            
+            function Delete() {
+                if (confirm('Delete this rate?')) {
+                    event.preventDefault();
+                    var rateID = localStorage.getItem("RATEID");
+                    $.ajax({
+                        url: "https://translate-app-api.herokuapp.com/rate/" + rateID,
+                        type: 'DELETE',
+                        dataType: 'json',
+                        contentType: "application/json",
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json',
+                            'Authorization': "Bearer " + localStorage.getItem("TOKEN")
+                        },
+                        data: JSON.stringify({
+                            id: $('#id').val()
+                        }),
+                        success: function () {
+                            window.location.href = '../Web/rate.jsp';
+                        },
+                        error: function () {
+                            alert("Something wrong")
+                        }
+                    });
+                } else {
+                    // Do nothing!
+                }
+            }
         </script>
     </body>

@@ -28,19 +28,6 @@
                     <a class="btn btn-navbar" data-toggle="collapse" data-target=".navbar-inverse-collapse">
                         <i class="icon-reorder shaded"></i></a><a class="brand" href="dashBoard.jsp">Admin </a>
                     <div class="nav-collapse collapse navbar-inverse-collapse">
-                        <%--
-                        <ul class="nav nav-icons">
-                            <li class="active"><a href="#"><i class="icon-envelope"></i></a></li>
-                            <li><a href="#"><i class="icon-eye-open"></i></a></li>
-                            <li><a href="#"><i class="icon-bar-chart"></i></a></li>
-                        </ul>
-                        <form class="navbar-search pull-left input-append" action="#">
-                            <input type="text" class="span3">
-                            <button class="btn" type="button">
-                                <i class="icon-search"></i>
-                            </button>
-                        </form>
-                        --%>
                         <ul class="nav pull-right">
 
                             <li class="nav-user"><a href="#"><b id="UserID"></b>
@@ -68,6 +55,7 @@
                                 <li><a href="knowledge.jsp"><i class="menu-icon icon-book"></i>AreaOfKnowledge </a></li>
                                 <li><a href="language.jsp"><i class="menu-icon icon-suitcase"></i>Language </a></li>
                                 <li><a href="post.jsp"><i class="menu-icon icon-upload-alt"></i>Post </a></li>
+                                <li><a href="rate.jsp"><i class="icon-group" style="margin-right: 10px"></i>Rate </a></li>
                             </ul>
                             <!--/.widget-nav-->
                                 <ul class="widget widget-menu unstyled">

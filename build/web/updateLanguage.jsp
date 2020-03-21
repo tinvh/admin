@@ -68,10 +68,11 @@
                                 <li><a href="knowledge.jsp"><i class="menu-icon icon-book"></i>AreaOfKnowledge </a></li>
                                 <li><a href="language.jsp"><i class="menu-icon icon-suitcase"></i>Language </a></li>
                                 <li><a href="post.jsp"><i class="menu-icon icon-upload-alt"></i>Post </a></li>
+                                <li><a href="rate.jsp"><i class="icon-group" style="margin-right: 10px"></i>Rate </a></li>
                             </ul>
                             <!--/.widget-nav-->
-                                <ul class="widget widget-menu unstyled">
-                                    
+                            <ul class="widget widget-menu unstyled">
+
                                 <li><a href="#"><i class="menu-icon icon-signout"></i>Logout </a></li>
                             </ul>
                         </div>
@@ -178,33 +179,33 @@
                                                             // Do nothing!
                                                         }
                                                     }
-                                                                function Delete() {
-                if (confirm('Delete this language?')) {
-                    event.preventDefault();
-                    var knowledgeID = localStorage.getItem("LANGUAGEID");
-                    $.ajax({
-                        url: "https://translate-app-api.herokuapp.com/languages/" + knowledgeID,
-                        type: 'DELETE',
-                        dataType: 'json',
-                        contentType: "application/json",
-                        headers: {
-                            'Accept': 'application/json',
-                            'Content-Type': 'application/json',
-                            'Authorization': "Bearer " + localStorage.getItem("TOKEN")
-                        },
-                        data: JSON.stringify({
-                            id: $('#id').val()
-                        }),
-                        success: function () {
-                            window.location.href = '../Web/language.jsp';
-                        },
-                        error: function () {
-                            alert("Something wrong")
-                        }
-                    });
-                } else {
-                    // Do nothing!
-                }
-            }
+                                                    function Delete() {
+                                                        if (confirm('Delete this language?')) {
+                                                            event.preventDefault();
+                                                            var knowledgeID = localStorage.getItem("LANGUAGEID");
+                                                            $.ajax({
+                                                                url: "https://translate-app-api.herokuapp.com/languages/" + knowledgeID,
+                                                                type: 'DELETE',
+                                                                dataType: 'json',
+                                                                contentType: "application/json",
+                                                                headers: {
+                                                                    'Accept': 'application/json',
+                                                                    'Content-Type': 'application/json',
+                                                                    'Authorization': "Bearer " + localStorage.getItem("TOKEN")
+                                                                },
+                                                                data: JSON.stringify({
+                                                                    id: $('#id').val()
+                                                                }),
+                                                                success: function () {
+                                                                    window.location.href = '../Web/language.jsp';
+                                                                },
+                                                                error: function () {
+                                                                    alert("Something wrong")
+                                                                }
+                                                            });
+                                                        } else {
+                                                            // Do nothing!
+                                                        }
+                                                    }
         </script>
     </body>

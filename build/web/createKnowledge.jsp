@@ -68,10 +68,11 @@
                                 <li><a href="knowledge.jsp"><i class="menu-icon icon-book"></i>AreaOfKnowledge </a></li>
                                 <li><a href="language.jsp"><i class="menu-icon icon-suitcase"></i>Language </a></li>
                                 <li><a href="post.jsp"><i class="menu-icon icon-upload-alt"></i>Post </a></li>
+                                <li><a href="rate.jsp"><i class="icon-group" style="margin-right: 10px"></i>Rate </a></li>
                             </ul>
                             <!--/.widget-nav-->
-                                <ul class="widget widget-menu unstyled">
-                                    
+                            <ul class="widget widget-menu unstyled">
+
                                 <li><a href="#"><i class="menu-icon icon-signout"></i>Logout </a></li>
                             </ul>
                         </div>
@@ -143,7 +144,7 @@
                             'Authorization': "Bearer " + localStorage.getItem("TOKEN")
                         },
                         data: JSON.stringify({
-                            areaOfKnowledge:  $('#inputKnowledgeName').val()
+                            areaOfKnowledge: $('#inputKnowledgeName').val()
                         }),
                         success: function () {
                             window.location.href = '../Web/knowledge.jsp';

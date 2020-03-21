@@ -68,10 +68,11 @@
                                 <li><a href="knowledge.jsp"><i class="menu-icon icon-book"></i>AreaOfKnowledge </a></li>
                                 <li><a href="language.jsp"><i class="menu-icon icon-suitcase"></i>Language </a></li>
                                 <li><a href="post.jsp"><i class="menu-icon icon-upload-alt"></i>Post </a></li>
+                                <li><a href="rate.jsp"><i class="icon-group" style="margin-right: 10px"></i>Rate </a></li>
                             </ul>
                             <!--/.widget-nav-->
-                                <ul class="widget widget-menu unstyled">
-                                    
+                            <ul class="widget widget-menu unstyled">
+
                                 <li><a href="#"><i class="menu-icon icon-signout"></i>Logout </a></li>
                             </ul>
                         </div>
@@ -124,71 +125,71 @@
         </div>
         <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
         <script>
-            $(window).on("load", function () {
-                console.log("window loaded");
-            });
+                                                    $(window).on("load", function () {
+                                                        console.log("window loaded");
+                                                    });
 
-            $(document).ready(function () {
-                $('#UserID').text(localStorage.getItem("USERID"));
-                $('#id').attr('value', localStorage.getItem("KNOWLEDGEID"))
-                $('#areaOfKnowledge').attr('value', localStorage.getItem("KNOWLEDGENAME"))
-            });
+                                                    $(document).ready(function () {
+                                                        $('#UserID').text(localStorage.getItem("USERID"));
+                                                        $('#id').attr('value', localStorage.getItem("KNOWLEDGEID"))
+                                                        $('#areaOfKnowledge').attr('value', localStorage.getItem("KNOWLEDGENAME"))
+                                                    });
 
-            function Delete() {
-                if (confirm('Delete this knowledge?')) {
-                    event.preventDefault();
-                    var knowledgeID = localStorage.getItem("KNOWLEDGEID");
-                    $.ajax({
-                        url: "https://translate-app-api.herokuapp.com/knowledge/" + knowledgeID,
-                        type: 'DELETE',
-                        dataType: 'json',
-                        contentType: "application/json",
-                        headers: {
-                            'Accept': 'application/json',
-                            'Content-Type': 'application/json',
-                            'Authorization': "Bearer " + localStorage.getItem("TOKEN")
-                        },
-                        data: JSON.stringify({
-                            id: $('#id').val()
-                        }),
-                        success: function () {
-                            window.location.href = '../Web/knowledge.jsp';
-                        },
-                        error: function () {
-                            alert("Something wrong")
-                        }
-                    });
-                } else {
-                    // Do nothing!
-                }
-            }
-            function Update() {
-                if (confirm('Update this knowledge?')) {
-                    event.preventDefault();
-                    var knowledgeID = localStorage.getItem("KNOWLEDGEID");
-                    $.ajax({
-                        url: "https://translate-app-api.herokuapp.com/knowledge/" + knowledgeID,
-                        type: 'PUT',
-                        dataType: 'json',
-                        contentType: "application/json",
-                        headers: {
-                            'Accept': 'application/json',
-                            'Content-Type': 'application/json',
-                            'Authorization': "Bearer " + localStorage.getItem("TOKEN")
-                        },
-                        data: JSON.stringify({
-                            id: $('#id').val(), areaOfKnowledge: $('#areaOfKnowledge').val()
-                        }),
-                        success: function () {
-                            window.location.href = '../Web/knowledge.jsp';
-                        },
-                        error: function () {
-                            alert("Something wrong")
-                        }
-                    });
-                } else {
-                    // Do nothing!
-                }
-            }
+                                                    function Delete() {
+                                                        if (confirm('Delete this knowledge?')) {
+                                                            event.preventDefault();
+                                                            var knowledgeID = localStorage.getItem("KNOWLEDGEID");
+                                                            $.ajax({
+                                                                url: "https://translate-app-api.herokuapp.com/knowledge/" + knowledgeID,
+                                                                type: 'DELETE',
+                                                                dataType: 'json',
+                                                                contentType: "application/json",
+                                                                headers: {
+                                                                    'Accept': 'application/json',
+                                                                    'Content-Type': 'application/json',
+                                                                    'Authorization': "Bearer " + localStorage.getItem("TOKEN")
+                                                                },
+                                                                data: JSON.stringify({
+                                                                    id: $('#id').val()
+                                                                }),
+                                                                success: function () {
+                                                                    window.location.href = '../Web/knowledge.jsp';
+                                                                },
+                                                                error: function () {
+                                                                    alert("Something wrong")
+                                                                }
+                                                            });
+                                                        } else {
+                                                            // Do nothing!
+                                                        }
+                                                    }
+                                                    function Update() {
+                                                        if (confirm('Update this knowledge?')) {
+                                                            event.preventDefault();
+                                                            var knowledgeID = localStorage.getItem("KNOWLEDGEID");
+                                                            $.ajax({
+                                                                url: "https://translate-app-api.herokuapp.com/knowledge/" + knowledgeID,
+                                                                type: 'PUT',
+                                                                dataType: 'json',
+                                                                contentType: "application/json",
+                                                                headers: {
+                                                                    'Accept': 'application/json',
+                                                                    'Content-Type': 'application/json',
+                                                                    'Authorization': "Bearer " + localStorage.getItem("TOKEN")
+                                                                },
+                                                                data: JSON.stringify({
+                                                                    id: $('#id').val(), areaOfKnowledge: $('#areaOfKnowledge').val()
+                                                                }),
+                                                                success: function () {
+                                                                    window.location.href = '../Web/knowledge.jsp';
+                                                                },
+                                                                error: function () {
+                                                                    alert("Something wrong")
+                                                                }
+                                                            });
+                                                        } else {
+                                                            // Do nothing!
+                                                        }
+                                                    }
         </script>
     </body>

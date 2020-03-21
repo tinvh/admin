@@ -102,191 +102,192 @@
                                     <li><a href="knowledge.jsp"><i class="menu-icon icon-book"></i>AreaOfKnowledge </a></li>
                                     <li><a href="language.jsp"><i class="menu-icon icon-suitcase"></i>Language </a></li>
                                     <li><a href="post.jsp"><i class="menu-icon icon-upload-alt"></i>Post </a></li>
-                                </ul>
-                                <!--/.widget-nav-->
-                                <ul class="widget widget-menu unstyled">
+                                    <li><a href="rate.jsp"><i class="icon-group" style="margin-right: 10px"></i>Rate </a></li>
+                                    </ul>
+                                    <!--/.widget-nav-->
+                                    <ul class="widget widget-menu unstyled">
 
-                                    <li><a href="#"><i class="menu-icon icon-signout"></i>Logout </a></li>
-                                </ul>
-                            </div>
-                            <!--/.sidebar-->
-                        </div>
-                        <!--/.span3-->
-                        <div class="span9">
-                            <div class="span9">
-                                <div class="content">
-                                    <div class="module">
-                                        <div class="module-head">
-                                            <div class="tab">
-                                                <button class="tablinks" onclick="postList(event, 'Request')">Request</button>
-                                                <button class="tablinks" onclick="postList(event, 'Inprocess')">In process</button>
-                                                <button class="tablinks" onclick="postList(event, 'Done')">Done</button>
-                                            </div>
-
-                                            <div id="Request" class="tabcontent">
-                                                <div class="module-body table">
-                                                    <div id="table-rq"></div> <!--/.Display table-->
-                                                </div>
-                                            </div>
-
-                                            <div id="Inprocess" class="tabcontent">
-                                                <div class="module-body table">
-                                                    <div id="table-ip"></div> <!--/.Display table-->
-                                                </div>
-                                            </div>
-
-                                            <div id="Done" class="tabcontent">
-                                                <div class="module-body table">
-                                                    <div id="table-d"></div> <!--/.Display table-->
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!--/.module-->
-                                    </div>
-                                    <!--/.content-->
+                                        <li><a href="#"><i class="menu-icon icon-signout"></i>Logout </a></li>
+                                    </ul>
                                 </div>
-                                <!--/.span9-->
+                                <!--/.sidebar-->
+                            </div>
+                            <!--/.span3-->
+                            <div class="span9">
+                                <div class="span9">
+                                    <div class="content">
+                                        <div class="module">
+                                            <div class="module-head">
+                                                <div class="tab">
+                                                    <button class="tablinks" onclick="postList(event, 'Request')">Request</button>
+                                                    <button class="tablinks" onclick="postList(event, 'Inprocess')">In process</button>
+                                                    <button class="tablinks" onclick="postList(event, 'Done')">Done</button>
+                                                </div>
+
+                                                <div id="Request" class="tabcontent">
+                                                    <div class="module-body table">
+                                                        <div id="table-rq"></div> <!--/.Display table-->
+                                                    </div>
+                                                </div>
+
+                                                <div id="Inprocess" class="tabcontent">
+                                                    <div class="module-body table">
+                                                        <div id="table-ip"></div> <!--/.Display table-->
+                                                    </div>
+                                                </div>
+
+                                                <div id="Done" class="tabcontent">
+                                                    <div class="module-body table">
+                                                        <div id="table-d"></div> <!--/.Display table-->
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!--/.module-->
+                                        </div>
+                                        <!--/.content-->
+                                    </div>
+                                    <!--/.span9-->
+                                </div>
                             </div>
                         </div>
                     </div>
+                    <!--/.container-->
                 </div>
-                <!--/.container-->
-            </div>
-            <!--/.wrapper-->
-            <div class="footer">
-                <div class="container">
-                    <b class="copyright">&copy; 2014 Edmin - EGrappler.com </b>All rights reserved.
+                <!--/.wrapper-->
+                <div class="footer">
+                    <div class="container">
+                        <b class="copyright">&copy; 2014 Edmin - EGrappler.com </b>All rights reserved.
+                    </div>
                 </div>
-            </div>
 
-            <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
-            <script>
-                                                    $(window).on("load", function () {
-                                                        console.log("window loaded");
-                                                    });
-
-                                                    $(document).ready(function () {
-                                                        event.preventDefault();
-                                                        $('#UserID').text(localStorage.getItem("USERID"));
-                                                        $.ajax({
-                                                            url: "https://translate-app-api.herokuapp.com/post",
-                                                            type: 'GET',
-                                                            dataType: 'json',
-                                                            contentType: "application/json",
-                                                            headers: {
-                                                                'Accept': 'application/json',
-                                                                'Content-Type': 'application/json',
-                                                                'Authorization': "Bearer " + localStorage.getItem("TOKEN")
-                                                            },
-                                                            success: function (result) {
-                                                                var displayResourcesRQ = $("#table-rq");
-                                                                var displayResourcesIP = $("#table-ip");
-                                                                var displayResourcesD = $("#table-d");
-                                                                displayResourcesRQ.text("Loading...");
-                                                                displayResourcesIP.text("Loading...");
-                                                                displayResourcesD.text("Loading...");
-                                                                var output = "<table><tr><th>ID.</th><th>Username</th><th>LanguageFrom</th><th>LanguageTo</th><th>Status</th><th>Price</th></tr><tbody>";
-                                                                var i = 0;
-                                                                for (i = result.length; i-- > 0; ) {
-                                                                    var tmp = result[i].status;
-                                                                    if (tmp === "Request") {
-                                                                        output +=
-                                                                                "<tr onclick='post_table(this)' id='postID_" + i + "'><td>" +
-                                                                                result[i].postId +
-                                                                                "</td><td>" +
-                                                                                result[i].username +
-                                                                                "</td><td>" +
-                                                                                result[i].languageFrom +
-                                                                                "</td><td>" +
-                                                                                result[i].languageTo +
-                                                                                "</td><td>" +
-                                                                                result[i].status +
-                                                                                "</td><td>" +
-                                                                                result[i].priceFrom + " - " + result[i].priceTo +
-                                                                                "</td></tr>"
-                                                                    }
-                                                                }
-                                                                output += "</tbody></table>";
-                                                                displayResourcesRQ.html(output);
-                                                                var output = "<table><tr><th>ID.</th><th>Username</th><th>LanguageFrom</th><th>LanguageTo</th><th>Status</th><th>Price</th></tr><tbody>";
-                                                                var i = 0;
-                                                                for (i = result.length; i-- > 0; ) {
-                                                                    var tmp = result[i].status;
-                                                                    if (tmp === "In process") {
-                                                                        output +=
-                                                                                "<tr onclick='post_table(this)' id='postID_" + i + "'><td>" +
-                                                                                result[i].postId +
-                                                                                "</td><td>" +
-                                                                                result[i].username +
-                                                                                "</td><td>" +
-                                                                                result[i].languageFrom +
-                                                                                "</td><td>" +
-                                                                                result[i].languageTo +
-                                                                                "</td><td>" +
-                                                                                result[i].status +
-                                                                                "</td><td>" +
-                                                                                result[i].priceFrom + " - " + result[i].priceTo +
-                                                                                "</td></tr>"
-                                                                    }
-                                                                }
-                                                                output += "</tbody></table>";
-                                                                displayResourcesIP.html(output);
-                                                                var output = "<table><tr><th>ID.</th><th>Username</th><th>LanguageFrom</th><th>LanguageTo</th><th>Status</th><th>Price</th></tr><tbody>";
-                                                                var i = 0;
-                                                                for (i = result.length; i-- > 0; ) {
-                                                                    var tmp = result[i].status;
-                                                                    if (tmp === "Done") {
-                                                                        output +=
-                                                                                "<tr onclick='post_table(this)' id='postID_" + i + "'><td>" +
-                                                                                result[i].postId +
-                                                                                "</td><td>" +
-                                                                                result[i].username +
-                                                                                "</td><td>" +
-                                                                                result[i].languageFrom +
-                                                                                "</td><td>" +
-                                                                                result[i].languageTo +
-                                                                                "</td><td>" +
-                                                                                result[i].status +
-                                                                                "</td><td>" +
-                                                                                result[i].priceFrom + " - " + result[i].priceTo +
-                                                                                "</td></tr>"
-                                                                    }
-                                                                }
-                                                                output += "</tbody></table>";
-                                                                displayResourcesD.html(output);
-                                                            },
-                                                            error: function () {
-                                                                alert("Something wrong")
-                                                            }
+                <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
+                <script>
+                                                        $(window).on("load", function () {
+                                                            console.log("window loaded");
                                                         });
-                                                    });
-            </script>
-            <script>
-                function post_table(b) {
-                    var a = "#" + $(b).attr('id').toString();
-                    //                  var a = $(b.target).closest('tr').find(".id").html()
-                    // console.log($(a).closest('rd'));
-                    //                    console.log($(a).find("td:eq(0)").text());
-                    if (localStorage.getItem("POSTDETAILID") === null) {
-                        localStorage.setItem("POSTDETAILID", $(a).find("td:eq(0)").text());
-                    } else {
-                        localStorage.removeItem("POSTDETAILID");
-                        localStorage.setItem("POSTDETAILID", $(a).find("td:eq(0)").text());
+
+                                                        $(document).ready(function () {
+                                                            event.preventDefault();
+                                                            $('#UserID').text(localStorage.getItem("USERID"));
+                                                            $.ajax({
+                                                                url: "https://translate-app-api.herokuapp.com/post",
+                                                                type: 'GET',
+                                                                dataType: 'json',
+                                                                contentType: "application/json",
+                                                                headers: {
+                                                                    'Accept': 'application/json',
+                                                                    'Content-Type': 'application/json',
+                                                                    'Authorization': "Bearer " + localStorage.getItem("TOKEN")
+                                                                },
+                                                                success: function (result) {
+                                                                    var displayResourcesRQ = $("#table-rq");
+                                                                    var displayResourcesIP = $("#table-ip");
+                                                                    var displayResourcesD = $("#table-d");
+                                                                    displayResourcesRQ.text("Loading...");
+                                                                    displayResourcesIP.text("Loading...");
+                                                                    displayResourcesD.text("Loading...");
+                                                                    var output = "<table><tr><th>ID.</th><th>Username</th><th>LanguageFrom</th><th>LanguageTo</th><th>Status</th><th>Price</th></tr><tbody>";
+                                                                    var i = 0;
+                                                                    for (i = result.length; i-- > 0; ) {
+                                                                        var tmp = result[i].status;
+                                                                        if (tmp === "Request") {
+                                                                            output +=
+                                                                                    "<tr onclick='post_table(this)' id='postID_" + i + "'><td>" +
+                                                                                    result[i].postId +
+                                                                                    "</td><td>" +
+                                                                                    result[i].username +
+                                                                                    "</td><td>" +
+                                                                                    result[i].languageFrom +
+                                                                                    "</td><td>" +
+                                                                                    result[i].languageTo +
+                                                                                    "</td><td>" +
+                                                                                    result[i].status +
+                                                                                    "</td><td>" +
+                                                                                    result[i].priceFrom + " - " + result[i].priceTo +
+                                                                                    "</td></tr>"
+                                                                        }
+                                                                    }
+                                                                    output += "</tbody></table>";
+                                                                    displayResourcesRQ.html(output);
+                                                                    var output = "<table><tr><th>ID.</th><th>Username</th><th>LanguageFrom</th><th>LanguageTo</th><th>Status</th><th>Price</th></tr><tbody>";
+                                                                    var i = 0;
+                                                                    for (i = result.length; i-- > 0; ) {
+                                                                        var tmp = result[i].status;
+                                                                        if (tmp === "In process") {
+                                                                            output +=
+                                                                                    "<tr onclick='post_table(this)' id='postID_" + i + "'><td>" +
+                                                                                    result[i].postId +
+                                                                                    "</td><td>" +
+                                                                                    result[i].username +
+                                                                                    "</td><td>" +
+                                                                                    result[i].languageFrom +
+                                                                                    "</td><td>" +
+                                                                                    result[i].languageTo +
+                                                                                    "</td><td>" +
+                                                                                    result[i].status +
+                                                                                    "</td><td>" +
+                                                                                    result[i].priceFrom + " - " + result[i].priceTo +
+                                                                                    "</td></tr>"
+                                                                        }
+                                                                    }
+                                                                    output += "</tbody></table>";
+                                                                    displayResourcesIP.html(output);
+                                                                    var output = "<table><tr><th>ID.</th><th>Username</th><th>LanguageFrom</th><th>LanguageTo</th><th>Status</th><th>Price</th></tr><tbody>";
+                                                                    var i = 0;
+                                                                    for (i = result.length; i-- > 0; ) {
+                                                                        var tmp = result[i].status;
+                                                                        if (tmp === "Done") {
+                                                                            output +=
+                                                                                    "<tr onclick='post_table(this)' id='postID_" + i + "'><td>" +
+                                                                                    result[i].postId +
+                                                                                    "</td><td>" +
+                                                                                    result[i].username +
+                                                                                    "</td><td>" +
+                                                                                    result[i].languageFrom +
+                                                                                    "</td><td>" +
+                                                                                    result[i].languageTo +
+                                                                                    "</td><td>" +
+                                                                                    result[i].status +
+                                                                                    "</td><td>" +
+                                                                                    result[i].priceFrom + " - " + result[i].priceTo +
+                                                                                    "</td></tr>"
+                                                                        }
+                                                                    }
+                                                                    output += "</tbody></table>";
+                                                                    displayResourcesD.html(output);
+                                                                },
+                                                                error: function () {
+                                                                    alert("Something wrong")
+                                                                }
+                                                            });
+                                                        });
+                </script>
+                <script>
+                    function post_table(b) {
+                        var a = "#" + $(b).attr('id').toString();
+                        //                  var a = $(b.target).closest('tr').find(".id").html()
+                        // console.log($(a).closest('rd'));
+                        //                    console.log($(a).find("td:eq(0)").text());
+                        if (localStorage.getItem("POSTDETAILID") === null) {
+                            localStorage.setItem("POSTDETAILID", $(a).find("td:eq(0)").text());
+                        } else {
+                            localStorage.removeItem("POSTDETAILID");
+                            localStorage.setItem("POSTDETAILID", $(a).find("td:eq(0)").text());
+                        }
+                        window.location.href = '../Web/postDetail.jsp';
                     }
-                    window.location.href = '../Web/postDetail.jsp';
-                }
-                function postList(evt, postName) {
-                    var i, tabcontent, tablinks;
-                    tabcontent = document.getElementsByClassName("tabcontent");
-                    for (i = 0; i < tabcontent.length; i++) {
-                        tabcontent[i].style.display = "none";
+                    function postList(evt, postName) {
+                        var i, tabcontent, tablinks;
+                        tabcontent = document.getElementsByClassName("tabcontent");
+                        for (i = 0; i < tabcontent.length; i++) {
+                            tabcontent[i].style.display = "none";
+                        }
+                        tablinks = document.getElementsByClassName("tablinks");
+                        for (i = 0; i < tablinks.length; i++) {
+                            tablinks[i].className = tablinks[i].className.replace(" active", "");
+                        }
+                        document.getElementById(postName).style.display = "block";
+                        evt.currentTarget.className += " active";
                     }
-                    tablinks = document.getElementsByClassName("tablinks");
-                    for (i = 0; i < tablinks.length; i++) {
-                        tablinks[i].className = tablinks[i].className.replace(" active", "");
-                    }
-                    document.getElementById(postName).style.display = "block";
-                    evt.currentTarget.className += " active";
-                }
-            </script>
-        </body>
+                </script>
+            </body>

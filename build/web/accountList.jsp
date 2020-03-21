@@ -102,203 +102,204 @@
                                     <li><a href="knowledge.jsp"><i class="menu-icon icon-book"></i>AreaOfKnowledge </a></li>
                                     <li><a href="language.jsp"><i class="menu-icon icon-suitcase"></i>Language </a></li>
                                     <li><a href="post.jsp"><i class="menu-icon icon-upload-alt"></i>Post </a></li>
-                                </ul>
-                                <!--/.widget-nav-->
-                                <ul class="widget widget-menu unstyled">
+                                    <li><a href="rate.jsp"><i class="icon-group" style="margin-right: 10px"></i>Rate </a></li>
+                                    </ul>
+                                    <!--/.widget-nav-->
+                                    <ul class="widget widget-menu unstyled">
 
-                                    <li><a href="#"><i class="menu-icon icon-signout"></i>Logout </a></li>
-                                </ul>
-                            </div>
-                            <!--/.sidebar-->
-                        </div>
-                        <div class="span9">
-                            <div class="span9">
-                                <div class="content">
-                                    <div class="module">
-                                        <div class="module-head">
-                                            <div class="tab">
-                                                <button class="tablinks" onclick="accountList(event, 'Admin')">Admin</button>
-                                                <button class="tablinks" onclick="accountList(event, 'Customer')">Customer</button>
-                                                <button class="tablinks" onclick="accountList(event, 'Translater')">Translater</button>
-                                            </div>
-
-                                            <div id="Admin" class="tabcontent">
-                                                <div class="module-body table">
-                                                    <div id="table-admin"></div> <!--/.Display table-->
-                                                </div>
-                                            </div>
-
-                                            <div id="Customer" class="tabcontent">
-                                                <div class="module-body table">
-                                                    <div id="table-cus"></div> <!--/.Display table-->
-                                                </div>
-                                            </div>
-
-                                            <div id="Translater" class="tabcontent">
-                                                <div class="module-body table">
-                                                    <div id="table-tsl"></div> <!--/.Display table-->
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!--/.module-->
-                                    </div>
-                                    <!--/.content-->
+                                        <li><a href="#"><i class="menu-icon icon-signout"></i>Logout </a></li>
+                                    </ul>
                                 </div>
-                                <!--/.span9-->
+                                <!--/.sidebar-->
                             </div>
-                        </div>
-                        <!--/.span3-->
-                    </div>
-                    <!--/.container-->
-                </div>
-            </div>
-            <!--/.wrapper-->
-            <div class="footer">
-                <div class="container">
-                    <b class="copyright">&copy; 2014 Edmin - EGrappler.com </b>All rights reserved.
-                </div>
-            </div>
-            <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
-            <script>
-                                                    $(window).on("load", function () {
-                                                        console.log("window loaded");
-                                                    });
+                            <div class="span9">
+                                <div class="span9">
+                                    <div class="content">
+                                        <div class="module">
+                                            <div class="module-head">
+                                                <div class="tab">
+                                                    <button class="tablinks" onclick="accountList(event, 'Admin')">Admin</button>
+                                                    <button class="tablinks" onclick="accountList(event, 'Customer')">Customer</button>
+                                                    <button class="tablinks" onclick="accountList(event, 'Translater')">Translater</button>
+                                                </div>
 
-                                                    $(document).ready(function () {
-                                                        $('#UserID').text(localStorage.getItem("USERID"));
-                                                        event.preventDefault(); //Table AD
-                                                        $.ajax({
-                                                            url: "https://translate-app-api.herokuapp.com/account",
-                                                            type: 'GET',
-                                                            dataType: 'json',
-                                                            contentType: "application/json",
-                                                            headers: {
-                                                                'Accept': 'application/json',
-                                                                'Content-Type': 'application/json',
-                                                                'Authorization': "Bearer " + localStorage.getItem("TOKEN")
-                                                            },
-                                                            success: function (result) {
-                                                                var displayResourcesAD = $("#table-admin");
-                                                                var displayResourcesCUS = $("#table-cus");
-                                                                var displayResourcesTSL = $("#table-tsl");
-                                                                displayResourcesAD.text("Loading...");
-                                                                displayResourcesCUS.text("Loading...");
-                                                                displayResourcesTSL.text("Loading...");
-                                                                var output = "<table><tr><th>Username</th><th>FirstName</th><th>LastName</th><th>Email</th><th>Gender</th></tr><tbody>";
-                                                                var i = 0;
-                                                                for (i; i < result.length; i++) {
-                                                                    var tmp = result[i].role;
-                                                                    if (tmp === "AD") {
-                                                                        output +=
-                                                                                "<tr onclick='ad_table(this)' id='usernameDetailID_cuoi_" + i + "'><td>" +
-                                                                                result[i].username +
-                                                                                "</td><td>" +
-                                                                                result[i].firstName +
-                                                                                "</td><td>" +
-                                                                                result[i].lastName +
-                                                                                "</td><td>" +
-                                                                                result[i].email +
-                                                                                "</td><td>" +
-                                                                                result[i].gender +
-                                                                                "</td></tr>"
-                                                                    }
-                                                                }
-                                                                output += "</tbody></table>";
-                                                                displayResourcesAD.html(output);
-                                                                var output = "<table><tr><th>Username</th><th>FirstName</th><th>LastName</th><th>Email</th><th>Gender</th></tr><tbody>";
-                                                                var i = 0;
-                                                                for (i; i < result.length; i++) {
-                                                                    var tmp = result[i].role;
-                                                                    if (tmp === "CUS") {
-                                                                        output +=
-                                                                                "<tr onclick='ad_table(this)' id='usernameDetailID_cuoi_" + i + "'><td>" +
-                                                                                result[i].username +
-                                                                                "</td><td>" +
-                                                                                result[i].firstName +
-                                                                                "</td><td>" +
-                                                                                result[i].lastName +
-                                                                                "</td><td>" +
-                                                                                result[i].email +
-                                                                                "</td><td>" +
-                                                                                result[i].gender +
-                                                                                "</td></tr>"
-                                                                    }
-                                                                }
-                                                                output += "</tbody></table>";
-                                                                displayResourcesCUS.html(output);
-                                                                var output = "<table><tr><th>Username</th><th>FirstName</th><th>LastName</th><th>Email</th><th>Gender</th></tr><tbody>";
-                                                                var i = 0;
-                                                                for (i; i < result.length; i++) {
-                                                                    var tmp = result[i].role;
-                                                                    if (tmp === "TSL") {
-                                                                        output +=
-                                                                                "<tr onclick='ad_table(this)' id='usernameDetailID_cuoi_" + i + "'><td>" +
-                                                                                result[i].username +
-                                                                                "</td><td>" +
-                                                                                result[i].firstName +
-                                                                                "</td><td>" +
-                                                                                result[i].lastName +
-                                                                                "</td><td>" +
-                                                                                result[i].email +
-                                                                                "</td><td>" +
-                                                                                result[i].gender +
-                                                                                "</td></tr>"
-                                                                    }
-                                                                }
-                                                                output += "</tbody></table>";
-                                                                displayResourcesTSL.html(output);
-                                                            },
-                                                            error: function () {
-                                                                alert("Something wrong")
-                                                            }
+                                                <div id="Admin" class="tabcontent">
+                                                    <div class="module-body table">
+                                                        <div id="table-admin"></div> <!--/.Display table-->
+                                                    </div>
+                                                </div>
+
+                                                <div id="Customer" class="tabcontent">
+                                                    <div class="module-body table">
+                                                        <div id="table-cus"></div> <!--/.Display table-->
+                                                    </div>
+                                                </div>
+
+                                                <div id="Translater" class="tabcontent">
+                                                    <div class="module-body table">
+                                                        <div id="table-tsl"></div> <!--/.Display table-->
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!--/.module-->
+                                        </div>
+                                        <!--/.content-->
+                                    </div>
+                                    <!--/.span9-->
+                                </div>
+                            </div>
+                            <!--/.span3-->
+                        </div>
+                        <!--/.container-->
+                    </div>
+                </div>
+                <!--/.wrapper-->
+                <div class="footer">
+                    <div class="container">
+                        <b class="copyright">&copy; 2014 Edmin - EGrappler.com </b>All rights reserved.
+                    </div>
+                </div>
+                <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
+                <script>
+                                                        $(window).on("load", function () {
+                                                            console.log("window loaded");
                                                         });
-                                                        
-                                                    });
-            </script>
-            <script>
-                function tsl_table(b) {
-                    var a = "#" + $(b).attr('id').toString();
-                    if (localStorage.getItem("USERNAMEDETAILID") === null) {
-                        localStorage.setItem("USERNAMEDETAILID", $(a).find("td:eq(0)").text());
-                    } else {
-                        localStorage.removeItem("USERNAMEDETAILID");
-                        localStorage.setItem("USERNAMEDETAILID", $(a).find("td:eq(0)").text());
+
+                                                        $(document).ready(function () {
+                                                            $('#UserID').text(localStorage.getItem("USERID"));
+                                                            event.preventDefault(); //Table AD
+                                                            $.ajax({
+                                                                url: "https://translate-app-api.herokuapp.com/account",
+                                                                type: 'GET',
+                                                                dataType: 'json',
+                                                                contentType: "application/json",
+                                                                headers: {
+                                                                    'Accept': 'application/json',
+                                                                    'Content-Type': 'application/json',
+                                                                    'Authorization': "Bearer " + localStorage.getItem("TOKEN")
+                                                                },
+                                                                success: function (result) {
+                                                                    var displayResourcesAD = $("#table-admin");
+                                                                    var displayResourcesCUS = $("#table-cus");
+                                                                    var displayResourcesTSL = $("#table-tsl");
+                                                                    displayResourcesAD.text("Loading...");
+                                                                    displayResourcesCUS.text("Loading...");
+                                                                    displayResourcesTSL.text("Loading...");
+                                                                    var output = "<table><tr><th>Username</th><th>FirstName</th><th>LastName</th><th>Email</th><th>Gender</th></tr><tbody>";
+                                                                    var i = 0;
+                                                                    for (i; i < result.length; i++) {
+                                                                        var tmp = result[i].role;
+                                                                        if (tmp === "AD") {
+                                                                            output +=
+                                                                                    "<tr onclick='ad_table(this)' id='usernameDetailID_cuoi_" + i + "'><td>" +
+                                                                                    result[i].username +
+                                                                                    "</td><td>" +
+                                                                                    result[i].firstName +
+                                                                                    "</td><td>" +
+                                                                                    result[i].lastName +
+                                                                                    "</td><td>" +
+                                                                                    result[i].email +
+                                                                                    "</td><td>" +
+                                                                                    result[i].gender +
+                                                                                    "</td></tr>"
+                                                                        }
+                                                                    }
+                                                                    output += "</tbody></table>";
+                                                                    displayResourcesAD.html(output);
+                                                                    var output = "<table><tr><th>Username</th><th>FirstName</th><th>LastName</th><th>Email</th><th>Gender</th></tr><tbody>";
+                                                                    var i = 0;
+                                                                    for (i; i < result.length; i++) {
+                                                                        var tmp = result[i].role;
+                                                                        if (tmp === "CUS") {
+                                                                            output +=
+                                                                                    "<tr onclick='ad_table(this)' id='usernameDetailID_cuoi_" + i + "'><td>" +
+                                                                                    result[i].username +
+                                                                                    "</td><td>" +
+                                                                                    result[i].firstName +
+                                                                                    "</td><td>" +
+                                                                                    result[i].lastName +
+                                                                                    "</td><td>" +
+                                                                                    result[i].email +
+                                                                                    "</td><td>" +
+                                                                                    result[i].gender +
+                                                                                    "</td></tr>"
+                                                                        }
+                                                                    }
+                                                                    output += "</tbody></table>";
+                                                                    displayResourcesCUS.html(output);
+                                                                    var output = "<table><tr><th>Username</th><th>FirstName</th><th>LastName</th><th>Email</th><th>Gender</th></tr><tbody>";
+                                                                    var i = 0;
+                                                                    for (i; i < result.length; i++) {
+                                                                        var tmp = result[i].role;
+                                                                        if (tmp === "TSL") {
+                                                                            output +=
+                                                                                    "<tr onclick='ad_table(this)' id='usernameDetailID_cuoi_" + i + "'><td>" +
+                                                                                    result[i].username +
+                                                                                    "</td><td>" +
+                                                                                    result[i].firstName +
+                                                                                    "</td><td>" +
+                                                                                    result[i].lastName +
+                                                                                    "</td><td>" +
+                                                                                    result[i].email +
+                                                                                    "</td><td>" +
+                                                                                    result[i].gender +
+                                                                                    "</td></tr>"
+                                                                        }
+                                                                    }
+                                                                    output += "</tbody></table>";
+                                                                    displayResourcesTSL.html(output);
+                                                                },
+                                                                error: function () {
+                                                                    alert("Something wrong")
+                                                                }
+                                                            });
+
+                                                        });
+                </script>
+                <script>
+                    function tsl_table(b) {
+                        var a = "#" + $(b).attr('id').toString();
+                        if (localStorage.getItem("USERNAMEDETAILID") === null) {
+                            localStorage.setItem("USERNAMEDETAILID", $(a).find("td:eq(0)").text());
+                        } else {
+                            localStorage.removeItem("USERNAMEDETAILID");
+                            localStorage.setItem("USERNAMEDETAILID", $(a).find("td:eq(0)").text());
+                        }
+                        window.location.href = '../Web/accountDetail.jsp';
                     }
-                    window.location.href = '../Web/accountDetail.jsp';
-                }
-                function ad_table(b) {
-                    var a = "#" + $(b).attr('id').toString();
-                    if (localStorage.getItem("USERNAMEDETAILID") === null) {
-                        localStorage.setItem("USERNAMEDETAILID", $(a).find("td:eq(0)").text());
-                    } else {
-                        localStorage.removeItem("USERNAMEDETAILID");
-                        localStorage.setItem("USERNAMEDETAILID", $(a).find("td:eq(0)").text());
+                    function ad_table(b) {
+                        var a = "#" + $(b).attr('id').toString();
+                        if (localStorage.getItem("USERNAMEDETAILID") === null) {
+                            localStorage.setItem("USERNAMEDETAILID", $(a).find("td:eq(0)").text());
+                        } else {
+                            localStorage.removeItem("USERNAMEDETAILID");
+                            localStorage.setItem("USERNAMEDETAILID", $(a).find("td:eq(0)").text());
+                        }
+                        window.location.href = '../Web/accountDetail.jsp';
                     }
-                    window.location.href = '../Web/accountDetail.jsp';
-                }
-                function cus_table(b) {
-                    var a = "#" + $(b).attr('id').toString();
-                    console.log(a);
-                    if (localStorage.getItem("USERNAMEDETAILID") === null) {
-                        localStorage.setItem("USERNAMEDETAILID", $(a).find("td:eq(0)").text());
-                    } else {
-                        localStorage.removeItem("USERNAMEDETAILID");
-                        localStorage.setItem("USERNAMEDETAILID", $(a).find("td:eq(0)").text());
+                    function cus_table(b) {
+                        var a = "#" + $(b).attr('id').toString();
+                        console.log(a);
+                        if (localStorage.getItem("USERNAMEDETAILID") === null) {
+                            localStorage.setItem("USERNAMEDETAILID", $(a).find("td:eq(0)").text());
+                        } else {
+                            localStorage.removeItem("USERNAMEDETAILID");
+                            localStorage.setItem("USERNAMEDETAILID", $(a).find("td:eq(0)").text());
+                        }
+                        window.location.href = '../Web/accountDetail.jsp';
                     }
-                    window.location.href = '../Web/accountDetail.jsp';
-                }
-                function accountList(evt, accountName) {
-                    var i, tabcontent, tablinks;
-                    tabcontent = document.getElementsByClassName("tabcontent");
-                    for (i = 0; i < tabcontent.length; i++) {
-                        tabcontent[i].style.display = "none";
+                    function accountList(evt, accountName) {
+                        var i, tabcontent, tablinks;
+                        tabcontent = document.getElementsByClassName("tabcontent");
+                        for (i = 0; i < tabcontent.length; i++) {
+                            tabcontent[i].style.display = "none";
+                        }
+                        tablinks = document.getElementsByClassName("tablinks");
+                        for (i = 0; i < tablinks.length; i++) {
+                            tablinks[i].className = tablinks[i].className.replace(" active", "");
+                        }
+                        document.getElementById(accountName).style.display = "block";
+                        evt.currentTarget.className += " active";
                     }
-                    tablinks = document.getElementsByClassName("tablinks");
-                    for (i = 0; i < tablinks.length; i++) {
-                        tablinks[i].className = tablinks[i].className.replace(" active", "");
-                    }
-                    document.getElementById(accountName).style.display = "block";
-                    evt.currentTarget.className += " active";
-                }
-            </script>
-        </body>
+                </script>
+            </body>

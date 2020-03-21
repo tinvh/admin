@@ -68,6 +68,7 @@
                                 <li><a href="knowledge.jsp"><i class="menu-icon icon-book"></i>AreaOfKnowledge </a></li>
                                 <li><a href="language.jsp"><i class="menu-icon icon-suitcase"></i>Language </a></li>
                                 <li><a href="post.jsp"><i class="menu-icon icon-upload-alt"></i>Post </a></li>
+                                <li><a href="rate.jsp"><i class="icon-group" style="margin-right: 10px"></i>Rate </a></li>
                             </ul>
                             <!--/.widget-nav-->
                                 <ul class="widget widget-menu unstyled">
@@ -131,7 +132,7 @@
                             var i = 0;
                             for (i; i < result.length; i++) {
                                 output +=
-                                        "<tr onclick='language_table(this)' id='langueID" + i + "'><td>" +
+                                        "<tr onclick='language_table(this)' id='languageID" + i + "'><td>" +
                                         result[i].id +
                                         "</td><td>" +
                                         result[i].language +

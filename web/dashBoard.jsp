@@ -49,18 +49,20 @@
                         <div class="sidebar">
 
                             <ul class="widget widget-menu unstyled">
-                                <li class="active"><a href="dashBoard.jsp"><i class="menu-icon icon-dashboard"></i>Dashboard
+                                <li class="active"><a href="dashboard.jsp"><i class="menu-icon icon-dashboard"></i>Dashboard
                                     </a></li>
                                 <li><a href="accountList.jsp"><i class="menu-icon icon-user"></i>Account </a></li>
                                 <li><a href="knowledge.jsp"><i class="menu-icon icon-book"></i>AreaOfKnowledge </a></li>
                                 <li><a href="language.jsp"><i class="menu-icon icon-suitcase"></i>Language </a></li>
                                 <li><a href="post.jsp"><i class="menu-icon icon-upload-alt"></i>Post </a></li>
                                 <li><a href="rate.jsp"><i class="icon-group" style="margin-right: 10px"></i>Rate </a></li>
+                                <li><a href="commission.jsp"><i class="icon-money" style="margin-right: 10px"></i>Commission </a></li>
+                                <li><a href="payment.jsp"><i class="icon-credit-card" style="margin-right: 10px"></i>Payment </a></li>
                             </ul>
                             <!--/.widget-nav-->
-                                <ul class="widget widget-menu unstyled">
-                                    
-                                <li><a href="#"><i class="menu-icon icon-signout"></i>Logout </a></li>
+                            <ul class="widget widget-menu unstyled">
+
+                                <li><a href="index.html"><i class="menu-icon icon-signout"></i>Logout </a></li>
                             </ul>
                         </div>
                         <!--/.sidebar-->
@@ -71,32 +73,33 @@
                         <div class="content">
                             <div class="btn-controls">
                                 <div class="btn-box-row row-fluid">
-                                    <a href="#" class="btn-box big span4"><i class=" icon-random"></i><b id="TotalTransaction"></b>
+                                    <a href="commission.jsp" class="btn-box big span4"><i class="icon-money"></i><b id="latest-commission"></b>
                                         <p class="text-muted">
-                                            Transaction Success</p>
-                                    </a><a href="#" class="btn-box big span4"><i class="icon-user"></i><b id="TotalUser"></b>
+                                            Commission</p>
+                                    </a><a href="accountList.jsp" class="btn-box big span4"><i class="icon-user"></i><b id="total-accounts"></b>
                                         <p class="text-muted">
-                                            Users</p>
-                                    </a><a href="#" class="btn-box big span4"><i class="icon-money"></i><b>Loading...</b>
+                                            Accounts</p>
+                                    </a><a href="post.jsp" class="btn-box big span4"><i class="icon-check"></i><b id="total-done-post"></b>
+                                        <p class="text-muted">
+                                            Complete post</p>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="btn-controls">
+                                <div class="btn-box-row row-fluid">
+                                    <a href="payment.jsp" class="btn-box big span4"><i class="icon-credit-card"></i><b id="total-payment"></b>
+                                        <p class="text-muted">
+                                            Total payment</p>
+                                    </a><a href="payment.jsp" class="btn-box big span4"><i class="icon-credit-card"></i><b id="total-payout"></b>
+                                        <p class="text-muted">
+                                            Total payout</p>
+                                    </a><a href="payment.jsp" class="btn-box big span4"><i class="icon-bolt"></i><b id="total-profit"></b>
                                         <p class="text-muted">
                                             Profit</p>
                                     </a>
                                 </div>
                             </div>
                             <!--/#btn-controls-->
-                            <%--
-                            <div class="module">
-                                <div class="module-head">
-                                    <h3>
-                                        Newest post</h3>
-                                </div>
-                                <div class="module-body table">
-                                    <div id="display-resources"></div>
-                                </div>
-                                <!--/.module-->
-                            </div>
-                            --%>
-                            <!--/.content-->
                         </div>
                         <!--/.span9-->
                     </div>
@@ -130,16 +133,17 @@
                         'Authorization': "Bearer " + localStorage.getItem("TOKEN")
                     },
                     success: function (result) {
-                        $('#TotalUser').text(result.length)
+                        $('#total-accounts').text(result.length)
                         $('#UserID').text(localStorage.getItem("USERID"));
                     },
                     error: function () {
-                        alert("Something wrong")
+                        alert("Something wrong");
+                        window.location.href = '../Web/index.html';
                     }
                 });
-                event.preventDefault();// get total transaction
+                event.preventDefault();// get latest comission
                 $.ajax({
-                    url: "https://translate-app-api.herokuapp.com/transaction",
+                    url: "https://translate-app-api.herokuapp.com/commission/latest",
                     type: 'GET',
                     dataType: 'json',
                     contentType: "application/json",
@@ -149,49 +153,94 @@
                         'Authorization': "Bearer " + localStorage.getItem("TOKEN")
                     },
                     success: function (result) {
-                        $('#TotalTransaction').text(result.length)
+                        $('#latest-commission').text(result + "%")
                     },
                     error: function () {
-                        alert("Something wrong")
+                        alert("Something wrong");
+                        window.location.href = '../Web/index.html';
                     }
                 });
-//                event.preventDefault(); // get top 5 newest post
-//                $.ajax({
-//                    url: "https://translate-app-api.herokuapp.com/post",
-//                    type: 'GET',
-//                    dataType: 'json',
-//                    contentType: "application/json",
-//                    headers: {
-//                        'Accept': 'application/json',
-//                        'Content-Type': 'application/json',
-//                        'Authorization': "Bearer " + localStorage.getItem("TOKEN")
-//                    },
-//                    success: function (result) {
-//                        var displayResources = $("#display-resources");
-//                        displayResources.text("Loading...");
-//                        var output = "<table><tr><th>Username</th><th>LanguageFrom</th><th>LanguageTo</th><th>Status</th><th>Price</th></tr><tbody>";
-//                        var i = 0;
-//                        for (i = result.length; i-- > (result.length - 5); ) {
-//                            output +=
-//                                    "<tr><td>" +
-//                                    result[i].username +
-//                                    "</td><td>" +
-//                                    result[i].languageFrom +
-//                                    "</td><td>" +
-//                                    result[i].languageTo +
-//                                    "</td><td>" +
-//                                    result[i].status +
-//                                    "</td><td>" +
-//                                    result[i].priceFrom + " - " + result[i].priceTo +
-//                                    "</td></tr>"
-//                        }
-//                        output += "</tbody></table>";
-//                        displayResources.html(output);
-//                    },
-//                    error: function () {
-//                        alert("Something wrong")
-//                    }
-//                });
+                event.preventDefault();// get total done post
+                $.ajax({
+                    url: "https://translate-app-api.herokuapp.com/post",
+                    type: 'GET',
+                    dataType: 'json',
+                    contentType: "application/json",
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json',
+                        'Authorization': "Bearer " + localStorage.getItem("TOKEN")
+                    },
+                    success: function (result) {
+                        var totalDonePost = 0;
+                        for (i = result.length; i-- > 0; ) {
+                            var tmp = result[i].status;
+                            if (tmp === "Done") {
+                                totalDonePost++;
+                            }
+                            $("#total-done-post").text(totalDonePost);
+                        }
+
+                    },
+                    error: function () {
+                        alert("Something wrong");
+                        window.location.href = '../Web/index.html';
+                    }
+                });
+                event.preventDefault();// get total payment
+                $.ajax({
+                    url: "https://translate-app-api.herokuapp.com/payment",
+                    type: 'GET',
+                    dataType: 'json',
+                    contentType: "application/json",
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json',
+                        'Authorization': "Bearer " + localStorage.getItem("TOKEN")
+                    },
+                    success: function (result) {
+                        var i = 0;
+                        var totalPayment = 0;
+                        var totalPayout = 0;
+                        var profit = 0;
+                        for (i; i < result.length; i++) {
+                            var tmp = result[i].type;
+                            if (tmp === "Payment") {
+                                totalPayment = parseInt(totalPayment) + parseInt(result[i].amount);
+                            }
+                            $("#total-payment").text(totalPayment + "$");
+                            if (tmp === "Payout") {
+                                totalPayout = parseInt(totalPayout) + parseInt(result[i].amount) - parseInt(result[i].commission)
+                                profit = parseInt(profit) + parseInt(result[i].commission);
+                            }
+                            $("#total-payout").text(totalPayout + "$");
+                            $("#total-profit").text(profit + "$");
+                        }
+                    },
+                    error: function () {
+                        alert("Something wrong");
+                        window.location.href = '../Web/index.html';
+                    }
+                });
+                event.preventDefault();// get latest comission
+                $.ajax({
+                    url: "https://translate-app-api.herokuapp.com/commission/latest",
+                    type: 'GET',
+                    dataType: 'json',
+                    contentType: "application/json",
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json',
+                        'Authorization': "Bearer " + localStorage.getItem("TOKEN")
+                    },
+                    success: function (result) {
+                        $('#latest').text(result)
+                    },
+                    error: function () {
+                        alert("Something wrong");
+                        window.location.href = '../Web/index.html';
+                    }
+                });
             });
 
 

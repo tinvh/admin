@@ -70,6 +70,7 @@
 
                     <div class="span9">
                         <div class="span9">
+                            <a class="btn btn-large btn-danger" href="changeCommission.jsp">Change commission</a>
                             <div class="content">
                                 <div class="module">
                                     <div class="module-head">
@@ -89,76 +90,58 @@
                 <!--/.container-->
             </div>
         </div>
-        <!--/.wrapper-->
-        <div class="footer">
-            <div class="container">
-                <b class="copyright">&copy; 2014 Edmin - EGrappler.com </b>All rights reserved.
+            <!--/.wrapper-->
+            <div class="footer">
+                <div class="container">
+                    <b class="copyright">&copy; 2014 Edmin - EGrappler.com </b>All rights reserved.
+                </div>
             </div>
-        </div>
-        <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
-        <script>
-            $(window).on("load", function () {
-                console.log("window loaded");
-            });
-
-            $(document).ready(function () {
-                $('#UserID').text(localStorage.getItem("USERID"));
-                event.preventDefault();
-                $.ajax({
-                    url: "https://translate-app-api.herokuapp.com/rate",
-                    type: 'GET',
-                    dataType: 'json',
-                    contentType: "application/json",
-                    headers: {
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json',
-                        'Authorization': "Bearer " + localStorage.getItem("TOKEN")
-                    },
-                    success: function (result) {
-                        var displayResources = $("#table-knowledge");
-                        displayResources.text("Loading...");
-                        var output = "<table><tr><th>ID</th><th>Cus.</th><th>Tsl.</th><th>Total Point</th></tr><tbody>";
-                        var i = 0;
-                        for (i = result.length; i-- > 0; ) {
-                            output +=
-                                    "<tr onclick='rate_table(this)' id='rateID" + i + "'><td>" +
-                                    result[i].id +
-                                    "</td><td>" +
-                                    result[i].customer +
-                                    "</td><td>" +
-                                    result[i].translator +
-                                    "</td><td>" +
-                                    result[i].total +
-                                    "</td><td>"
-
-                        }
-                        output += "</tbody></table>";
-                        displayResources.html(output);
-                    },
-                    error: function () {
-                        alert("Something wrong");
-                        window.location.href = '../Web/index.html';
-                    }
+            <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
+            <script>
+                $(window).on("load", function () {
+                    console.log("window loaded");
                 });
-            });
 
-        </script>
-        <script>
-            function rate_table(b) {
-                var a = "#" + $(b).attr('id').toString();
-                if (localStorage.getItem("RATEID") === null) {
-                    localStorage.setItem("RATEID", $(a).find("td:eq(0)").text());
-                } else {
-                    localStorage.removeItem("RATEID");
-                    localStorage.setItem("RATEID", $(a).find("td:eq(0)").text());
-                }
-                if (localStorage.getItem("RATEID") === null) {
-                    localStorage.setItem("RATEID", $(a).find("td:eq(0)").text());
-                } else {
-                    localStorage.removeItem("RATEID");
-                    localStorage.setItem("RATEID", $(a).find("td:eq(0)").text());
-                }
-                window.location.href = '../Web/rateDetail.jsp';
-            }
-        </script>
+                $(document).ready(function () {
+                    $('#UserID').text(localStorage.getItem("USERID"));
+                    event.preventDefault();
+                    $.ajax({
+                        url: "https://translate-app-api.herokuapp.com/commission",
+                        type: 'GET',
+                        dataType: 'json',
+                        contentType: "application/json",
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json',
+                            'Authorization': "Bearer " + localStorage.getItem("TOKEN")
+                        },
+                        success: function (result) {
+                            var displayResources = $("#table-knowledge");
+                            displayResources.text("Loading...");
+                            var output = "<table><tr><th>ID</th><th>Commission</th><th>Creator</th><th>Create at</th></tr><tbody>";
+                            var i = 0;
+                            for (i = result.length; i-- > 0; ) {
+                                output +=
+                                        "<tr><td>" +
+                                        result[i].id +
+                                        "</td><td>" +
+                                        result[i].commission +
+                                        "</td><td>" +
+                                        result[i].creator +
+                                        "</td><td>" +
+                                        result[i].createAt +
+                                        "</td><tr>"
+
+                            }
+                            output += "</tbody></table>";
+                            displayResources.html(output);
+                        },
+                        error: function () {
+                            alert("Something wrong");
+                            window.location.href = '../Web/index.html';
+                        }
+                    });
+                });
+
+            </script>
     </body>

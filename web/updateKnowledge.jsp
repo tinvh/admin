@@ -62,18 +62,20 @@
                         <div class="sidebar">
 
                             <ul class="widget widget-menu unstyled">
-                                <li class="active"><a href="dashBoard.jsp"><i class="menu-icon icon-dashboard"></i>Dashboard
+                                <li class="active"><a href="dashboard.jsp"><i class="menu-icon icon-dashboard"></i>Dashboard
                                     </a></li>
                                 <li><a href="accountList.jsp"><i class="menu-icon icon-user"></i>Account </a></li>
                                 <li><a href="knowledge.jsp"><i class="menu-icon icon-book"></i>AreaOfKnowledge </a></li>
                                 <li><a href="language.jsp"><i class="menu-icon icon-suitcase"></i>Language </a></li>
                                 <li><a href="post.jsp"><i class="menu-icon icon-upload-alt"></i>Post </a></li>
                                 <li><a href="rate.jsp"><i class="icon-group" style="margin-right: 10px"></i>Rate </a></li>
+                                <li><a href="commission.jsp"><i class="icon-money" style="margin-right: 10px"></i>Commission </a></li>
+                                <li><a href="payment.jsp"><i class="icon-credit-card" style="margin-right: 10px"></i>Payment </a></li>
                             </ul>
                             <!--/.widget-nav-->
                             <ul class="widget widget-menu unstyled">
 
-                                <li><a href="#"><i class="menu-icon icon-signout"></i>Logout </a></li>
+                                <li><a href="index.html"><i class="menu-icon icon-signout"></i>Logout </a></li>
                             </ul>
                         </div>
                         <!--/.sidebar-->
@@ -156,7 +158,8 @@
                                                                     window.location.href = '../Web/knowledge.jsp';
                                                                 },
                                                                 error: function () {
-                                                                    alert("Something wrong")
+                                                                    alert("Something wrong");
+                                                                    window.location.href = '../Web/index.html';
                                                                 }
                                                             });
                                                         } else {
@@ -184,7 +187,8 @@
                                                                     window.location.href = '../Web/knowledge.jsp';
                                                                 },
                                                                 error: function () {
-                                                                    alert("Something wrong")
+                                                                    alert("Something wrong");
+                                                                    window.location.href = '../Web/index.html';
                                                                 }
                                                             });
                                                         } else {

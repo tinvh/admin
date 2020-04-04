@@ -57,7 +57,7 @@
                                 <li><a href="post.jsp"><i class="menu-icon icon-upload-alt"></i>Post </a></li>
                                 <li><a href="rate.jsp"><i class="icon-group" style="margin-right: 10px"></i>Rate </a></li>
                                 <li><a href="commission.jsp"><i class="icon-money" style="margin-right: 10px"></i>Commission </a></li>
-                                <li><a href="payment.jsp"><i class="icon-credit-card" style="margin-right: 10px"></i>Payment </a></li>
+                                <li><a href="payment.jsp"><i class="icon-credit-card" style="margin-right: 10px"></i>Payment </a></li>    
                             </ul>
                             <!--/.widget-nav-->
                             <ul class="widget widget-menu unstyled">
@@ -70,16 +70,12 @@
 
                     <div class="span9">
                         <div class="span9">
-                            <div class="content">
-                                <div class="module">
-                                    <div class="module-head">
-                                    </div>
-                                    <div class="module-body table">
-                                        <div id="table-knowledge"></div> <!--/.Display table-->
-                                    </div>
-                                    <!--/.module-->
+                            <div class="control-group">
+                                <h1 class="control-label" for="basicinput">Change new comission</h1>
+                                <div class="controls">
+                                    <input type="text" id="inputCommision" class="span8">
                                 </div>
-                                <!--/.content-->
+                                <a class="btn btn-small btn-info" onclick="change()">Change</a>
                             </div>
                             <!--/.span9-->
                         </div>
@@ -89,76 +85,68 @@
                 <!--/.container-->
             </div>
         </div>
-        <!--/.wrapper-->
-        <div class="footer">
-            <div class="container">
-                <b class="copyright">&copy; 2014 Edmin - EGrappler.com </b>All rights reserved.
+            <!--/.wrapper-->
+            <div class="footer">
+                <div class="container">
+                    <b class="copyright">&copy; 2014 Edmin - EGrappler.com </b>All rights reserved.
+                </div>
             </div>
-        </div>
-        <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
-        <script>
-            $(window).on("load", function () {
-                console.log("window loaded");
-            });
+            <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
+            <script>
+                                    $(window).on("load", function () {
+                                        console.log("window loaded");
+                                    });
 
-            $(document).ready(function () {
-                $('#UserID').text(localStorage.getItem("USERID"));
-                event.preventDefault();
-                $.ajax({
-                    url: "https://translate-app-api.herokuapp.com/rate",
-                    type: 'GET',
-                    dataType: 'json',
-                    contentType: "application/json",
-                    headers: {
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json',
-                        'Authorization': "Bearer " + localStorage.getItem("TOKEN")
-                    },
-                    success: function (result) {
-                        var displayResources = $("#table-knowledge");
-                        displayResources.text("Loading...");
-                        var output = "<table><tr><th>ID</th><th>Cus.</th><th>Tsl.</th><th>Total Point</th></tr><tbody>";
-                        var i = 0;
-                        for (i = result.length; i-- > 0; ) {
-                            output +=
-                                    "<tr onclick='rate_table(this)' id='rateID" + i + "'><td>" +
-                                    result[i].id +
-                                    "</td><td>" +
-                                    result[i].customer +
-                                    "</td><td>" +
-                                    result[i].translator +
-                                    "</td><td>" +
-                                    result[i].total +
-                                    "</td><td>"
+                                    $(document).ready(function () {
+                                        event.preventDefault(); // get total account
+                                        $.ajax({
+                                            url: "https://translate-app-api.herokuapp.com/account",
+                                            type: 'GET',
+                                            dataType: 'json',
+                                            contentType: "application/json",
+                                            headers: {
+                                                'Accept': 'application/json',
+                                                'Content-Type': 'application/json',
+                                                'Authorization': "Bearer " + localStorage.getItem("TOKEN")
+                                            },
+                                            success: function (result) {
+                                                $('#TotalUser').text(result.length)
+                                                $('#UserID').text(localStorage.getItem("USERID"));
 
+                                            },
+                                            error: function () {
+                                                alert("Something wrong")
+                                            }
+                                        });
+                                    });
+            </script>
+            <script>
+                function change() {
+                    event.preventDefault();
+                    var d = new Date();
+                    var n = d.toISOString();
+                    $.ajax({
+                        url: "https://translate-app-api.herokuapp.com/commission",
+                        type: 'POST',
+                        dataType: 'json',
+                        contentType: "application/json",
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json',
+                            'Authorization': "Bearer " + localStorage.getItem("TOKEN")
+                        },
+                        data: JSON.stringify({
+                            commission: $('#inputCommision').val(), creator: localStorage.getItem("USERID"), createAt: n,
+                        }),
+                        success: function () {
+                            console.log("Change");
+                            window.location.href = '../Web/commission.jsp';
+                        },
+                        error: function () {
+                            alert("Something wrong...");
+                            window.location.href = '../Web/index.html';
                         }
-                        output += "</tbody></table>";
-                        displayResources.html(output);
-                    },
-                    error: function () {
-                        alert("Something wrong");
-                        window.location.href = '../Web/index.html';
-                    }
-                });
-            });
-
-        </script>
-        <script>
-            function rate_table(b) {
-                var a = "#" + $(b).attr('id').toString();
-                if (localStorage.getItem("RATEID") === null) {
-                    localStorage.setItem("RATEID", $(a).find("td:eq(0)").text());
-                } else {
-                    localStorage.removeItem("RATEID");
-                    localStorage.setItem("RATEID", $(a).find("td:eq(0)").text());
+                    });
                 }
-                if (localStorage.getItem("RATEID") === null) {
-                    localStorage.setItem("RATEID", $(a).find("td:eq(0)").text());
-                } else {
-                    localStorage.removeItem("RATEID");
-                    localStorage.setItem("RATEID", $(a).find("td:eq(0)").text());
-                }
-                window.location.href = '../Web/rateDetail.jsp';
-            }
-        </script>
+            </script>
     </body>

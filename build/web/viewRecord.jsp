@@ -69,20 +69,40 @@
                     </div>
 
                     <div class="span9">
-                        <div class="span9">
+                        <div class="content">
+                            <div class="module message">
+                                <div class="module-head">
+                                    <h3>
+                                        History record</h3>
+                                </div>
+                                <div class="module-option clearfix">
+                                    <div class="pull-left">
+                                        <div class="btn-group">
+                                            <h4>ID: </h4>
+                                            <h4>Username: </h4>
+                                            <h4>Status: </h4>
+                                        </div>
+                                        <div class="btn-group">
+                                            <h4 id="PostID"></h4>
+                                            <h4 id="userNameID"></h4>
+                                            <h4 id="status"></h4>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="module-foot">
+                                </div>
+                            </div>
                             <div class="content">
                                 <div class="module">
-                                    <div class="module-head">
-                                    </div>
                                     <div class="module-body table">
-                                        <div id="table-knowledge"></div> <!--/.Display table-->
+                                        <div id="table-vr"></div> <!--/.Display table-->
                                     </div>
                                     <!--/.module-->
                                 </div>
                                 <!--/.content-->
                             </div>
-                            <!--/.span9-->
                         </div>
+                        <!--/.content-->
                     </div>
                     <!--/.span3-->
                 </div>
@@ -103,9 +123,11 @@
 
             $(document).ready(function () {
                 $('#UserID').text(localStorage.getItem("USERID"));
+                var postID = localStorage.getItem("POSTDETAILID");
+                $('#PostID').text(localStorage.getItem("POSTDETAILID"));
                 event.preventDefault();
                 $.ajax({
-                    url: "https://translate-app-api.herokuapp.com/rate",
+                    url: "https://translate-app-api.herokuapp.com/post/id/" + postID,
                     type: 'GET',
                     dataType: 'json',
                     contentType: "application/json",
@@ -115,25 +137,42 @@
                         'Authorization': "Bearer " + localStorage.getItem("TOKEN")
                     },
                     success: function (result) {
-                        var displayResources = $("#table-knowledge");
-                        displayResources.text("Loading...");
-                        var output = "<table><tr><th>ID</th><th>Cus.</th><th>Tsl.</th><th>Total Point</th></tr><tbody>";
+                        $('#userNameID').text(result.username);
+                        $('#status').text(result.status);
+                    },
+                    error: function () {
+                        alert("Something wrong");
+                        window.location.href = '../Web/index.html';
+                    }
+                });
+                event.preventDefault();
+                $.ajax({
+                    url: "https://translate-app-api.herokuapp.com/historycall/postid/" + postID,
+                    type: 'GET',
+                    dataType: 'json',
+                    contentType: "application/json",
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json',
+                        'Authorization': "Bearer " + localStorage.getItem("TOKEN")
+                    },
+                    success: function (result) {
+                        var displayResourcesVR = $("#table-vr");
+                        displayResourcesVR.text("Loading...");
+                        var output = "<table><tr><th>ID.</th><th></th><th>time</th></tr><tbody>";
                         var i = 0;
                         for (i = result.length; i-- > 0; ) {
                             output +=
-                                    "<tr onclick='rate_table(this)' id='rateID" + i + "'><td>" +
+                                    "<tr><td>" +
                                     result[i].id +
-                                    "</td><td>" +
-                                    result[i].customer +
-                                    "</td><td>" +
-                                    result[i].translator +
-                                    "</td><td>" +
-                                    result[i].total +
-                                    "</td><td>"
+                                    "</td><td><audio controls> <source src='" + result[i].recordLink + "'type='audio/ogg'>" +
+                                    "</audio></td><td>" +
+                                    result[i].datetime +
+                                    "</td></tr>";
 
                         }
                         output += "</tbody></table>";
-                        displayResources.html(output);
+                        displayResourcesVR.html(output);
                     },
                     error: function () {
                         alert("Something wrong");
@@ -141,24 +180,5 @@
                     }
                 });
             });
-
-        </script>
-        <script>
-            function rate_table(b) {
-                var a = "#" + $(b).attr('id').toString();
-                if (localStorage.getItem("RATEID") === null) {
-                    localStorage.setItem("RATEID", $(a).find("td:eq(0)").text());
-                } else {
-                    localStorage.removeItem("RATEID");
-                    localStorage.setItem("RATEID", $(a).find("td:eq(0)").text());
-                }
-                if (localStorage.getItem("RATEID") === null) {
-                    localStorage.setItem("RATEID", $(a).find("td:eq(0)").text());
-                } else {
-                    localStorage.removeItem("RATEID");
-                    localStorage.setItem("RATEID", $(a).find("td:eq(0)").text());
-                }
-                window.location.href = '../Web/rateDetail.jsp';
-            }
         </script>
     </body>

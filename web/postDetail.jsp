@@ -28,19 +28,6 @@
                     <a class="btn btn-navbar" data-toggle="collapse" data-target=".navbar-inverse-collapse">
                         <i class="icon-reorder shaded"></i></a><a class="brand" href="dashBoard.jsp">Admin </a>
                     <div class="nav-collapse collapse navbar-inverse-collapse">
-                        <%--
-                        <ul class="nav nav-icons">
-                            <li class="active"><a href="#"><i class="icon-envelope"></i></a></li>
-                            <li><a href="#"><i class="icon-eye-open"></i></a></li>
-                            <li><a href="#"><i class="icon-bar-chart"></i></a></li>
-                        </ul>
-                        <form class="navbar-search pull-left input-append" action="#">
-                            <input type="text" class="span3">
-                            <button class="btn" type="button">
-                                <i class="icon-search"></i>
-                            </button>
-                        </form>
-                        --%>
                         <ul class="nav pull-right">
 
                             <li class="nav-user"><a href="#"><b id="UserID"></b>
@@ -62,18 +49,20 @@
                         <div class="sidebar">
 
                             <ul class="widget widget-menu unstyled">
-                                <li class="active"><a href="dashBoard.jsp"><i class="menu-icon icon-dashboard"></i>Dashboard
+                                <li class="active"><a href="dashboard.jsp"><i class="menu-icon icon-dashboard"></i>Dashboard
                                     </a></li>
                                 <li><a href="accountList.jsp"><i class="menu-icon icon-user"></i>Account </a></li>
                                 <li><a href="knowledge.jsp"><i class="menu-icon icon-book"></i>AreaOfKnowledge </a></li>
                                 <li><a href="language.jsp"><i class="menu-icon icon-suitcase"></i>Language </a></li>
                                 <li><a href="post.jsp"><i class="menu-icon icon-upload-alt"></i>Post </a></li>
                                 <li><a href="rate.jsp"><i class="icon-group" style="margin-right: 10px"></i>Rate </a></li>
+                                <li><a href="commission.jsp"><i class="icon-money" style="margin-right: 10px"></i>Commission </a></li>
+                                <li><a href="payment.jsp"><i class="icon-credit-card" style="margin-right: 10px"></i>Payment </a></li>
                             </ul>
                             <!--/.widget-nav-->
-                                <ul class="widget widget-menu unstyled">
-                                    
-                                <li><a href="#"><i class="menu-icon icon-signout"></i>Logout </a></li>
+                            <ul class="widget widget-menu unstyled">
+
+                                <li><a href="index.html"><i class="menu-icon icon-signout"></i>Logout </a></li>
                             </ul>
                         </div>
                         <!--/.sidebar-->
@@ -140,9 +129,16 @@
                                             </div>
                                         </div>
                                         <div class="control-group">
-                                            <label class="control-label" for="basicinput">Price Tom</label>
+                                            <label class="control-label" for="basicinput">Price To</label>
                                             <div class="controls">
                                                 <input type="text" id="priceTo" class="span8" disabled  >
+                                                <span class="help-inline"></span>
+                                            </div>
+                                        </div>
+                                        <div class="control-group">
+                                            <label class="control-label" for="basicinput">Translator ID</label>
+                                            <div class="controls">
+                                                <input type="text" id="translatorId" class="span8" disabled  >
                                                 <span class="help-inline"></span>
                                             </div>
                                         </div>
@@ -168,9 +164,9 @@
                                             </div>
                                         </div>
                                         <div class="control-group">
-                                            <label class="control-label" for="basicinput">Location</label>
+                                            <label class="control-label" for="basicinput">Duration</label>
                                             <div class="controls">
-                                                <input type="text" id="location" class="span8" disabled  >
+                                                <input type="text" id="duration" class="span8" disabled  >
                                                 <span class="help-inline"></span>
                                             </div>
                                         </div>
@@ -223,18 +219,20 @@
                         $('#deadline').attr('placeholder', result.deadline);
                         $('#priceFrom').attr('placeholder', result.priceFrom);
                         $('#priceTo').attr('placeholder', result.priceTo);
+                        $('#translatorId').attr('placeholder', result.translatorId);
                         $('#description').attr('placeholder', result.description);
                         $('#status').attr('placeholder', result.status);
                         $('#createAt').attr('placeholder', result.createAt);
-                        $('#location').attr('placeholder', result.location);
+                        $('#duration').attr('placeholder', result.duration);
                     },
                     error: function () {
-                        alert("Something wrong")
+                        alert("Something wrong");
+                        window.location.href = '../Web/index.html';
                     }
                 });
             });
         </script>
         <script>
-            
+
         </script>
     </body>

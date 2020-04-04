@@ -101,33 +101,25 @@
                                 </div>
                                 <!--/.sidebar-->
                             </div>
-                            <!--/.span3-->
                             <div class="span9">
                                 <div class="span9">
                                     <div class="content">
                                         <div class="module">
                                             <div class="module-head">
                                                 <div class="tab">
-                                                    <button class="tablinks" onclick="postList(event, 'Request')">Request</button>
-                                                    <button class="tablinks" onclick="postList(event, 'Inprocess')">In process</button>
-                                                    <button class="tablinks" onclick="postList(event, 'Done')">Done</button>
+                                                    <button class="tablinks" onclick="paymentList(event, 'Payment')">Payment<p id="total-payment"></p></button>
+                                                    <button class="tablinks" onclick="paymentList(event, 'Payout')">Payout<p id="total-payout"></p></button>
                                                 </div>
 
-                                                <div id="Request" class="tabcontent">
+                                                <div id="Payment" class="tabcontent">
                                                     <div class="module-body table">
-                                                        <div id="table-rq"></div> <!--/.Display table-->
+                                                        <div id="table-payment"></div> <!--/.Display table-->
                                                     </div>
                                                 </div>
 
-                                                <div id="Inprocess" class="tabcontent">
+                                                <div id="Payout" class="tabcontent">
                                                     <div class="module-body table">
-                                                        <div id="table-ip"></div> <!--/.Display table-->
-                                                    </div>
-                                                </div>
-
-                                                <div id="Done" class="tabcontent">
-                                                    <div class="module-body table">
-                                                        <div id="table-d"></div> <!--/.Display table-->
+                                                        <div id="table-payout"></div> <!--/.Display table-->
                                                     </div>
                                                 </div>
                                             </div>
@@ -138,9 +130,10 @@
                                     <!--/.span9-->
                                 </div>
                             </div>
+                            <!--/.span3-->
                         </div>
+                        <!--/.container-->
                     </div>
-                    <!--/.container-->
                 </div>
                 <!--/.wrapper-->
                 <div class="footer">
@@ -148,7 +141,6 @@
                         <b class="copyright">&copy; 2014 Edmin - EGrappler.com </b>All rights reserved.
                     </div>
                 </div>
-
                 <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
                 <script>
                                                         $(window).on("load", function () {
@@ -156,10 +148,11 @@
                                                         });
 
                                                         $(document).ready(function () {
-                                                            event.preventDefault();
+                                                            console.log("document loaded");
                                                             $('#UserID').text(localStorage.getItem("USERID"));
+                                                            event.preventDefault(); //Table AD
                                                             $.ajax({
-                                                                url: "https://translate-app-api.herokuapp.com/post",
+                                                                url: "https://translate-app-api.herokuapp.com/payment",
                                                                 type: 'GET',
                                                                 dataType: 'json',
                                                                 contentType: "application/json",
@@ -169,112 +162,85 @@
                                                                     'Authorization': "Bearer " + localStorage.getItem("TOKEN")
                                                                 },
                                                                 success: function (result) {
-                                                                    var displayResourcesRQ = $("#table-rq");
-                                                                    var displayResourcesIP = $("#table-ip");
-                                                                    var displayResourcesD = $("#table-d");
-                                                                    displayResourcesRQ.text("Loading...");
-                                                                    displayResourcesIP.text("Loading...");
-                                                                    displayResourcesD.text("Loading...");
-                                                                    var output = "<table><tr><th>ID.</th><th>Username</th><th>LanguageFrom</th><th>LanguageTo</th><th>Status</th><th>Price</th></tr><tbody>";
+                                                                    var displayResourcesPayment = $("#table-payment");
+                                                                    var displayResourcesPayout = $("#table-payout");
+                                                                    displayResourcesPayment.text("Loading...");
+                                                                    displayResourcesPayout.text("Loading...");
+                                                                    var output = "<table><tr><th>Username</th><th>PostID</th><th>Amount</th><th>Commission</th><th>Create at</th></tr><tbody>";
                                                                     var i = 0;
-                                                                    for (i = result.length; i-- > 0; ) {
-                                                                        var tmp = result[i].status;
-                                                                        if (tmp === "Request") {
+                                                                    var totalPayment = 0;
+                                                                    for (i; i < result.length; i++) {
+                                                                        var tmp = result[i].type;
+                                                                        if (tmp === "Payment") {
                                                                             output +=
-                                                                                    "<tr onclick='post_table(this)' id='postID_" + i + "'><td>" +
-                                                                                    result[i].postId +
-                                                                                    "</td><td>" +
+                                                                                    "<tr><td>" +
                                                                                     result[i].username +
                                                                                     "</td><td>" +
-                                                                                    result[i].languageFrom +
+                                                                                    result[i].postId +
                                                                                     "</td><td>" +
-                                                                                    result[i].languageTo +
+                                                                                    result[i].amount +
                                                                                     "</td><td>" +
-                                                                                    result[i].status +
+                                                                                    result[i].commission +
                                                                                     "</td><td>" +
-                                                                                    result[i].priceFrom + " - " + result[i].priceTo
+                                                                                    result[i].createAt +
+                                                                                    "</td></tr>";
+
+                                                                        }
+                                                                        if (tmp === "Payment") {
+                                                                            totalPayment = parseInt(totalPayment) + parseInt(result[i].amount);
+                                                                        }
+                                                                        $("#total-payment").text(totalPayment + "$");
+                                                                    }
+                                                                    output += "</tbody></table>";
+                                                                    displayResourcesPayment.html(output);
+                                                                    var output = "<table><tr><th>Username</th><th>PostID</th><th>Amount</th><th>Commission</th><th>Create at</th></tr><tbody>";
+                                                                    var i = 0;
+                                                                    var totalPayout = 0;
+                                                                    for (i; i < result.length; i++) {
+                                                                        var tmp = result[i].type;
+                                                                        if (tmp === "Payout") {
+                                                                            output +=
+                                                                                    "<tr><td>" +
+                                                                                    result[i].username +
+                                                                                    "</td><td>" +
+                                                                                    result[i].postId +
+                                                                                    "</td><td>" +
+                                                                                    result[i].amount +
+                                                                                    "</td><td>" +
+                                                                                    result[i].commission +
+                                                                                    "</td><td>" +
+                                                                                    result[i].createAt +
                                                                                     "</td></tr>"
                                                                         }
-                                                                    }
-                                                                    output += "</tbody></table>";
-                                                                    displayResourcesRQ.html(output);
-                                                                    var output = "<table><tr><th>ID.</th><th>Username</th><th>LanguageFrom</th><th>LanguageTo</th><th>Status</th><th>Price</th><th></th></tr><tbody>";
-                                                                    var i = 0;
-                                                                    for (i = result.length; i-- > 0; ) {
-                                                                        var tmp = result[i].status;
-                                                                        if (tmp === "In process") {
-                                                                            output +=
-                                                                                    "<tr onclick='post_table(this)' id='postID_" + i + "'><td>" +
-                                                                                    result[i].postId +
-                                                                                    "</td><td>" +
-                                                                                    result[i].username +
-                                                                                    "</td><td>" +
-                                                                                    result[i].languageFrom +
-                                                                                    "</td><td>" +
-                                                                                    result[i].languageTo +
-                                                                                    "</td><td>" +
-                                                                                    result[i].status +
-                                                                                    "</td><td>" +
-                                                                                    result[i].priceFrom + " - " + result[i].priceTo +
-                                                                                    "</td><td><a class='btn btn-info' href='viewRecord.jsp'>History record</a></td></tr>"
+                                                                        if (tmp === "Payout") {
+                                                                            totalPayout = parseInt(totalPayout) + parseInt(result[i].amount) - parseInt(result[i].commission);
                                                                         }
+                                                                        $("#total-payout").text(totalPayout + "$");
                                                                     }
                                                                     output += "</tbody></table>";
-                                                                    displayResourcesIP.html(output);
-                                                                    var output = "<table><tr><th>ID.</th><th>Username</th><th>LanguageFrom</th><th>LanguageTo</th><th>Status</th><th>Price</th><th></th></tr><tbody>";
-                                                                    var i = 0;
-                                                                    for (i = result.length; i-- > 0; ) {
-                                                                        var tmp = result[i].status;
-                                                                        if (tmp === "Done") {
-                                                                            output +=
-                                                                                    "<tr onclick='post_table(this)' id='postID_" + i + "'><td>" +
-                                                                                    result[i].postId +
-                                                                                    "</td><td>" +
-                                                                                    result[i].username +
-                                                                                    "</td><td>" +
-                                                                                    result[i].languageFrom +
-                                                                                    "</td><td>" +
-                                                                                    result[i].languageTo +
-                                                                                    "</td><td>" +
-                                                                                    result[i].status +
-                                                                                    "</td><td>" +
-                                                                                    result[i].priceFrom + " - " + result[i].priceTo +
-                                                                                    "</td><td><a onclick='view_record(this)' class='btn btn-info' href='viewRecord.jsp'>History record</a></td></tr>"
-                                                                        }
-                                                                    }
-                                                                    output += "</tbody></table>";
-                                                                    displayResourcesD.html(output);
+                                                                    displayResourcesPayout.html(output);
+
                                                                 },
                                                                 error: function () {
                                                                     alert("Something wrong");
                                                                     window.location.href = '../Web/index.html';
                                                                 }
                                                             });
+
                                                         });
-                </script>
-                <script>
-                    function post_table(b) {
-                        var a = "#" + $(b).attr('id').toString();
-                        if (localStorage.getItem("POSTDETAILID") === null) {
-                            localStorage.setItem("POSTDETAILID", $(a).find("td:eq(0)").text());
-                        } else {
-                            localStorage.removeItem("POSTDETAILID");
-                            localStorage.setItem("POSTDETAILID", $(a).find("td:eq(0)").text());
-                        }
-                        window.location.href = '../Web/postDetail.jsp';
-                    }
-                    function postList(evt, postName) {
-                        var i, tabcontent, tablinks;
-                        tabcontent = document.getElementsByClassName("tabcontent");
-                        for (i = 0; i < tabcontent.length; i++) {
-                            tabcontent[i].style.display = "none";
-                        }
-                        tablinks = document.getElementsByClassName("tablinks");
-                        for (i = 0; i < tablinks.length; i++) {
-                            tablinks[i].className = tablinks[i].className.replace(" active", "");
-                        }
-                        document.getElementById(postName).style.display = "block";
-                        evt.currentTarget.className += " active";
-                    }
+
+                                                        function paymentList(evt, accountName) {
+                                                            var i, tabcontent, tablinks;
+                                                            tabcontent = document.getElementsByClassName("tabcontent");
+                                                            for (i = 0; i < tabcontent.length; i++) {
+                                                                tabcontent[i].style.display = "none";
+                                                            }
+                                                            tablinks = document.getElementsByClassName("tablinks");
+                                                            for (i = 0; i < tablinks.length; i++) {
+                                                                tablinks[i].className = tablinks[i].className.replace(" active", "");
+                                                            }
+                                                            document.getElementById(accountName).style.display = "block";
+                                                            evt.currentTarget.className += " active";
+                                                        }
                 </script>
             </body>

@@ -101,12 +101,17 @@
                         alert(result.token);
                         localStorage.setItem("TOKEN", result.token);
                         localStorage.setItem("USERID",$('#inputEmail').val());
-                        window.location.href = '../Web/dashBoard.jsp';
+                        window.location.href = '../Web/dashboard.jsp';
                     },
                     error: function () {
                         alert("Invalid username or password")
                     }
                 });
             }
+        </script>
+        <script>
+            $(window).on("load", function () {
+                localStorage.clear();
+            });
         </script>
     </body>

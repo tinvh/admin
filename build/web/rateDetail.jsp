@@ -49,18 +49,20 @@
                         <div class="sidebar">
 
                             <ul class="widget widget-menu unstyled">
-                                <li class="active"><a href="dashBoard.jsp"><i class="menu-icon icon-dashboard"></i>Dashboard
+                                <li class="active"><a href="dashboard.jsp"><i class="menu-icon icon-dashboard"></i>Dashboard
                                     </a></li>
                                 <li><a href="accountList.jsp"><i class="menu-icon icon-user"></i>Account </a></li>
                                 <li><a href="knowledge.jsp"><i class="menu-icon icon-book"></i>AreaOfKnowledge </a></li>
                                 <li><a href="language.jsp"><i class="menu-icon icon-suitcase"></i>Language </a></li>
                                 <li><a href="post.jsp"><i class="menu-icon icon-upload-alt"></i>Post </a></li>
                                 <li><a href="rate.jsp"><i class="icon-group" style="margin-right: 10px"></i>Rate </a></li>
+                                <li><a href="commission.jsp"><i class="icon-money" style="margin-right: 10px"></i>Commission </a></li>
+                                <li><a href="payment.jsp"><i class="icon-credit-card" style="margin-right: 10px"></i>Payment </a></li>
                             </ul>
                             <!--/.widget-nav-->
-                                <ul class="widget widget-menu unstyled">
-                                    
-                                <li><a href="#"><i class="menu-icon icon-signout"></i>Logout </a></li>
+                            <ul class="widget widget-menu unstyled">
+
+                                <li><a href="index.html"><i class="menu-icon icon-signout"></i>Logout </a></li>
                             </ul>
                         </div>
                         <!--/.sidebar-->
@@ -159,39 +161,40 @@
         </div>
         <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
         <script>
-            $(window).on("load", function () {
-                console.log("window loaded");
-            });
+                                                    $(window).on("load", function () {
+                                                        console.log("window loaded");
+                                                    });
 
-            $(document).ready(function () {
-                $('#UserID').text(localStorage.getItem("USERID"));
-                var rateID = localStorage.getItem("RATEID");
-                event.preventDefault(); //Table AD
-                $.ajax({
-                    url: "https://translate-app-api.herokuapp.com/rate/" + rateID,
-                    type: 'GET',
-                    dataType: 'json',
-                    contentType: "application/json",
-                    headers: {
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json',
-                        'Authorization': "Bearer " + localStorage.getItem("TOKEN")
-                    },
-                    success: function (result) {
-                        $('#customer').attr('placeholder', result.customer);
-                        $('#translator').attr('placeholder', result.translator);
-                        $('#comment').attr('placeholder', result.comment);
-                        $('#ontime').attr('placeholder', result.ontime);
-                        $('#language').attr('placeholder', result.language);
-                        $('#areaOfKnowledge').attr('placeholder', result.areaOfKnowledge);
-                        $('#experience').attr('placeholder', result.experience);
-                        $('#total').attr('placeholder', result.total);
-                    },
-                    error: function () {
-                        alert("Something wrong")
-                    }
-                });
-            });
+                                                    $(document).ready(function () {
+                                                        $('#UserID').text(localStorage.getItem("USERID"));
+                                                        var rateID = localStorage.getItem("RATEID");
+                                                        event.preventDefault(); //Table AD
+                                                        $.ajax({
+                                                            url: "https://translate-app-api.herokuapp.com/rate/" + rateID,
+                                                            type: 'GET',
+                                                            dataType: 'json',
+                                                            contentType: "application/json",
+                                                            headers: {
+                                                                'Accept': 'application/json',
+                                                                'Content-Type': 'application/json',
+                                                                'Authorization': "Bearer " + localStorage.getItem("TOKEN")
+                                                            },
+                                                            success: function (result) {
+                                                                $('#customer').attr('placeholder', result.customer);
+                                                                $('#translator').attr('placeholder', result.translator);
+                                                                $('#comment').attr('placeholder', result.comment);
+                                                                $('#ontime').attr('placeholder', result.ontime);
+                                                                $('#language').attr('placeholder', result.language);
+                                                                $('#areaOfKnowledge').attr('placeholder', result.areaOfKnowledge);
+                                                                $('#experience').attr('placeholder', result.experience);
+                                                                $('#total').attr('placeholder', result.total);
+                                                            },
+                                                            error: function () {
+                                                                alert("Something wrong");
+                                                                window.location.href = '../Web/index.html';
+                                                            }
+                                                        });
+                                                    });
         </script>
         <script>
             function Delete() {
@@ -215,7 +218,8 @@
                             window.location.href = '../Web/rate.jsp';
                         },
                         error: function () {
-                            alert("Something wrong")
+                            alert("Something wrong");
+                            window.location.href = '../Web/index.html';
                         }
                     });
                 } else {

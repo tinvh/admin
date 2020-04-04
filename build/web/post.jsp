@@ -62,19 +62,6 @@
                         <a class="btn btn-navbar" data-toggle="collapse" data-target=".navbar-inverse-collapse">
                             <i class="icon-reorder shaded"></i></a><a class="brand" href="dashBoard.jsp">Admin </a>
                         <div class="nav-collapse collapse navbar-inverse-collapse">
-                            <%--
-                            <ul class="nav nav-icons">
-                                <li class="active"><a href="#"><i class="icon-envelope"></i></a></li>
-                                <li><a href="#"><i class="icon-eye-open"></i></a></li>
-                                <li><a href="#"><i class="icon-bar-chart"></i></a></li>
-                            </ul>
-                            <form class="navbar-search pull-left input-append" action="#">
-                                <input type="text" class="span3">
-                                <button class="btn" type="button">
-                                    <i class="icon-search"></i>
-                                </button>
-                            </form>
-                            --%>
                             <ul class="nav pull-right">
 
                                 <li class="nav-user"><a href="#"><b id="UserID"></b>
@@ -96,18 +83,20 @@
                             <div class="sidebar">
 
                                 <ul class="widget widget-menu unstyled">
-                                    <li class="active"><a href="dashBoard.jsp"><i class="menu-icon icon-dashboard"></i>Dashboard
+                                    <li class="active"><a href="dashboard.jsp"><i class="menu-icon icon-dashboard"></i>Dashboard
                                         </a></li>
                                     <li><a href="accountList.jsp"><i class="menu-icon icon-user"></i>Account </a></li>
                                     <li><a href="knowledge.jsp"><i class="menu-icon icon-book"></i>AreaOfKnowledge </a></li>
                                     <li><a href="language.jsp"><i class="menu-icon icon-suitcase"></i>Language </a></li>
                                     <li><a href="post.jsp"><i class="menu-icon icon-upload-alt"></i>Post </a></li>
                                     <li><a href="rate.jsp"><i class="icon-group" style="margin-right: 10px"></i>Rate </a></li>
+                                        <li><a href="commission.jsp"><i class="icon-money" style="margin-right: 10px"></i>Commission </a></li>
+                                        <li><a href="payment.jsp"><i class="icon-credit-card" style="margin-right: 10px"></i>Payment </a></li>
                                     </ul>
                                     <!--/.widget-nav-->
                                     <ul class="widget widget-menu unstyled">
 
-                                        <li><a href="#"><i class="menu-icon icon-signout"></i>Logout </a></li>
+                                        <li><a href="index.html"><i class="menu-icon icon-signout"></i>Logout </a></li>
                                     </ul>
                                 </div>
                                 <!--/.sidebar-->
@@ -203,13 +192,13 @@
                                                                                     "</td><td>" +
                                                                                     result[i].status +
                                                                                     "</td><td>" +
-                                                                                    result[i].priceFrom + " - " + result[i].priceTo +
+                                                                                    result[i].priceFrom + " - " + result[i].priceTo
                                                                                     "</td></tr>"
                                                                         }
                                                                     }
                                                                     output += "</tbody></table>";
                                                                     displayResourcesRQ.html(output);
-                                                                    var output = "<table><tr><th>ID.</th><th>Username</th><th>LanguageFrom</th><th>LanguageTo</th><th>Status</th><th>Price</th></tr><tbody>";
+                                                                    var output = "<table><tr><th>ID.</th><th>Username</th><th>LanguageFrom</th><th>LanguageTo</th><th>Status</th><th>Price</th><th></th></tr><tbody>";
                                                                     var i = 0;
                                                                     for (i = result.length; i-- > 0; ) {
                                                                         var tmp = result[i].status;
@@ -227,12 +216,12 @@
                                                                                     result[i].status +
                                                                                     "</td><td>" +
                                                                                     result[i].priceFrom + " - " + result[i].priceTo +
-                                                                                    "</td></tr>"
+                                                                                    "</td><td><a class='btn btn-info' href='viewRecord.jsp'>History record</a></td></tr>"
                                                                         }
                                                                     }
                                                                     output += "</tbody></table>";
                                                                     displayResourcesIP.html(output);
-                                                                    var output = "<table><tr><th>ID.</th><th>Username</th><th>LanguageFrom</th><th>LanguageTo</th><th>Status</th><th>Price</th></tr><tbody>";
+                                                                    var output = "<table><tr><th>ID.</th><th>Username</th><th>LanguageFrom</th><th>LanguageTo</th><th>Status</th><th>Price</th><th></th></tr><tbody>";
                                                                     var i = 0;
                                                                     for (i = result.length; i-- > 0; ) {
                                                                         var tmp = result[i].status;
@@ -250,14 +239,15 @@
                                                                                     result[i].status +
                                                                                     "</td><td>" +
                                                                                     result[i].priceFrom + " - " + result[i].priceTo +
-                                                                                    "</td></tr>"
+                                                                                    "</td><td><a onclick='view_record(this)' class='btn btn-info' href='viewRecord.jsp'>History record</a></td></tr>"
                                                                         }
                                                                     }
                                                                     output += "</tbody></table>";
                                                                     displayResourcesD.html(output);
                                                                 },
                                                                 error: function () {
-                                                                    alert("Something wrong")
+                                                                    alert("Something wrong");
+                                                                    window.location.href = '../Web/index.html';
                                                                 }
                                                             });
                                                         });
@@ -265,9 +255,6 @@
                 <script>
                     function post_table(b) {
                         var a = "#" + $(b).attr('id').toString();
-                        //                  var a = $(b.target).closest('tr').find(".id").html()
-                        // console.log($(a).closest('rd'));
-                        //                    console.log($(a).find("td:eq(0)").text());
                         if (localStorage.getItem("POSTDETAILID") === null) {
                             localStorage.setItem("POSTDETAILID", $(a).find("td:eq(0)").text());
                         } else {

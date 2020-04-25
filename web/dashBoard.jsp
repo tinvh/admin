@@ -210,7 +210,7 @@
                             }
                             $("#total-payment").text(totalPayment + "$");
                             if (tmp === "Payout") {
-                                totalPayout = parseInt(totalPayout) + parseInt(result[i].amount) - parseInt(result[i].commission)
+                                totalPayout = parseInt(totalPayout) + parseInt(result[i].amount);
                                 profit = parseInt(profit) + parseInt(result[i].commission);
                             }
                             $("#total-payout").text(totalPayout + "$");

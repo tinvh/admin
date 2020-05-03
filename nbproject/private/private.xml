@@ -3,12 +3,25 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/F:/Capstone/WebAdmin/admin/web/accountList.jsp</file>
+            <file>file:/F:/Capstone/WebAdmin/admin/web/postDetail.jsp</file>
+            <file>file:/F:/Capstone/WebAdmin/admin/web/updateLanguage.jsp</file>
             <file>file:/F:/Capstone/WebAdmin/admin/web/index.html</file>
-            <file>file:/F:/Capstone/WebAdmin/admin/web/changeCommission.jsp</file>
+            <file>file:/F:/Capstone/WebAdmin/admin/web/updateKnowledge.jsp</file>
+            <file>file:/F:/Capstone/WebAdmin/admin/web/rateDetail.jsp</file>
+            <file>file:/F:/Capstone/WebAdmin/admin/web/accountDetail.jsp</file>
             <file>file:/F:/Capstone/WebAdmin/admin/web/payment.jsp</file>
             <file>file:/F:/Capstone/WebAdmin/admin/web/knowledge.jsp</file>
-            <file>file:/F:/Capstone/WebAdmin/admin/web/commission.jsp</file>
+            <file>file:/F:/Capstone/WebAdmin/admin/web/language.jsp</file>
+            <file>file:/F:/Capstone/WebAdmin/admin/web/rate.jsp</file>
+            <file>file:/F:/Capstone/WebAdmin/admin/web/refund.jsp</file>
             <file>file:/F:/Capstone/WebAdmin/admin/web/dashboard.jsp</file>
+            <file>file:/F:/Capstone/WebAdmin/admin/web/createLanguage.jsp</file>
+            <file>file:/F:/Capstone/WebAdmin/admin/web/changeCommission.jsp</file>
+            <file>file:/F:/Capstone/WebAdmin/admin/web/createKnowledge.jsp</file>
+            <file>file:/F:/Capstone/WebAdmin/admin/web/post.jsp</file>
+            <file>file:/F:/Capstone/WebAdmin/admin/web/commission.jsp</file>
+            <file>file:/F:/Capstone/WebAdmin/admin/web/viewRecord.jsp</file>
         </group>
     </open-files>
 </project-private>

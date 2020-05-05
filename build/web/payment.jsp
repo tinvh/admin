@@ -92,6 +92,7 @@
                                     <li><a href="rate.jsp"><i class="icon-group" style="margin-right: 10px"></i>Rate </a></li>
                                         <li><a href="commission.jsp"><i class="icon-money" style="margin-right: 10px"></i>Commission </a></li>
                                         <li><a href="payment.jsp"><i class="icon-credit-card" style="margin-right: 10px"></i>Payment </a></li>
+                                    <li><a href="refund.jsp"><i class="icon-refresh" style="margin-right: 10px"></i>Refund </a></li>
                                     </ul>
                                     <!--/.widget-nav-->
                                     <ul class="widget widget-menu unstyled">
@@ -198,7 +199,7 @@
                                                                     var totalPayout = 0;
                                                                     for (i; i < result.length; i++) {
                                                                         var tmp = result[i].type;
-                                                                        if (tmp === "Payout") {
+                                                                        if (tmp === "Wage") {
                                                                             output +=
                                                                                     "<tr><td>" +
                                                                                     result[i].username +
@@ -212,7 +213,7 @@
                                                                                     result[i].createAt +
                                                                                     "</td></tr>"
                                                                         }
-                                                                        if (tmp === "Payout") {
+                                                                        if (tmp === "Wage") {
                                                                             totalPayout = parseInt(totalPayout) + parseInt(result[i].amount);
                                                                         }
                                                                         $("#total-payout").text(totalPayout + "$");

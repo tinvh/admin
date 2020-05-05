@@ -100,6 +100,14 @@
                                     </a>
                                 </div>
                             </div>
+                            <div class="btn-controls">
+                                <div class="btn-box-row row-fluid">
+                                    <a href="refund.jsp" class="btn-box big span4"><i class="icon-refresh"></i><b id="total-refund"></b>
+                                        <p class="text-muted">
+                                            Refund request</p>
+                                    </a>
+                                </div>
+                            </div>
                             <!--/#btn-controls-->
                         </div>
                         <!--/.span9-->
@@ -210,7 +218,7 @@
                                 totalPayment = parseInt(totalPayment) + parseInt(result[i].amount);
                             }
                             $("#total-payment").text(totalPayment + "$");
-                            if (tmp === "Payout") {
+                            if (tmp === "Wage") {
                                 totalPayout = parseInt(totalPayout) + parseInt(result[i].amount);
                                 profit = parseInt(profit) + parseInt(result[i].commission);
                             }
@@ -235,7 +243,7 @@
                         'Authorization': "Bearer " + localStorage.getItem("TOKEN")
                     },
                     success: function (result) {
-                        $('#latest').text(result)
+                        $('#latest').text(result);
                     },
                     error: function () {
                         alert("Something wrong");
@@ -243,7 +251,27 @@
                     }
                 });
             });
-
+            //get total refund request
+            var currentTime = new Date().toString();
+            var status = "Request Admin";
+            $.ajax({
+                url: "https://translate-app-api.herokuapp.com/refund/status/" + status + "/" + currentTime,
+                type: 'GET',
+                dataType: 'json',
+                contentType: "application/json",
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                    'Authorization': "Bearer " + localStorage.getItem("TOKEN")
+                },
+                success: function (result) {
+                    $('#total-refund').text(result.length);
+                },
+                error: function () {
+                    alert("Something wrong");
+                    window.location.href = '../Web/index.html';
+                }
+            });
 
         </script>
     </body>

@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
+        <link rel="shortcut icon" href="#" />
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Edmin</title>
@@ -60,7 +61,7 @@
                 <div class="navbar-inner">
                     <div class="container">
                         <a class="btn btn-navbar" data-toggle="collapse" data-target=".navbar-inverse-collapse">
-                            <i class="icon-reorder shaded"></i></a><a class="brand" href="dashBoard.jsp">Admin </a>
+                            <i class="icon-reorder shaded"></i></a><a class="brand" href="dashboard.jsp">Admin </a>
                         <div class="nav-collapse collapse navbar-inverse-collapse">
                             <ul class="nav pull-right">
 
@@ -92,7 +93,7 @@
                                     <li><a href="rate.jsp"><i class="icon-group" style="margin-right: 10px"></i>Rate </a></li>
                                         <li><a href="commission.jsp"><i class="icon-money" style="margin-right: 10px"></i>Commission </a></li>
                                         <li><a href="payment.jsp"><i class="icon-credit-card" style="margin-right: 10px"></i>Payment </a></li>
-                                    <li><a href="refund.jsp"><i class="icon-refresh" style="margin-right: 10px"></i>Refund </a></li>
+                                        <li><a href="refund.jsp"><i class="icon-refresh" style="margin-right: 10px"></i>Refund </a></li>
                                     </ul>
                                     <!--/.widget-nav-->
                                     <ul class="widget widget-menu unstyled">
@@ -109,8 +110,8 @@
                                         <div class="module">
                                             <div class="module-head">
                                                 <div class="tab">
-                                                    <button class="tablinks" onclick="postList(event, 'Request')">Request</button>
-                                                    <button class="tablinks" onclick="postList(event, 'Done')">Done</button>
+                                                    <button class="tablinks" onclick="refundList(event, 'Request')">Request</button>
+                                                    <button class="tablinks" onclick="refundList(event, 'Done')">Done</button>
                                                 </div>
 
                                                 <div id="Request" class="tabcontent">
@@ -166,7 +167,7 @@
                                                                 success: function (result) {
                                                                     var displayResourcesRQ = $("#table-rq");
                                                                     displayResourcesRQ.text("Loading...");
-                                                                    var output = "<table><tr><th>ID.</th><th>Username</th><th>PostID</th><th>Status</th><th>Create at</th><th>Reason</th></tr><tbody>";
+                                                                    var output = "<table><tr><th>ID.</th><th>Username</th><th>PostID</th><th>Status</th><th>Create at</th><th>Reason</th><th></th><th></th></tr><tbody>";
                                                                     var i = 0;
                                                                     for (i = result.length; i-- > 0; ) {
                                                                         output +=
@@ -181,8 +182,8 @@
                                                                                 "</td><td>" +
                                                                                 result[i].createAt +
                                                                                 "</td><td>" +
-                                                                                result[i].reason
-                                                                        "</td></tr>"
+                                                                                result[i].reason +
+                                                                                "</td><td><button onclick='accept()' class='btn btn-danger'>Accept</button></td><td><button onclick='deny()' class='btn btn-warning'>Deny</button></td></tr>"
 
                                                                     }
                                                                     output += "</tbody></table>";
@@ -193,8 +194,6 @@
                                                                     window.location.href = '../Web/index.html';
                                                                 }
                                                             });
-                                                        });
-                                                        $(document).ready(function () {
                                                             event.preventDefault();
                                                             $.ajax({
                                                                 url: "https://translate-app-api.herokuapp.com/refund/doneRefund",
@@ -209,7 +208,7 @@
                                                                 success: function (result) {
                                                                     var displayResourcesD = $("#table-d");
                                                                     displayResourcesD.text("Loading...");
-                                                                    var output = "<table><tr><th>ID.</th><th>Username</th><th>PostID</th><th>Status</th><th>Create at</th><th>Reason</th></tr><tbody>";
+                                                                    var output = "<table><tr><th>ID.</th><th>Username</th><th>PostID</th><th>Status</th><th>Create at</th><th margin>Reason</th></tr><tbody>";
                                                                     var i = 0;
                                                                     for (i = result.length; i-- > 0; ) {
                                                                         output +=
@@ -239,6 +238,86 @@
                                                         });
                 </script>
                 <script>
+                    var amounts;
+                    var paypalAccount;
+                    function accept() {
+                        $('.table tbody').on('click', 'button', function () {
+                            var currow = $(this).closest('tr');
+                            var id = currow.find('td:eq(0)').text();
+                            var username = currow.find('td:eq(1)').html();
+                            var postID = currow.find('td:eq(2)').text();
+                            var createAt = currow.find('td:eq(4)').text();
+                            var reason = currow.find('td:eq(5)').text();
+                            event.preventDefault();
+                            $.ajax({
+                                url: "https://translate-app-api.herokuapp.com/account/getPaypalAccount/" + username,
+                                type: 'GET',
+                                dataType: 'json',
+                                contentType: "application/json",
+                                headers: {
+                                    'Accept': 'application/json',
+                                    'Content-Type': 'application/json',
+                                    'Authorization': "Bearer " + localStorage.getItem("TOKEN")
+                                },
+                                success: function (result) {
+                                    paypalAccount = result.paypalAccount;
+                                    console.log(paypalAccount);
+                                },
+                                error: function () {
+                                    console.log("error");
+                                }
+                            });
+                            console.log(username);
+                            event.preventDefault();
+                            $.ajax({
+                                url: "https://translate-app-api.herokuapp.com/refund/getAmount/" + postID,
+                                type: 'GET',
+                                dataType: 'json',
+                                contentType: "application/json",
+                                headers: {
+                                    'Accept': 'application/json',
+                                    'Content-Type': 'application/json',
+                                    'Authorization': "Bearer " + localStorage.getItem("TOKEN")
+                                },
+                                success: function (result) {
+                                    amounts = result;
+                                    console.log(amounts);
+                                },
+                                error: function () {
+                                    console.log("error");
+                                }
+                            });
+                            var d = new Date();
+                            console.log(amounts);
+                            console.log(paypalAccount);
+//                        event.preventDefault();
+//                        $.ajax({
+//                            url: "https://api.sandbox.paypal.com/v1/payments/payouts",
+//                            type: 'GET',
+//                            dataType: 'json',
+//                            contentType: "application/json",
+//                            headers: {
+//                                'Accept': 'application/json',
+//                                'Content-Type': 'application/json',
+//                                'Authorization': 'Basic ' + btoa("AYBMHJGxAtOcUaUMwgA-cFy9wvxkstvKAVaikycjpmRgwpVEp-Aa0yASvNU287GUteC9wmufs-I42ePJ:EOANqRmJKXjKaJs6dd0GXdEk5Ds01IdMI_ToLadh-XdqDS7qCl3kkIdbCX0weurQi6rt4pA7Lzyt9ha1")
+//                            },
+//                            data: JSON.stringify({
+//                                sender_batch_id: {sender_batch_id: d, email_subjec: "you have a payout!", email_message: "You have received a payout"},
+//                                items: [{recipient_type: "EMAIL",
+//                                        amount: {value: amounts, currency: "USD"}, note: "Thanks", sender_item_id: d, receiver: paypalAccount}]
+//                            }),
+//                            success: function (result) {
+//                                console.log(result);
+//                            },
+//                            error: function () {
+//                                console.log(username + "shit");
+//                            }
+//                        });
+                        })
+                    }
+                    function deny() {
+                        console.log("test");
+                    }
                     function post_table(b) {
                         var a = "#" + $(b).attr('id').toString();
                         if (localStorage.getItem("POSTDETAILID") === null) {
@@ -249,7 +328,7 @@
                         }
                         window.location.href = '../Web/postDetail.jsp';
                     }
-                    function postList(evt, postName) {
+                    function refundList(evt, postName) {
                         var i, tabcontent, tablinks;
                         tabcontent = document.getElementsByClassName("tabcontent");
                         for (i = 0; i < tabcontent.length; i++) {
@@ -262,5 +341,8 @@
                         document.getElementById(postName).style.display = "block";
                         evt.currentTarget.className += " active";
                     }
+                </script>
+                <script>
+
                 </script>
             </body>

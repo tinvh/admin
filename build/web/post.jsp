@@ -92,6 +92,7 @@
                                     <li><a href="rate.jsp"><i class="icon-group" style="margin-right: 10px"></i>Rate </a></li>
                                         <li><a href="commission.jsp"><i class="icon-money" style="margin-right: 10px"></i>Commission </a></li>
                                         <li><a href="payment.jsp"><i class="icon-credit-card" style="margin-right: 10px"></i>Payment </a></li>
+                                    <li><a href="refund.jsp"><i class="icon-refresh" style="margin-right: 10px"></i>Refund </a></li>
                                     </ul>
                                     <!--/.widget-nav-->
                                     <ul class="widget widget-menu unstyled">
@@ -239,7 +240,7 @@
                                                                                     result[i].status +
                                                                                     "</td><td>" +
                                                                                     result[i].priceFrom + " - " + result[i].priceTo +
-                                                                                    "</td><td><a onclick='view_record(this)' class='btn btn-info' href='viewRecord.jsp'>History record</a></td></tr>"
+                                                                                    "</td><td><a class='btn btn-info' href='viewRecord.jsp'>History record</a></td></tr>"
                                                                         }
                                                                     }
                                                                     output += "</tbody></table>";

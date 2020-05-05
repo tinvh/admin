@@ -58,6 +58,7 @@
                                 <li><a href="rate.jsp"><i class="icon-group" style="margin-right: 10px"></i>Rate </a></li>
                                 <li><a href="commission.jsp"><i class="icon-money" style="margin-right: 10px"></i>Commission </a></li>
                                 <li><a href="payment.jsp"><i class="icon-credit-card" style="margin-right: 10px"></i>Payment </a></li>
+                                <li><a href="refund.jsp"><i class="icon-refresh" style="margin-right: 10px"></i>Refund </a></li>
                             </ul>
                             <!--/.widget-nav-->
                             <ul class="widget widget-menu unstyled">
@@ -89,67 +90,67 @@
                 <!--/.container-->
             </div>
         </div>
-            <!--/.wrapper-->
-            <div class="footer">
-                <div class="container">
-                    <b class="copyright">&copy; 2014 Edmin - EGrappler.com </b>All rights reserved.
-                </div>
+        <!--/.wrapper-->
+        <div class="footer">
+            <div class="container">
+                <b class="copyright">&copy; 2014 Edmin - EGrappler.com </b>All rights reserved.
             </div>
-            <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
-            <script>
-                                    $(window).on("load", function () {
-                                        console.log("window loaded");
-                                    });
+        </div>
+        <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
+        <script>
+                                $(window).on("load", function () {
+                                    console.log("window loaded");
+                                });
 
-                                    $(document).ready(function () {
-                                        event.preventDefault(); // get total account
-                                        $.ajax({
-                                            url: "https://translate-app-api.herokuapp.com/account",
-                                            type: 'GET',
-                                            dataType: 'json',
-                                            contentType: "application/json",
-                                            headers: {
-                                                'Accept': 'application/json',
-                                                'Content-Type': 'application/json',
-                                                'Authorization': "Bearer " + localStorage.getItem("TOKEN")
-                                            },
-                                            success: function (result) {
-                                                $('#TotalUser').text(result.length)
-                                                $('#UserID').text(localStorage.getItem("USERID"));
+                                $(document).ready(function () {
+                                    event.preventDefault(); // get total account
+                                    $.ajax({
+                                        url: "https://translate-app-api.herokuapp.com/account",
+                                        type: 'GET',
+                                        dataType: 'json',
+                                        contentType: "application/json",
+                                        headers: {
+                                            'Accept': 'application/json',
+                                            'Content-Type': 'application/json',
+                                            'Authorization': "Bearer " + localStorage.getItem("TOKEN")
+                                        },
+                                        success: function (result) {
+                                            $('#TotalUser').text(result.length)
+                                            $('#UserID').text(localStorage.getItem("USERID"));
 
-                                            },
-                                            error: function () {
-                                                alert("Something wrong");
-                                                window.location.href = '../Web/index.html';
-                                            }
-                                        });
+                                        },
+                                        error: function () {
+                                            alert("Something wrong");
+                                            window.location.href = '../Web/index.html';
+                                        }
                                     });
-            </script>
-            <script>
-                function create() {
-                    event.preventDefault();
-                    $.ajax({
-                        url: "https://translate-app-api.herokuapp.com/languages",
-                        type: 'POST',
-                        dataType: 'json',
-                        contentType: "application/json",
-                        headers: {
-                            'Accept': 'application/json',
-                            'Content-Type': 'application/json',
-                            'Authorization': "Bearer " + localStorage.getItem("TOKEN")
-                        },
-                        data: JSON.stringify({
-                            language: $('#inputLanguageName').val(), id: $('#inputLanguageKeyword').val()
-                        }),
-                        success: function () {
-                            console.log("Create");
-                            window.location.href = '../Web/language.jsp';
-                        },
-                        error: function () {
-                            alert("Something wrong...");
-                            window.location.href = '../Web/index.html';
-                        }
-                    });
-                }
-            </script>
+                                });
+        </script>
+        <script>
+            function create() {
+                event.preventDefault();
+                $.ajax({
+                    url: "https://translate-app-api.herokuapp.com/languages",
+                    type: 'POST',
+                    dataType: 'json',
+                    contentType: "application/json",
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json',
+                        'Authorization': "Bearer " + localStorage.getItem("TOKEN")
+                    },
+                    data: JSON.stringify({
+                        language: $('#inputLanguageName').val(), id: $('#inputLanguageKeyword').val()
+                    }),
+                    success: function () {
+                        console.log("Create");
+                        window.location.href = '../Web/language.jsp';
+                    },
+                    error: function () {
+                        alert("Something wrong...");
+                        window.location.href = '../Web/index.html';
+                    }
+                });
+            }
+        </script>
     </body>

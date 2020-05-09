@@ -341,7 +341,7 @@
                                                                     createAt: createAt, id: id, postID: postID, reason: reason, status: "Accept", username: username,
                                                                 }),
                                                                 success: function () {
-                                                                    sendMessage(username, postID, amounts);
+                                                                    sendMessageAccept(username, postID, amounts);
                                                                 },
                                                                 error: function () {
                                                                     alert("Something wrong...");
@@ -481,6 +481,7 @@
                                         }
                                     }),
                                     success: function () {
+                                        alert("Refund success");
                                         window.location.href = '../Web/refund.jsp';
                                     },
                                     error: function () {

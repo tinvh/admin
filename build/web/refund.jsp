@@ -167,7 +167,7 @@
                     $(window).on("load", function () {
                         console.log("window loaded");
                     });
-
+                    
                     $(document).ready(function () {
                         event.preventDefault();
                         $('#UserID').text(localStorage.getItem("USERID"));
@@ -203,7 +203,7 @@
                                             "</td><td>" +
                                             result[i].reason +
                                             "</td><td><button onclick='accept()' class='btn btn-danger'>Accept</button></td><td><button onclick='deny()' class='btn btn-warning'>Deny</button></td></tr>"
-
+                                    
                                 }
                                 output += "</tbody></table>";
                                 displayResourcesRQ.html(output);
@@ -244,7 +244,7 @@
                                             "</td><td>" +
                                             result[i].reason
                                     "</td></tr>"
-
+                                    
                                 }
                                 output += "</tbody></table>";
                                 displayResourcesD.html(output);
@@ -357,7 +357,7 @@
                                                     console.log("error");
                                                 }
                                             });
-
+                                            
                                         },
                                         error: function () {
                                             console.log("error");
@@ -368,57 +368,67 @@
                                     console.log("error");
                                 }
                             });
-                        })
+                        });
                     }
                     function deny() {
-                        $('.table tbody').on('click', 'button', function () {
-                            var currow = $(this).closest('tr');
-                            var id = currow.find('td:eq(0)').text();
-                            var username = currow.find('td:eq(1)').html();
-                            var postID = currow.find('td:eq(2)').text();
-                            var createAt = currow.find('td:eq(4)').text();
-                            var reason = currow.find('td:eq(5)').text();
-                            var amounts;
-                            event.preventDefault();
-                            $.ajax({
-                                url: "https://translate-app-api.herokuapp.com/refund/" + id,
-                                type: 'PUT',
-                                dataType: 'json',
-                                contentType: "application/json",
-                                headers: {
-                                    'Accept': 'application/json',
-                                    'Content-Type': 'application/json',
-                                    'Authorization': "Bearer " + localStorage.getItem("TOKEN")
-                                },
-                                data: JSON.stringify({
-                                    createAt: createAt, id: id, postID: postID, reason: reason, status: "Deny", username: username,
-                                }),
-                                success: function () {
-                                    event.preventDefault();
-                                    $.ajax({
-                                        url: "https://translate-app-api.herokuapp.com/refund/getAmount/" + postID,
-                                        type: 'GET',
-                                        dataType: 'json',
-                                        contentType: "application/json",
-                                        headers: {
-                                            'Accept': 'application/json',
-                                            'Content-Type': 'application/json',
-                                            'Authorization': "Bearer " + localStorage.getItem("TOKEN")
-                                        },
-                                        success: function (result) {
-                                            amounts = result;
-                                            sendMessageDeny(username, postID, amounts);
-                                        },
-                                        error: function () {
-                                            console.log("error");
-                                        }
-                                    });
-                                },
-                                error: function () {
-                                    alert("Something wrong...");
-                                }
+                        var reason = prompt("Please enter the reason why you want to deny", "");
+                        if (reason === null || reason === "") {
+                        } else {
+                            $('.table tbody').on('click', 'button', function () {
+                                var currow = $(this).closest('tr');
+                                var id = currow.find('td:eq(0)').text();
+                                var username = currow.find('td:eq(1)').html();
+                                var postID = currow.find('td:eq(2)').text();
+                                var createAt = currow.find('td:eq(4)').text();
+//                            var reason = currow.find('td:eq(5)').text();
+                                var amounts;
+                                event.preventDefault();
+                                $.ajax({
+                                    url: "https://translate-app-api.herokuapp.com/refund/" + id,
+                                    type: 'PUT',
+                                    dataType: 'json',
+                                    contentType: "application/json",
+                                    headers: {
+                                        'Accept': 'application/json',
+                                        'Content-Type': 'application/json',
+                                        'Authorization': "Bearer " + localStorage.getItem("TOKEN")
+                                    },
+                                    data: JSON.stringify({
+                                        createAt: createAt, 
+                                        id: id, 
+                                        postID: postID, 
+                                        reason: reason, 
+                                        status: "Deny", 
+                                        username: username
+                                    }),
+                                    success: function () {
+                                        event.preventDefault();
+                                        $.ajax({
+                                            url: "https://translate-app-api.herokuapp.com/refund/getAmount/" + postID,
+                                            type: 'GET',
+                                            dataType: 'json',
+                                            contentType: "application/json",
+                                            headers: {
+                                                'Accept': 'application/json',
+                                                'Content-Type': 'application/json',
+                                                'Authorization': "Bearer " + localStorage.getItem("TOKEN")
+                                            },
+                                            success: function (result) {
+                                                amounts = result;
+                                                sendMessageDeny(username, postID, amounts);
+                                            },
+                                            error: function () {
+                                                console.log("error");
+                                            }
+                                        });
+                                    },
+                                    error: function () {
+                                        alert("Something wrong...");
+                                    }
+                                });
                             });
-                        })
+                        }
+                        
                     }
                     function post_table(b) {
                         var a = "#" + $(b).attr('id').toString();
@@ -447,7 +457,7 @@
 
                 <script>
                     function sendMessageAccept(username, postID, amounts) {
-
+                        
                         var database = firebase.database();
                         var key = "";
                         var userToken = "";
@@ -474,15 +484,40 @@
                                         data: {
                                             sender: 'Firebase',
                                             icon: 1,
-                                            body: 'you get a refund of post ' + postID + ' with ' + amounts + '$',
+                                            body: 'You get a refund of post ' + postID + ' with ' + amounts + '$',
                                             orderId: -1,
                                             title: 'REFUND',
                                             receiver: key
                                         }
                                     }),
                                     success: function () {
-                                        alert("Refund success");
-                                        window.location.href = '../Web/refund.jsp';
+                                        var d = new Date();
+                                        event.preventDefault();
+                                        $.ajax({
+                                            url: "https://translate-app-api.herokuapp.com/notification",
+                                            type: 'POST',
+                                            dataType: 'json',
+                                            contentType: "application/json",
+                                            headers: {
+                                                'Accept': 'application/json',
+                                                'Content-Type': 'application/json',
+                                                'Authorization': "Bearer " + localStorage.getItem("TOKEN")
+                                            },
+                                            data: JSON.stringify({
+                                                username: username,
+                                                content: 'You get a refund of post ' + postID + ' with ' + amounts + '$',
+                                                title: 'REFUND',
+                                                createAt: d
+                                            }),
+                                            success: function () {
+                                                alert("Refund success");
+                                                window.location.href = '../Web/refund.jsp';
+                                            },
+                                            error: function () {
+                                                alert("Something wrong...");
+                                                window.location.href = '../Web/index.html';
+                                            }
+                                        });
                                     },
                                     error: function () {
                                         alert("Something wrong...");
@@ -491,9 +526,9 @@
                             });
                         });
                     }
-
+                    
                     function sendMessageDeny(username, postID, amounts) {
-
+                        
                         var database = firebase.database();
                         var key = "";
                         var userToken = "";
@@ -527,7 +562,34 @@
                                         }
                                     }),
                                     success: function () {
-                                        window.location.href = '../Web/refund.jsp';
+                                        var d = new Date();
+                                        event.preventDefault();
+                                        $.ajax({
+                                            url: "https://translate-app-api.herokuapp.com/notification",
+                                            type: 'POST',
+                                            dataType: 'json',
+                                            contentType: "application/json",
+                                            headers: {
+                                                'Accept': 'application/json',
+                                                'Content-Type': 'application/json',
+                                                'Authorization': "Bearer " + localStorage.getItem("TOKEN")
+                                            },
+                                            data: JSON.stringify({
+                                                username: username,
+                                                content: 'Your refund of post ' + postID + ' with ' + amounts + '$ has been deny',
+                                                title: 'REFUND',
+                                                createAt: d
+                                            }),
+                                            success: function () {
+                                                alert("Deny refund success");
+                                                window.location.href = '../Web/refund.jsp';
+                                            },
+                                            error: function () {
+                                                alert("Something wrong...");
+                                                window.location.href = '../Web/index.html';
+                                            }
+                                        });
+                                        
                                     },
                                     error: function () {
                                         alert("Something wrong...");

@@ -136,11 +136,6 @@
                                                 <span class="help-inline"></span>
                                             </div>
                                         </div>
-                                        <div class="control-group">
-                                            <div class="controls">
-                                                <a class="btn btn-large btn-danger" onclick="Delete()">Delete this rate</a>
-                                            </div>
-                                        </div>
                                     </form>
                                 </div>
                             </div>
@@ -196,36 +191,5 @@
                                                             }
                                                         });
                                                     });
-        </script>
-        <script>
-            function Delete() {
-                if (confirm('Delete this rate?')) {
-                    event.preventDefault();
-                    var rateID = localStorage.getItem("RATEID");
-                    $.ajax({
-                        url: "https://translate-app-api.herokuapp.com/rate/" + rateID,
-                        type: 'DELETE',
-                        dataType: 'json',
-                        contentType: "application/json",
-                        headers: {
-                            'Accept': 'application/json',
-                            'Content-Type': 'application/json',
-                            'Authorization': "Bearer " + localStorage.getItem("TOKEN")
-                        },
-                        data: JSON.stringify({
-                            id: $('#id').val()
-                        }),
-                        success: function () {
-                            window.location.href = '../Web/rate.jsp';
-                        },
-                        error: function () {
-                            alert("Something wrong");
-                            window.location.href = '../Web/index.html';
-                        }
-                    });
-                } else {
-                    // Do nothing!
-                }
-            }
         </script>
     </body>
